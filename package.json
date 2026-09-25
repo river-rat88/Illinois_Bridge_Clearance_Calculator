@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node server.mjs",
     "test": "node --test test/*.test.mjs",
-    "check": "node --check server.mjs && node --check src/calculator.js && node --check src/app.js && npm test"
+    "inventory:check": "node scripts/check-inventory.mjs",
+    "check": "node --check server.mjs && node --check src/calculator.js && node --check src/app.js && npm test && npm run inventory:check"
   }
 }

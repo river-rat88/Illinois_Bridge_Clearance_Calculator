@@ -1,0 +1,185 @@
+Illinois River Gage Sheet
+ILLINOIS RIVER GAGE SHEET
+Location / description
+river mile
+flat pool
+T.J. O'Brien Lock
+, Pool (upstream side)
+326.5
+Lake Level
+T.J. O'Brien Lock
+, Tail (downstream side)
+326.4
+577.5
+Lockport Lock
+, Pool (upstream side)
+291.1
+577.5
+Lockport Lock
+, Tail (downstream side)
+290.9
+538.5
+Brandon Road Lock
+, Pool (upstream side)
+286.0
+538.5
+Brandon Road Lock
+, Tail (downstream side)
+285.9
+504.5
+Hunting Lodge Bend
+, Right Bank, staff
+281.2
+504.5
+I-55 HWY Bridge
+, staff on bridge pier
+277.9
+504.5
+Dresden Lock
+, Pool (upstream side)
+271.5
+504.5
+Dresden Lock
+, Tail (downstream side)
+271.4
+482.8
+Morris, Right Bank
+, staff on bridge pier
+263.4
+482.8
+Grist Island
+, Right Bank, staff, top of wall = 437.24
+258.8
+482.8
+Seneca
+, staff on bridge pier
+252.8
+482.8
+Kickapoo
+, Right Bank, staff on cell
+249.9
+482.8
+Marseilles Dam
+, (upstream side)
+247.0
+482.8
+Marseilles Lock
+, Pool (upstream side)
+244.5
+482.8
+Marseilles Lock
+, Tail (downstream side)
+244.4
+458.5
+ADM Elevator
+, Right Bank, bolt on upstream cell elvation = 461.7
+241.9
+458.5
+Ottawa
+, Left Bank, staff on bridge pier reads .2 high?
+218.4
+440.1
+Starved Rock Lock
+, Pool (upstream side)
+231.1
+458.5
+Starved Rock Lock
+, Tail (downstream side)
+230.9
+440.3
+La Salle, Right Bank
+, staff at Tabor Harbor, gage zero = 430
+223.3
+440.2
+Spring Valley
+, Right Bank, staff on bridge pier reads .2 high?
+218.4
+440.1
+Illinois Power Plant
+, Left Bank, staff on downstream side of building
+212.0
+440.1
+Hennepin
+, Left Bank, staff on cell at elevator
+207.5
+440.1
+Henry
+, Right Bank, staff at old lock
+196.1
+440.0
+Lacon
+, metal pipe
+189.1
+440.0
+Chilicothe
+, Right Bank, staff on cell at elevator
+180.3
+440.0
+Corps Peoria Boat Yard
+, Right Bank staff on sheet piling
+164.2
+440.0
+Peoria Lock
+, Pool (upstream side)
+157.7
+440.0
+Peoria Lock
+, Tail (downstream side)
+157.7
+430.0
+Pekin
+, Left Bank, staff on bridge pier
+152.9
+429.9
+CFI Harbo
+r, Right Bank, bolt on cell elevation = 444.46
+146.7
+429.7
+Kingston Mines
+, Right Bank, staff + satellite at terminal
+145.5
+429.7
+Copperas
+, Right Bank, staff + satellite at old lock
+136.8
+429.5
+East Liverpool
+, Right Bank, top of I-beam elev. = 432.98 at pump station dwst end
+131.6
+429.5
+Liverpool
+, Right Bank, staff at terminal
+127.1
+429.4
+Quiver Island
+, Left Bank, staff on sheet piling at coal dock
+120.8
+429.2
+Havana
+, Left Bank, staff on bridge pier + staff at conservation ramp
+119.6
+429.2
+Havana Power Plant
+, Left Bank, staff on cell
+118.5
+429.2
+Anderson Lake
+, Right Bank, staff at outfall
+108.4
+429.1
+Browning
+, Right Bank, staff
+97.2
+429.0
+Beardstown
+, Left Bank, staff on piling Logsdon Tug + Satellite in shed (9.1 = flat)
+88.5
+429.0
+LaGrange Lock
+, Pool (upstream side)
+80.2
+429.0
+LaGrange Lock
+, Tail (downstream side)
+80.2
+419.6

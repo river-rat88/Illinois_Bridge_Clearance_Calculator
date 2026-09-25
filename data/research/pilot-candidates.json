@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "status": "RESEARCH_ONLY",
+  "gauges": [
+    {
+      "id": "HNYI2",
+      "sourceId": "henry-usace",
+      "siteName": "Illinois River at Henry",
+      "riverMile": "196.0",
+      "gaugeZeroFt": "425.88",
+      "datum": "NGVD29",
+      "flatPoolStageFt": "14.12",
+      "flatPoolElevationDerivedFt": "440.00",
+      "position": "Right bank, 600 feet upstream of SR18 bridge",
+      "validFrom": null,
+      "validTo": null,
+      "parameterSeriesId": null,
+      "unitRealization": null,
+      "approved": false,
+      "otherMetadata": {
+        "sourceId": "henry-usgs",
+        "siteId": "USGS-05558300",
+        "altitudeOfGageLandSurfaceFt": "425.85",
+        "altitudeDatum": "NAVD88",
+        "altitudeAccuracyFt": "0.07",
+        "caution": "Site altitude is not an approved gauge-zero epoch or datum transform. Do not infer a -0.03 ft conversion.",
+        "timeZoneCode": "CST",
+        "honorsDaylightSaving": false
+      }
+    },
+    {
+      "id": "MORI2",
+      "sourceId": "morris-usace",
+      "siteName": "Illinois River at Morris",
+      "riverMile": "263.1",
+      "gaugeZeroFt": "478.50",
+      "datum": "NGVD29",
+      "flatPoolStageFt": "4.30",
+      "flatPoolElevationDerivedFt": "482.80",
+      "position": "Right bank, 0.3 miles downstream of SR47 bridge; 0.3 miles upstream of Nettle Creek",
+      "validFrom": null,
+      "validTo": null,
+      "parameterSeriesId": null,
+      "unitRealization": null,
+      "approved": false
+    },
+    {
+      "id": "IL04",
+      "sourceId": "dresden-usace",
+      "siteName": "Dresden Island Lock and Dam",
+      "riverMile": "271.5",
+      "gaugeZeroFt": "0",
+      "datum": "NGVD29",
+      "flatPoolElevationFt": "504.50",
+      "flatTailElevationFt": "482.80",
+      "requiredSeries": "TAILWATER",
+      "rejectedSeries": "UPPER_POOL",
+      "valueKindCandidate": "ABSOLUTE_ELEVATION",
+      "validFrom": null,
+      "validTo": null,
+      "parameterSeriesId": null,
+      "unitRealization": null,
+      "approved": false
+    }
+  ],
+  "pilots": [
+    {
+      "priority": 1,
+      "bridgeId": "il-henry",
+      "gaugeId": "HNYI2",
+      "candidateModel": "DIRECT_OR_SURVEYED_FIXED_OFFSET",
+      "rationale": "Close documented gauge; practical first fixed-bridge validation.",
+      "blockers": [
+        "Resolve CP 59 ft versus historical LL 59.8 ft reference/geometry difference.",
+        "Survey bridge low steel and reference surface; document gauge-zero epoch, units and local datum tie.",
+        "Validate bridge water versus gauge over rising/falling stages; proximity alone does not establish zero offset."
+      ],
+      "forecastCandidateId": "HNYI2"
+    },
+    {
+      "priority": 2,
+      "bridgeId": "il-morris",
+      "gaugeId": "MORI2",
+      "candidateModel": "VALIDATED_FIXED_OFFSET",
+      "rationale": "Nearby gauge with explicit zero and pool stage; tests bridge-to-gauge transfer.",
+      "blockers": [
+        "Reconcile derived mile 263.4 versus historical LL 263.5 and CP 50 versus historical LL 50.4 ft.",
+        "Prove water-surface offset and applicability across flows; Nettle Creek downstream may cause backwater.",
+        "Tie bridge normal pool to gauge flat pool and establish datum epoch/units."
+      ],
+      "forecastCandidateId": "MORI2"
+    },
+    {
+      "priority": 3,
+      "bridgeId": "il-eje",
+      "gaugeId": "IL04",
+      "candidateModel": "VALIDATED_TAILWATER_TRANSFER",
+      "rationale": "Lift-bridge and lock-side challenge with a documented tailwater station.",
+      "blockers": [
+        "Resolve CP derived open 56.3 ft versus historical LL explicit open 61.0 ft; horizontal widths 113 versus 300.1 ft also differ.",
+        "Verify physical span identity and surveyed fully open low steel.",
+        "Select tailwater series, never upper pool; resolve station-to-bridge distance wording and reach hydraulics.",
+        "Document absolute-elevation semantics, datum epoch, units and local NAVD88 tie."
+      ],
+      "forecastCandidateId": null
+    }
+  ],
+  "associationApproved": false,
+  "forecastCandidateCaveat": "Station identifiers are discovery leads only; forecast availability, payload, run metadata, horizon and hydraulic association have not been validated.",
+  "liveObservations": [],
+  "datumTransforms": []
+}

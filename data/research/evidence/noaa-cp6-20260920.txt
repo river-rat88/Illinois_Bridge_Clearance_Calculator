@@ -1,0 +1,123 @@
+390   ¢      U.S. Coast Pilot 6, Chapter 11﻿                                                                                                      20 SEP 2026
+
+
+          (672)
+
+           Structures across the Illinois River
+                                                                                         Clearances (feet)
+                                                                                                       Vertical
+                                                                                                    Pool     High
+           Name                                          Type            Miles*   Horizontal**      Level    Water   Information
+           Dresden Island Lock                                           55.7
+           Elgin, Joliet & Eastern Railroad bridge       vertical lift   56.6          113           26        8     Notes 1 and 5. Span raises 30.3 feet
+                                                                                                                     above heights shown
+           Morris Highway/State Route 47 bridge          fixed           63.8          388           50        34
+           Chessie System Railroad bridge                vertical lift   73.1          140           21        9     Notes 1 and 5. Span raises 26.2 feet
+                                                                                                                     above heights shown
+           State Route 170 bridge                        fixed           74.5          354           47        37
+           Marseilles Canal                                              80.2
+           Marseilles bridge                             fixed           80.3          295           45        -
+           Marseilles Lock                                               82.6
+           State Route 23/Veterans Memorial bridge       fixed           87.5          476           47        38    Note 9
+           Burlington Northern bridge                                    87.8          167           21        12    Notes 5 and 8 (WRD-810). Span raises
+                                                                                                                     26.4 feet above heights shown
+           Starved Rock Lock                                             96.2
+           State Route 178 bridge                        fixed           97.6          356           63        44
+           Route 412 bridge                              fixed           101.5         582           66        44
+           Illinois Central Railroad bridge              fixed           101.7         260           61        43
+           State Route 351 bridge                        fixed           102.5         360           64        41
+           US Route 51 bridge                            fixed           104.3         400           62        44
+           State Route 89 bridge                         fixed           108.7         350           60        43
+           Illinois and Mississippi Canal                                117.0
+           I-180 bridge                                  fixed           119.4         350           59        42
+           State Route 26 bridge                         fixed           119.6         350           59        42
+           State Route 18 bridge                         fixed           131.2         350           59        42
+           State Route 17 bridge                         fixed           138.0         350           59        41
+           Atchison, Topeka & Santa Fe Railroad bridge   fixed           145.3         360           58        41
+           McCluggage Highway bridges                    fixed           161.4         411           65        58
+           Murray-Baker/I-74 bridge                      fixed           164.5         500           65        48
+           Robert H. Michel bridge                       fixed           164.9         309           65        58    WZQ-8761
+           Atchison, Topeka & Santa Fe Railroad bridge   swing           165.0    118 (left draw)    13        3     Note 2
+           Cedar Street/State Routes 8/29/116 bridge     fixed           165.6         280           78        62    Clear heights are for 210-foot width
+           Peoria & Pekin Union Railroad bridge          vertical lift   166.5         307           19        2     Notes 1, 5, 6, and 8 (WQX-651)
+           Shade Lohmann/I-474 bridge                    fixed           169.2         500           64        48
+           Peoria Lock                                                   169.5
+           State Route 9 bridge                          fixed           174.3         430           72        56
+           Chicago & North Western Railroad bridge       vertical lift   176.0         153           30        9     Notes 5 and 8 (KVF-831). Span raises
+                                                                                                                     41.7 feet above heights shown
+           US Route 136/State Routes 78/97 bridge        fixed           207.6         350           67        47
+           Burlington Northern Railroad bridge           vertical lift   238.4         300           54        34    Notes 4 and 8 (KLU-801)
+           US Route 67/State Route 100 bridge            fixed           239.3         526           69        49
+           LaGrange Lock                                                 247.0
+           State Route 104 bridge                        fixed           255.9         554           72        47
+           Norfolk Southern Railroad bridge              vertical lift   265.9         300           32        6     Notes 6 and 8 (KTR-857). Span raises
+                                                                                                                     45.5 feet above heights shown
+           Valley City bridge                            fixed           266.9         535           71        55
+           Valley City bridge                            fixed           267.1         540           71        55
+20 SEP 2026                                                                                                                            U.S. Coast Pilot 6, Chapter 11﻿            ¢   391
+
+
+
+  Structures across the Illinois River
+                                                                                               Clearances (feet)
+                                                                                                               Vertical
+                                                                                                           Pool      High
+  Name                                                    Type            Miles*       Horizontal**        Level     Water       Information
+  US Route 36/State Route 100 bridge                      vertical lift    271.2            202              26         4        Notes 1, 5 and 8 (WZQ-8761). Span
+                                                                                                                                 raises 56.8 feet above heights shown
+  Illinois Central Gulf Railroad bridge                   vertical lift    284.0            315              20         0        Notes 5 and 8 (KLU-797). Span raises
+                                                                                                                                 69.5 feet above heights shown
+  State Route 100 bridge                                  vertical lift    305.7            300              25         8        Notes 1, 5 and 8 (WZQ-8761). Span
+                                                                                                                                 raises 56.9 feet above heights shown
+  Junction with Mississippi River                                          327.2
+  * Miles above the west end of Chicago Lock (41°53’18”N., 87°36’28”W.)
+  ** Clear width in feet proceeding away from Lake Michigan
+
+  Note 1 – Bridge signals are as follows: alternately fl ashing upper and lower vertically arranged green lights indicate draw is to open immediately, and alternately fl ashing
+  right and left horizontally arranged red lights indicate draw cannot be opened immediately or must be closed immediately.
+  Note 2 – Swing span has been removed.
+  Note 3 – Bridge is kept in the open position except for the passage of a train.
+  Note 4 – See CFR 117.1 through 117.59 and 117.393, chapter 2, for drawbridge regulations. Bridge normally open, remotely controlled. Contact KLU-801 on VHF-FM chan-
+  nel 16, before transiting to ensure bridge remains open during passage.
+  Note 5 – See 33 CFR 117.1 through 117.49, chapter 2, for drawbridge regulations.
+  Note 6 – Span raises about 47 feet above heights shown.
+  Note 7 – The bridgetender monitors VHF-FM channel 16 and works on channel 13.
+  Note 8 – The bridgetender monitors VHF-FM channel 16 and works on channel 14.
+  Note 9 – Clear heights are for 417-foot width.
+
+
+ (685)		    Lockport Lock, in the Chicago Sanitary and                                           immediately above the Lockport Lock, decreasing to 4
+       Ship Canal at the junction with the Des Plaines River,                                    feet at the head of the canal.
+       is 600 feet long and 110 feet wide with a nominal lift                              (687)		    Brandon Road Lock, in the Des Plaines River about
+       of 39.6 feet. An adjoining auxiliary lock is inoperable.                                  4.8 miles below the Lockport Lock, is 600 feet long and
+       Occasionally when heavy precipitation is predicted,                                       110 feet wide with a nominal lift of 34 feet. Immediately
+       the water level in the Sanitary and Ship Canal will be                                    above the lock is a large basin well suited for turning and
+       lowered to accommodate the expected water runoff in                                       rearranging tows. The dam at Brandon Road has movable
+       the canal. When the water in the canal falls below a level                                tainter and sluice gates which control the flow and make
+       of 566.68 feet (International Great Lakes Datum 1985),                                    it possible to maintain a pool level, with small fluctuation
+       or its equivalent, locking operations are suspended for                                   above the dam, under normal conditions. Below the dam,
+       lack of navigable depth over the upper lock sill. During                                  an 8¾-foot fluctuation in water level may be expected.
+       periods of heavy discharge through the controlling works                            (688)		    The remaining five locks are in the Illinois River
+       adjacent to the lock, currents in the channel below the                                   at Dresden Island, Marseilles, Starved Rock, Peoria and
+       lock may be strong enough to break mooring lines or                                       LaGrange. Each lock is 600 feet long and 110 feet wide.
+       stop the progress of low-power vessels and large tows.                              (689)		    Dresden Island Lock, just below the confluence
+       Vessels moored in the vicinity or transiting the lock                                     of the Des Plaines River and the Kankakee River, has a
+       should monitor VHF-FM channel 16 for announcements                                        nominal lift of 21.75 feet. The pool above the lock is wide,
+       of changes in discharge rates.                                                            while that below the lock is quite narrow for about 22
+ (686)		    The Lockport Controlling Works and a butterfly dam                                   miles. High flows from rainfall runoff and spring thaws
+       are about 2 miles north of Lockport Lock. The controlling                                 can cause the lower pool level to fluctuate drastically;
+       works are on the west bank of the canal just north of the                                 fluctuations of 22 feet may be expected. When conditions
+       butterfly dam. The sluice gates of the controlling works                                  of high flow exist, vessels must take into account
+       are equipped with two oscillating red warning lights,                                     overhead clearances, vessel draft and available power.
+       one directed each way in the canal so as to be readily                                    Bridge clearances are reduced so that many towboats
+       visible to mariners. The lights operate when the sluice                                   cannot pass under the railroad bridge just below the
+       gates are open and warn mariners to keep to the east side                                 lock. Shallow-draft vessels risk grounding on the lower
+       of the channel, clear of the sluice gates. The butterfly                                  guide wall, which may be submerged. Fully laden barges,
+       dam swings on pivots located in midstream. The dam                                        drawing 8 to 9 feet, under most circumstances may safely
+       is normally open and provides a horizontal clearance of                                   transit the lock by maintaining contact with the lower
+       80 feet on either side. The dam is solely a safety device,                                guide wall even when it is submerged. The outdraft from
+       providing a method of stopping the flow of water in the                                   the dam can pull low or underpowered craft into the dam
+       event of damage to the levee walls or to the Lockport                                     from the upper pool near the lock. In the lower pool, low
+       Lock and power-plant complex downstream. Mariners                                         or underpowered craft may be driven into the bank or the
+       are cautioned to watch out for this structure. Fluctuations                               railroad bridge. When open and lighted, the outdraft sign
+       in the water level of up to 10 feet may be expected                                       must be heeded.

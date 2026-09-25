@@ -42,6 +42,8 @@ The engine currently reports the first blocking calculation reason, with observa
 
 ## Milestone 2: verified live pilot
 
+The source-inventory and candidate-selection portion is complete as a research deliverable: [pilot data review](pilot-data-review.md), [37-row crossing table](bridge-inventory-table.md), machine-readable assertions, 11 hashed source excerpts and a deterministic inventory checker. Henry/HNYI2, Morris/MORI2 and EJE/IL04 tailwater are selected for study. Physical completeness, current geometry, datum epochs, hydraulic associations and the six-inch objective remain unverified. No production bridge record is enabled.
+
 1. Compile and reconcile the real Illinois River mile 0–273 bridge inventory from current authoritative records. Confirm whether lock/dam service bridges belong in the inventory.
 2. Define real gauge IDs, parameter/series units, gauge-zero epochs and hydraulic reaches. Record source copies, hashes and effective dates.
 3. Select a few representative bridges, document each reference surface and fully open geometry, and approve the bridge-to-gauge relationship against independent data.

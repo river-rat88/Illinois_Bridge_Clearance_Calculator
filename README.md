@@ -23,6 +23,8 @@ npm run check
 
 ## What to review
 
+The next milestone adds a [real bridge inventory and three-pilot review](docs/pilot-data-review.md), with a [37-row source table](docs/bridge-inventory-table.md), preserved source evidence and unresolved conflicts. These research records are separate from the synthetic webpage and are not approved for live clearance calculations. Run `npm run inventory:check` to verify the research package.
+
 1. Sample A: listed clearance 65.0 ft at a 500.0-ft reference surface. Stage 7.25 ft above a 500.0-ft gauge zero gives water elevation 507.25 ft. Clearance is 57.75 ft, displayed as **57.7 ft** after downward rounding.
 2. Raise the stage adjustment by 1.0 ft. Calculated clearance falls by exactly 1.0 ft.
 3. Sample B: listed and calculated values both assume the lift span is **fully open**. Its position is not verified.
@@ -62,7 +64,7 @@ All measured values are decimal strings. `ft` means the international foot; `us_
 - The **six-inch objective is not field-validated**. Sample error allowances only exercise the gate and include elapsed-time and display-rounding contributions. No uncertainty or operating margin is deducted from the clearance.
 - Models implemented: direct, fixed offset, bracketed linear. Piecewise ratings, fallback gauge models, other movable-bridge geometries, and unlimited-clearance states are deferred.
 - The fixture's two-hour calculation stop, 24-hour forecast window, 0.1-ft forecast deadband and six-hour forecast issue limit are demonstration defaults. Only the observation late label **strictly after 24 hours** is owner-confirmed.
-- No official bridge inventory, live feeds, persistence, authentication, external monitoring or deployment is included.
+- The official-source research inventory is incomplete as a verified physical-structure catalog. Live feeds, persistence, authentication, external monitoring and deployment are not included.
 - NOAA/USACE/USGS adapters, bitemporal database history, automated source reconciliation, survey review and hydraulic validation remain to be built.
 
 ## Optional browser check
