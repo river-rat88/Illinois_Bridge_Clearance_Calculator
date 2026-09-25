@@ -1,6 +1,6 @@
 # Illinois River Bridge Clearance Calculator
 
-A **synthetic-data calculation prototype** for Illinois River miles 0–273. It is not a live clearance service or a verified bridge inventory. Every displayed bridge, stage, forecast and error allowance is fictional and labeled accordingly.
+A **calculation prototype** for Illinois River miles 0–273, with a separate [Henry live gauge pilot](docs/henry-live-pilot.md). It is not a live clearance service or a verified bridge inventory. The main calculator uses labeled fictional bridges, stages, forecasts and error allowances; `/henry` displays official stage and forecast data while withholding unverified clearance.
 
 ![Desktop prototype showing synthetic bridge clearances](docs/screenshots/prototype-desktop.png)
 
@@ -15,6 +15,8 @@ npm start
 ```
 
 Open **http://localhost:3000**. No npm packages, API keys or database are required. The server listens only on the local computer. Stop it with Ctrl+C. The default port can be changed with the `PORT` environment variable.
+
+Open **http://localhost:3000/henry** for the live gauge pilot. It requires internet access and writes auditable source snapshots to `var/henry/` (or `HENRY_DATA_DIR`). Run `npm run henry:refresh` to fetch and inspect a snapshot directly. The [pilot documentation](docs/henry-live-pilot.md) explains the feed contract, forecast rules, storage and remaining reference evidence.
 
 ```sh
 npm test
@@ -45,6 +47,8 @@ The sample cutoff stays frozen at **2026-09-25 18:00 UTC** so repeat runs can be
 | `data/demo.js` | Six fictional scenarios with hashed source snapshots |
 | `src/app.js`, `index.html`, `styles.css` | Responsive browser interface; no external assets or libraries |
 | `server.mjs` | Local static server with an explicit asset allowlist |
+| `src/feeds/henry.js`, `src/henry-service.js` | Official stage/forecast parsing, validation, persistent source snapshots and receipts |
+| `henry.html`, `src/henry-page.js` | Separate live gauge pilot; no real numeric bridge clearance |
 | `test/` | Calculation and HTTP tests; optional browser interaction check |
 | `docs/implementation.md` | Implemented behavior, limitations and next milestones |
 
@@ -64,8 +68,8 @@ All measured values are decimal strings. `ft` means the international foot; `us_
 - The **six-inch objective is not field-validated**. Sample error allowances only exercise the gate and include elapsed-time and display-rounding contributions. No uncertainty or operating margin is deducted from the clearance.
 - Models implemented: direct, fixed offset, bracketed linear. Piecewise ratings, fallback gauge models, other movable-bridge geometries, and unlimited-clearance states are deferred.
 - The fixture's two-hour calculation stop, 24-hour forecast window, 0.1-ft forecast deadband and six-hour forecast issue limit are demonstration defaults. Only the observation late label **strictly after 24 hours** is owner-confirmed.
-- The official-source research inventory is incomplete as a verified physical-structure catalog. Live feeds, persistence, authentication, external monitoring and deployment are not included.
-- NOAA/USACE/USGS adapters, bitemporal database history, automated source reconciliation, survey review and hydraulic validation remain to be built.
+- The official-source research inventory is incomplete as a verified physical-structure catalog. Henry has live USGS stage and NOAA station-forecast feeds plus local snapshot persistence. Authentication, external monitoring and deployment are not included.
+- River-wide adapters, a production bitemporal database, automated source reconciliation, survey review and hydraulic validation remain to be built.
 
 ## Optional browser check
 

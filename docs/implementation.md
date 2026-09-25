@@ -34,7 +34,7 @@ This implementation follows the confirmed specification with observations older 
 
 The synthetic tests prove programmed behavior for their inputs. They do not validate bridge elevations, gauge ties, real hydraulic relationships, sensor quality, or six-inch field accuracy. Approval flags and error allowances are trusted versioned inputs; the future administration/ingestion service must enforce who can approve them and retain the evidence.
 
-The engine currently reports the first blocking calculation reason, with observation freshness and forecast status separate. Full multi-issue quarantine diagnostics are deferred. The input snapshot contains the candidate observation records; persistence and raw official-feed parsing are not implemented. Forecast metadata is defined once per run; an ingestion adapter must reject mixed-run, mixed-datum or mixed-epoch points before forming that run.
+The engine currently reports the first blocking calculation reason, with observation freshness and forecast status separate. Full multi-issue quarantine diagnostics are deferred. The synthetic input snapshot contains the candidate observation records. Henry now has separate raw official-feed parsing and local snapshot persistence, described below. Forecast metadata is defined once per run; an ingestion adapter must reject mixed-run, mixed-datum or mixed-epoch points before forming that run.
 
 ### Prototype verification completed
 
@@ -43,6 +43,8 @@ The engine currently reports the first blocking calculation reason, with observa
 ## Milestone 2: verified live pilot
 
 The source-inventory and candidate-selection portion is complete as a research deliverable: [pilot data review](pilot-data-review.md), [37-row crossing table](bridge-inventory-table.md), machine-readable assertions, 11 hashed source excerpts and a deterministic inventory checker. Henry/HNYI2, Morris/MORI2 and EJE/IL04 tailwater are selected for study. Physical completeness, current geometry, datum epochs, hydraulic associations and the six-inch objective remain unverified. No production bridge record is enabled.
+
+The [Henry live gauge pilot](henry-live-pilot.md) is implemented at `/henry`, with `/api/henry`, official USGS stage, separate NOAA forecast direction at the gauge, immutable local source snapshots, strict >24-hour lateness, quality/schema checks and historical-only outage context. Bridge clearance remains null. NOAA metadata corroborates a 425.85-ft NAVD88 datum but does not establish the effective gauge-zero epoch or bridge tie. All 34 tests and inventory checks pass; the live adapter and desktop/mobile page were verified, including audit download and outage display.
 
 1. Compile and reconcile the real Illinois River mile 0–273 bridge inventory from current authoritative records. Confirm whether lock/dam service bridges belong in the inventory.
 2. Define real gauge IDs, parameter/series units, gauge-zero epochs and hydraulic reaches. Record source copies, hashes and effective dates.

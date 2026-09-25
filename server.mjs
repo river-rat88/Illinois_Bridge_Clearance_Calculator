@@ -1,15 +1,18 @@
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import { createHenryService } from './src/henry-service.js';
 
 // Explicit allowlist prevents serving repository files, credentials, or traversal paths.
 const routes = new Map([
   ['/', ['index.html', 'text/html']], ['/index.html', ['index.html', 'text/html']],
   ['/styles.css', ['styles.css', 'text/css']], ['/src/app.js', ['src/app.js', 'text/javascript']],
   ['/src/exact.js', ['src/exact.js', 'text/javascript']], ['/src/calculator.js', ['src/calculator.js', 'text/javascript']],
-  ['/data/demo.js', ['data/demo.js', 'text/javascript']]
+  ['/data/demo.js', ['data/demo.js', 'text/javascript']],
+  ['/henry', ['henry.html', 'text/html']], ['/henry.html', ['henry.html', 'text/html']],
+  ['/henry.css', ['henry.css', 'text/css']], ['/src/henry-page.js', ['src/henry-page.js', 'text/javascript']]
 ]);
-export function makeServer() {
+export function makeServer({ henryService = createHenryService({ ...(process.env.HENRY_DATA_DIR ? { directory: process.env.HENRY_DATA_DIR } : {}) }) } = {}) {
   return createServer(async (req, res) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'");
@@ -18,6 +21,17 @@ export function makeServer() {
       res.writeHead(405, { Allow: 'GET, HEAD' }); res.end('Method not allowed'); return;
     }
     const pathname = new URL(req.url, 'http://localhost').pathname;
+    if (pathname === '/api/henry') {
+      try {
+        const receipt = await henryService.get();
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(req.method === 'HEAD' ? undefined : JSON.stringify(receipt));
+      } catch {
+        res.writeHead(503, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(req.method === 'HEAD' ? undefined : JSON.stringify({ error: 'Henry source record unavailable' }));
+      }
+      return;
+    }
     if (pathname === '/favicon.ico') { res.writeHead(204); res.end(); return; }
     const asset = routes.get(pathname);
     if (!asset) { res.writeHead(404); res.end('Not found'); return; }

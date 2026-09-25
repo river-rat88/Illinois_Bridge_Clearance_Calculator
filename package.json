@@ -8,6 +8,7 @@
     "start": "node server.mjs",
     "test": "node --test test/*.test.mjs",
     "inventory:check": "node scripts/check-inventory.mjs",
+    "henry:refresh": "node scripts/refresh-henry.mjs",
     "check": "node --check server.mjs && node --check src/calculator.js && node --check src/app.js && npm test && npm run inventory:check"
   }
 }

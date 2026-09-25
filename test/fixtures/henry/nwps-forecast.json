@@ -1,0 +1,180 @@
+{
+  "pedts": "HGIFF",
+  "issuedTime": "2026-09-25T16:04:00Z",
+  "wfo": "ILX",
+  "timeZone": "CST6CDT",
+  "primaryName": "Stage",
+  "primaryUnits": "ft",
+  "secondaryName": "Flow",
+  "secondaryUnits": "kcfs",
+  "data": [
+    {
+      "validTime": "2026-09-25T18:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 16.8,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-26T00:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 16.7,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-26T06:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 16.6,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-26T12:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 16.6,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-26T18:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 16.5,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-27T00:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 16.4,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-27T06:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 16.3,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-27T12:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 16.3,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-27T18:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 16.2,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-28T00:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 16.1,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-28T06:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 16,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-28T12:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.9,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-28T18:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.9,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-29T00:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.8,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-29T06:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.7,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-29T12:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.6,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-29T18:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.5,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-30T00:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.4,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-30T06:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.3,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-30T12:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.2,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-09-30T18:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.1,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-10-01T00:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.1,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-10-01T06:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.2,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-10-01T12:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.3,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-10-01T18:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.3,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-10-02T00:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.3,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-10-02T06:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.3,
+      "secondary": -999
+    },
+    {
+      "validTime": "2026-10-02T12:00:00Z",
+      "generatedTime": "2026-09-25T16:10:20Z",
+      "primary": 15.3,
+      "secondary": -999
+    }
+  ]
+}
