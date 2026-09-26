@@ -1,11 +1,18 @@
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import { buildDirectory } from './src/directory.js';
 import { createHenryService } from './src/henry-service.js';
+
+const readJson = async path => JSON.parse(await readFile(new URL(path, import.meta.url), 'utf8'));
+const [inventory, extension, henryReference, morrisReference, ejeReference, sources] = await Promise.all(['./data/research/bridge-inventory.json','./data/research/scope-extension.json','./data/henry-bridge-reference.json','./data/morris-bridge-reference.json','./data/eje-bridge-reference.json','./data/research/sources.json'].map(readJson));
+const directory = buildDirectory(inventory, extension, [henryReference, morrisReference, ejeReference], sources);
 
 // Explicit allowlist prevents serving repository files, credentials, or traversal paths.
 const routes = new Map([
   ['/', ['index.html', 'text/html']], ['/index.html', ['index.html', 'text/html']],
+  ['/demo', ['demo.html', 'text/html']], ['/demo.html', ['demo.html', 'text/html']],
+  ['/directory.css', ['directory.css', 'text/css']], ['/src/directory.js', ['src/directory.js', 'text/javascript']], ['/src/directory-page.js', ['src/directory-page.js', 'text/javascript']],
   ['/styles.css', ['styles.css', 'text/css']], ['/src/app.js', ['src/app.js', 'text/javascript']],
   ['/src/exact.js', ['src/exact.js', 'text/javascript']], ['/src/calculator.js', ['src/calculator.js', 'text/javascript']],
   ['/data/demo.js', ['data/demo.js', 'text/javascript']],
@@ -21,6 +28,10 @@ export function makeServer({ henryService = createHenryService({ ...(process.env
       res.writeHead(405, { Allow: 'GET, HEAD' }); res.end('Method not allowed'); return;
     }
     const pathname = new URL(req.url, 'http://localhost').pathname;
+    if (pathname === '/api/bridges') {
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(req.method === 'HEAD' ? undefined : JSON.stringify(directory)); return;
+    }
     if (pathname === '/api/henry') {
       try {
         const receipt = await henryService.get();

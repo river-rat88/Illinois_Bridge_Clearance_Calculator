@@ -1,58 +1,12 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#123d3c">
-  <title>Illinois River · Bridge Clearance Prototype</title>
-  <link rel="stylesheet" href="/styles.css">
-  <script type="module" src="/src/app.js"></script>
-</head>
-<body>
-  <div class="demo-banner"><strong>DEMONSTRATION ONLY</strong><span>Synthetic bridges and readings · Not for navigation</span></div>
-  <header class="masthead">
-    <div class="brand"><span class="bridge-mark" aria-hidden="true">∩</span><span>RIVER REFERENCE<span class="brand-small">ILLINOIS · MILE 0–273</span></span></div>
-    <span class="version">Calculation prototype <span class="dot"></span> v0.1</span>
-  </header>
-  <main>
-    <p><a href="/henry">Open the Henry live gauge pilot →</a></p>
-    <section class="intro">
-      <div><p class="eyebrow">KNOW THE REFERENCE. CHECK THE RESULT.</p><h1>Illinois River<br>bridge clearances.</h1>
-      <p class="lede">Listed clearance, river stage, and the calculation between them. Every result has a record you can inspect.</p></div>
-      <aside class="snapshot"><span class="eyebrow">FROZEN SAMPLE SNAPSHOT</span><strong>September 25, 2026</strong><span>18:00 UTC · 13:00 CDT</span><p>Sample values do not refresh from river gauges.</p></aside>
-    </section>
-    <section class="metrics" aria-label="Prototype coverage">
-      <div><strong id="count">6</strong><span>Sample bridge cases</span></div>
-      <div><strong id="available">—</strong><span>Calculations available</span></div>
-      <div><strong id="unavailable">—</strong><span>Withheld results</span></div>
-      <div><strong>&gt;24h</strong><span>Observation marked late</span></div>
-    </section>
-    <section class="explore" aria-labelledby="explore-title">
-      <div><h2 id="explore-title">Try a river-stage change</h2><p>Change synthetic observations to see how clearance responds. Forecasts stay separate.</p></div>
-      <div class="slider-control"><label for="stage-shift">Stage adjustment <output id="shift-output">0.0 ft</output></label>
-        <input id="stage-shift" type="range" min="-20" max="20" step="1" value="0" aria-describedby="shift-hint">
-        <div class="range-labels" id="shift-hint"><span>−2.0 ft</span><span>+2.0 ft</span></div></div>
-      <div class="scenario-control"><label for="scenario">Observation scenario</label><select id="scenario">
-        <option value="baseline">Baseline sample cases</option><option value="late">All observations 25 hours old</option>
-        <option value="outage">All gauges unavailable</option><option value="datum">Datum conversion unavailable</option></select></div>
-      <button id="reset" class="secondary">Reset samples</button>
-    </section>
-    <section class="bridge-section" aria-labelledby="bridge-heading">
-      <div class="section-heading"><div><h2 id="bridge-heading">Bridge list</h2><p>Six fictional cases demonstrate the page. This is not the Illinois bridge inventory.</p></div>
-        <button id="download" class="secondary">Download audit records ↓</button></div>
-      <div class="toolbar"><label class="search-label" for="search">Find a sample bridge<input id="search" type="search" placeholder="Search name or mile…"></label>
-        <label for="order">Navigation order<select id="order"><option value="up">Upstream · 0 → 273</option><option value="down">Downstream · 273 → 0</option></select></label>
-        <span id="results-count" role="status"></span></div>
-      <div class="table-wrap"><table><caption class="sr-only">Synthetic Illinois River bridge-clearance calculation examples</caption>
-        <thead><tr><th scope="col">Bridge / river mile</th><th scope="col">Listed clearance</th><th scope="col">Latest observed stage</th><th scope="col">Calculated clearance</th><th scope="col">Forecast direction</th><th scope="col">Record</th></tr></thead>
-        <tbody id="bridge-rows"></tbody></table></div>
-      <p id="empty" hidden>No sample bridges match your search.</p><p id="error" role="alert" hidden></p>
-    </section>
-    <section class="reading-notes"><div><h3>The arithmetic</h3><p>Clearance = bridge low-steel elevation − water elevation at the bridge. References must resolve to the same vertical datum.</p></div>
-      <div><h3>Lift bridges</h3><p>Listed and calculated lift-bridge values assume fully open. The prototype does not verify span position.</p></div>
-      <div><h3>The six-inch objective</h3><p>Sample error budgets exercise the checks. Real-world accuracy requires surveyed references and validated gauge associations.</p></div></section>
-    <footer>Built for transparent calculations. Operational use will require verified data and review alongside posted clearance gauges, official notices, and the master’s judgment.</footer>
-  </main>
-  <noscript>This calculation prototype requires JavaScript. No live clearance data is available.</noscript>
-</body>
-</html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#123d3c"><title>Illinois Waterway · Bridge Clearances · Miles 0–279</title><link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/directory.css"><script type="module" src="/src/directory-page.js"></script></head>
+<body><div class="demo-banner"><strong>BRIDGE DIRECTORY · PILOT</strong><span>Inventory under review · Henry estimate connected</span></div>
+<header class="masthead"><div class="brand"><span class="bridge-mark" aria-hidden="true">∩</span><span>RIVER REFERENCE<span class="brand-small">ILLINOIS WATERWAY · MILE 0–279</span></span></div><a href="/demo">Calculation demo →</a></header>
+<main><section class="intro"><div><p class="eyebrow">FROM THE MOUTH, UPSTREAM.</p><h1>Every crossing.<br>In river-mile order.</h1><p class="lede">Bridge locations, listed clearance, observed river stage and calculated clearance. Start at mile 0 and work upstream to mile 279.</p></div><aside class="snapshot"><span class="eyebrow">COVERAGE</span><strong>Mile 0–279</strong><p>Illinois River and the lower Des Plaines reach. Source crossing list under review; some entries represent multiple spans. Only Henry currently has a live calculation.</p></aside></section>
+<section class="metrics" aria-label="Directory coverage"><div><strong id="count">—</strong><span>Crossings in the working list</span></div><div><strong id="available">—</strong><span>Estimates available</span></div><div><strong>0 → 279</strong><span>Default upstream order</span></div><div><strong>&gt;24h</strong><span>Observation marked late</span></div></section>
+<section class="bridge-section" aria-labelledby="bridge-heading"><div class="section-heading"><div><h2 id="bridge-heading">Bridge list</h2><p>Mile markers remain visible when clearance data is unavailable. Expand a record to check its mile sources and any differences.</p></div><button id="refresh" class="secondary">Refresh Henry reading</button></div>
+<div class="toolbar"><label class="search-label" for="search">Find a bridge or mile<input id="search" type="search" placeholder="Bridge name or river mile…"></label><label for="order">Navigation order<select id="order"><option value="up">Upstream · 0 → 279</option><option value="down">Downstream · 279 → 0</option></select></label><label class="history-control"><input type="checkbox" id="show-historical"> Include removed spans</label><span id="results-count" role="status"></span></div>
+<p id="loading" role="status">Loading bridge locations…</p><p id="error" role="alert" hidden></p><p id="feed-status" role="status"></p>
+<div class="table-wrap"><table><caption class="sr-only">Illinois Waterway bridge directory in river-mile order, miles 0 through 279</caption><thead><tr><th scope="col">Bridge / river mile</th><th scope="col">Listed clearance</th><th scope="col">Observed stage</th><th scope="col">Calculated clearance</th><th scope="col">Forecast direction</th><th scope="col">Record</th></tr></thead><tbody id="bridge-rows"></tbody></table></div><p id="empty" hidden>No bridges match your search.</p></section>
+<section class="reading-notes"><div><h3>River-mile references</h3><p>Published river miles take priority over derived positions. Historical references and source differences are marked for chart review. The list is not yet a verified count of every physical bridge.</p></div><div><h3>Clearance and bridge position</h3><p>Lift-bridge values will use the fully open position. Unreviewed bridge references stay pending. Henry assumes bridge water matches its gauge within two inches; overall accuracy remains unverified.</p></div><div><h3>Observation time matters</h3><p>Calculated clearance refers to the displayed observation time. Late or delayed readings are labeled historical. Forecasts show direction separately and never replace an observation.</p></div></section>
+<footer><a href="/henry">Henry details and calculation receipt</a> · <a href="/demo">Synthetic calculation examples</a> · Working bridge inventory, not an operational clearance service.</footer></main><noscript>JavaScript is required to load the bridge directory and Henry reading.</noscript></body></html>

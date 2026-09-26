@@ -1,0 +1,25 @@
+{
+  "id": "morris-owner-selected-chart-reference-1",
+  "bridgeId": "il-morris",
+  "recordedDateUtc": "2026-09-26",
+  "selectionStatus": "OWNER_SELECTED",
+  "source": {
+    "type": "USER_REPORTED_ECHART",
+    "description": "Owner reports Morris bridge at mile 263.5, listed clearance 50.4 ft at pool elevation 482.5 ft, low steel 532.9 ft NAVD88.",
+    "chartProduct": null,
+    "chartEdition": null,
+    "surveyEffectiveDate": null
+  },
+  "riverMile": "263.5",
+  "routeMeasureSystem": "IL_RM_ABOVE_MOUTH",
+  "openingPosition": "FIXED",
+  "publishedClearanceFt": "50.4",
+  "lowSteelElevationFt": "532.9",
+  "referenceSurface": { "label": "POOL_LEVEL", "elevationFt": "482.5" },
+  "verticalDatum": "NAVD88",
+  "unitRealization": null,
+  "pilotEstimateEnabled": false,
+  "gaugeAssociationApproved": false,
+  "totalErrorValidated": false,
+  "productionEligible": false
+}

@@ -9,6 +9,6 @@
     "test": "node --test test/*.test.mjs",
     "inventory:check": "node scripts/check-inventory.mjs",
     "henry:refresh": "node scripts/refresh-henry.mjs",
-    "check": "node --check server.mjs && node --check src/calculator.js && node --check src/app.js && npm test && npm run inventory:check"
+    "check": "node --check server.mjs && node --check src/calculator.js && node --check src/app.js && node --check src/directory-page.js && node --check src/directory.js && npm test && npm run inventory:check"
   }
 }

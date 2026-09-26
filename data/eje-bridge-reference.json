@@ -1,0 +1,39 @@
+{
+  "id": "eje-owner-selected-chart-reference-2",
+  "bridgeId": "il-eje",
+  "recordedDateUtc": "2026-09-26",
+  "selectionStatus": "OWNER_SELECTED",
+  "source": {
+    "type": "USER_REPORTED_ECHART",
+    "description": "Owner reports mile 270.6 and fully open clearance 61 ft at pool 482.5 ft, then confirms corrected fully open low steel 543.5 ft NAVD88.",
+    "chartProduct": null,
+    "chartEdition": null,
+    "surveyEffectiveDate": null
+  },
+  "riverMile": "270.6",
+  "routeMeasureSystem": "IL_RM_ABOVE_MOUTH",
+  "openingPosition": "FULLY_OPEN",
+  "publishedClearanceFt": "61",
+  "lowSteelElevationFt": "543.5",
+  "lowSteelPosition": "FULLY_OPEN",
+  "referenceSurface": {
+    "label": "POOL_LEVEL",
+    "elevationFt": "482.5"
+  },
+  "verticalDatum": "NAVD88",
+  "datumBasis": "Owner previously confirmed all supplied chart elevations use NAVD88.",
+  "unitRealization": null,
+  "reconciliation": {
+    "status": "RESOLVED_BY_OWNER",
+    "previousReportedLowSteelFt": "513.5",
+    "previousLowSteelPosition": "UNCONFIRMED",
+    "confirmedFullyOpenLowSteelFt": "543.5",
+    "confirmationDateUtc": "2026-09-26",
+    "note": "The initial reported low-steel elevation was superseded by the owner; no closed-position elevation is independently confirmed."
+  },
+  "pilotEstimateEnabled": false,
+  "gaugeAssociationApproved": false,
+  "totalErrorValidated": false,
+  "productionEligible": false,
+  "supersedes": "eje-owner-reported-chart-reference-1"
+}

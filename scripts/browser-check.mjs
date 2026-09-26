@@ -13,7 +13,7 @@ page.on('pageerror', e => errors.push(e.message));
 page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
 const waitAvailable = value => page.waitForFunction(v => document.getElementById('available').textContent === v && !document.getElementById('download').disabled, value);
 try {
-  await page.goto(`http://127.0.0.1:${server.address().port}`);
+  await page.goto(`http://127.0.0.1:${server.address().port}/demo`);
   await waitAvailable('3');
   assert.equal(await page.locator('tr[data-bridge]').count(), 6);
   assert.match(await page.locator('[data-bridge="sample-a"]').innerText(), /57\.7/);

@@ -2,8 +2,8 @@
 
 ## Data and Mathematical Model Specification
 
-**Status:** Initial system design; owner requirements updated September 25, 2026. Observation lateness threshold confirmed as 24 hours.
-**Confirmed scope:** Illinois River miles 0–273 only, from the Mississippi River at Grafton to the head of the Illinois River. The Chicago River, Chicago Sanitary and Ship Canal, Cal-Sag Channel, and Des Plaines River are excluded from phase 1.
+**Status:** Initial system design; owner requirements updated September 26, 2026. Observation lateness threshold confirmed as 24 hours.
+**Confirmed scope (revised September 26):** Illinois Waterway miles 0–279, from the Mississippi River at Grafton through the Illinois River and into the lower Des Plaines River. This supersedes the earlier 0–273 limit. The Chicago River, Chicago Sanitary and Ship Canal, Cal-Sag Channel and reaches above mile 279 remain excluded. The main page lists bridges in ascending river-mile order by default, with each mile marker visible even when clearance is unavailable.
 
 **Confirmed presentation requirements:** Lift-bridge clearances are calculated for the fully open position. Show simple calculated clearance, without subtracting an uncertainty allowance or operating margin. The desired total clearance error is strictly less than six inches (0.5 ft). Include forecast river direction separately from observed stage and calculated clearance. Mark observations older than 24 hours as `LATE`.
 
@@ -489,7 +489,7 @@ Back-test bridge-water models against independent observations over low, normal,
 
 ## 14. Recommended implementation sequence
 
-1. **Apply confirmed phase-1 scope.** Illinois River miles 0–273 only, fully open lift bridges, simple calculated clearance, forecast direction, observations older than 24 hours marked late, and an under-six-inch total error target. Finalize calculation-eligibility age rules separately; resolve whether locks/dam service bridges count as “bridges.”
+1. **Apply confirmed phase-1 scope.** Illinois Waterway miles 0–279, fully open lift bridges, simple calculated clearance, forecast direction, observations older than 24 hours marked late, and an under-six-inch total error target. Finalize calculation-eligibility age rules separately; resolve whether locks/dam service bridges count as “bridges.”
 2. **Build and review the bridge catalog.** Extract the current Coast Pilot table, reconcile USACE IDs/names/miles, and preserve aliases and inactive spans.
 3. **Build the datum registry.** Load gauge-zero epochs, pool/high-water/LWRP reference surfaces, and documented transformations.
 4. **Inventory gauges and hydraulic reaches.** Assign candidate primary/fallback series and expected freshness policies.
@@ -502,7 +502,7 @@ Back-test bridge-water models against independent observations over low, normal,
 
 Confirmed by the owner on September 25, 2026:
 
-1. Illinois River only means river miles **0–273**.
+1. Initially 0–273; revised September 26 to Illinois Waterway miles **0–279**, including the lower Des Plaines reach.
 2. Lift-bridge listed and calculated clearances use the **fully open** position.
 3. Desired total clearance error is **under six inches**, subject to demonstrated data/model capability.
 4. Include **forecast river direction**, separately from observed stage.

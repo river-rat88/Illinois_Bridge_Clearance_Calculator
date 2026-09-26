@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
+const require=createRequire(import.meta.url);
+const {parseHTML}=require(process.env.LINKEDOM_MODULE || 'linkedom');
+import {readFile} from 'node:fs/promises';
+import {makeServer} from '../server.mjs';
+import {evaluateHenry,URLS,hash} from '../src/feeds/henry.js';
+const root=fileURLToPath(new URL('..',import.meta.url)).replace(/\/$/,'');
+const now='2026-09-25T20:25:00.000Z';const names={stage:'usgs-latest',series:'usgs-series',gauge:'nwps-gauge',forecast:'nwps-forecast'};
+const sources=Object.fromEntries(await Promise.all(Object.entries(names).map(async([key,name])=>{const body=await readFile(`${root}/test/fixtures/henry/${name}.json`,'utf8');return [key,{body,sha256:hash(body),url:URLS[key],httpStatus:200,contentType:'application/json',receivedAt:now}];})));
+let outage=false;const server=makeServer({henryService:{get:async()=>{if(outage)throw Error('offline');return {result:evaluateHenry({sources},now)};}}});
+await new Promise(r=>server.listen(0,'127.0.0.1',r));
+const {document,window}=parseHTML(await readFile(`${root}/index.html`,'utf8'));globalThis.document=document;
+const savedFetch=globalThis.fetch,savedInterval=globalThis.setInterval;
+globalThis.fetch=(url,opts)=>savedFetch(`http://127.0.0.1:${server.address().port}${url}`,opts);globalThis.setInterval=()=>0;
+const $=id=>document.getElementById(id), rows=()=>document.querySelectorAll('tr[data-bridge]');
+try{
+ await import('../src/directory-page.js');
+ assert.equal($('error').hidden,true,$('error').textContent);
+ assert.equal(rows().length,37);assert.equal($('available').textContent,'1');
+ assert.equal(rows()[0].dataset.bridge,'il-hardin');assert.equal(rows()[36].dataset.bridge,'il-i55-desplaines');
+ assert.match(document.querySelector('[data-bridge="il-henry"]').textContent,/56.9/);
+ $('search').value='263.5';$('search').dispatchEvent(new window.Event('input'));assert.equal(rows().length,1);assert.match(rows()[0].textContent,/50.4/);
+ $('search').value='';$('search').dispatchEvent(new window.Event('input'));
+ $('order').querySelector('[value="down"]').selected=true;$('order').dispatchEvent(new window.Event('change'));assert.equal(rows()[0].dataset.bridge,'il-i55-desplaines');
+ $('show-historical').checked=true;$('show-historical').dispatchEvent(new window.Event('change'));assert.equal(rows().length,38);
+ document.querySelector('[data-record="il-eje"]').click();assert.match($('detail-il-eje').textContent,/543.5/);
+ outage=true;$('refresh').click();
+ for(let i=0;i<100&&$('refresh').disabled;i++)await new Promise(r=>setTimeout(r,10));
+ assert.equal($('available').textContent,'0');assert.equal(rows().length,38);assert.doesNotMatch(document.querySelector('[data-bridge="il-henry"]').textContent,/56.9/);
+ console.log('DOM interactions passed: initial render, Henry estimate, Morris search, reverse sort, historical rows, EJE record, outage clears estimate and preserves list. Layout not tested.');
+}finally{globalThis.fetch=savedFetch;globalThis.setInterval=savedInterval;await new Promise(r=>server.close(r));}
