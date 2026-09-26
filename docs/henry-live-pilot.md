@@ -48,7 +48,7 @@ USGS sends stage as a decimal string. NOAA sends numeric tokens; the JSON revive
 
 Direction applies to **HNYI2 only**, not an approved bridge water model. It compares the forecast at the evaluation time and 24 hours later, using exact linear interpolation within one run and inspecting intermediate values for reversals. No extrapolation, observed-stage substitution or cross-provider subtraction occurs.
 
-Pilot defaults are a ±0.1-ft deadband, issue age no greater than six hours, and no gap over six hours across the required forecast window. These defaults remain reviewable and are not user-confirmed operational policy. Stale/missing forecasts, mixed generated times, duplicates, sentinel values, changed units/products or incomplete coverage return forecast unavailable independently of stage status. Forecasts never enter the current-clearance calculation.
+Pilot defaults are a ±0.1-ft deadband, issue age no greater than 18 hours, and no gap over six hours across the required forecast window. These defaults remain reviewable and are not user-confirmed operational policy. Stale/missing forecasts, mixed generated times, duplicates, sentinel values, changed units/products or incomplete coverage return forecast unavailable independently of stage status. Forecasts never enter the current-clearance calculation.
 
 ## Audit and storage
 

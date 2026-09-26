@@ -1,6 +1,6 @@
 # Illinois River Bridge Clearance Calculator
 
-A **bridge-directory and calculation prototype** for Illinois Waterway miles 0–279. The main page lists source crossings in increasing river-mile order, with search, reverse order, mile-source records and visible pending-data rows. Henry has a live estimate; Morris and EJE have owner-reported chart references. Both sets of chart elevations reconcile exactly. This is not an operational clearance service or a verified physical-bridge inventory. The synthetic calculator is now at `/demo`; the detailed Henry pilot remains at `/henry`.
+A **bridge-directory and calculation prototype** for Illinois Waterway miles 0–279. The main page lists source crossings in increasing river-mile order, with search, reverse order, mile-source records and visible pending-data rows. Henry and Morris have separate live estimates; EJE displays Dresden tailwater in NGVD29 while clearance awaits a verified local datum conversion. Both sets of chart elevations reconcile exactly. This is not an operational clearance service or a verified physical-bridge inventory. The synthetic calculator is now at `/demo`; the detailed Henry pilot remains at `/henry`.
 
 ![Desktop prototype showing synthetic bridge clearances](docs/screenshots/prototype-desktop.png)
 
@@ -69,7 +69,7 @@ All measured values are decimal strings. `ft` means the international foot; `us_
 - Production input in the synthetic core is disabled. Henry’s separate pilot adapter permits a labeled estimate using the owner’s direct-water-level assumption; overall accuracy remains unverified. Setting `datasetKind` to anything except `SYNTHETIC` withholds clearance.
 - The **six-inch objective is not field-validated**. Sample error allowances only exercise the gate and include elapsed-time and display-rounding contributions. No uncertainty or operating margin is deducted from the clearance.
 - Models implemented: direct, fixed offset, bracketed linear. Piecewise ratings, fallback gauge models, other movable-bridge geometries, and unlimited-clearance states are deferred.
-- The fixture's two-hour calculation stop, 24-hour forecast window, 0.1-ft forecast deadband and six-hour forecast issue limit are demonstration defaults. Only the observation late label **strictly after 24 hours** is owner-confirmed.
+- The fixture's two-hour calculation stop, 24-hour forecast window, 0.1-ft forecast deadband and pilot's 18-hour forecast issue limit are demonstration defaults. Only the observation late label **strictly after 24 hours** is owner-confirmed.
 - The official-source research inventory is incomplete as a verified physical-structure catalog. Henry has live USGS stage and NOAA station-forecast feeds plus local snapshot persistence. Authentication, external monitoring and deployment are not included.
 - River-wide adapters, a production bitemporal database, automated source reconciliation, survey review and hydraulic validation remain to be built.
 
@@ -88,6 +88,8 @@ The script starts its own local server and checks desktop/mobile layouts, stage 
 
 `/` serves the directory; `/api/bridges` returns its versioned references and source assertions. `src/directory.js` applies owner-confirmed chart miles first, published historical USCG river miles second, and the provisional Coast Pilot crosswalk last. Differences remain visible; equal miles sort deterministically by bridge ID. Removed spans appear only when selected. Scope is inclusive 0–279. The original 37-row research package remains unchanged; the additional Des Plaines evidence is preserved separately. Current physical completeness, multiple-span grouping and replacement identities remain under review.
 
-Morris: mile 263.5; 50.4-ft clearance at 482.5-ft pool; 532.9-ft low steel, NAVD88. EJE: mile 270.6; fully open clearance 61 ft at 482.5-ft pool, with corrected fully open low steel 543.5 ft NAVD88 confirmed by the owner. Reference revision 2 preserves the original 513.5-ft report as superseded history. Neither bridge has a live estimate enabled.
+Morris: mile 263.5; 50.4-ft clearance at 482.5-ft pool; 532.9-ft low steel, NAVD88. EJE: mile 270.6; fully open clearance 61 ft at 482.5-ft pool, with corrected fully open low steel 543.5 ft NAVD88 confirmed by the owner. Reference revision 2 preserves the original 513.5-ft report as superseded history. Morris has a live assumption-labeled estimate from its verified 478.17-ft NAVD88 gauge zero; EJE has a live Dresden tailwater reading in NGVD29 and withholds clearance pending a local datum conversion. See [three bridge pilot](docs/three-bridge-pilot.md).
 
 Optional directory checks: `node scripts/browser-check-directory.mjs` with Playwright/Chromium, or `node scripts/dom-check-directory.mjs` with LinkeDOM (`LINKEDOM_MODULE` may point to an external installation). The DOM check does not test visual layout. Neither is an app runtime dependency.
+
+`npm run pilots:refresh` retrieves and archives all three bridge source records. Forecast direction is only shown for a fresh, complete station forecast; the labeled 24-hour window may begin at the next scheduled forecast point.

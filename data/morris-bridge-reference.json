@@ -1,5 +1,5 @@
 {
-  "id": "morris-owner-selected-chart-reference-1",
+  "id": "morris-owner-selected-chart-reference-2",
   "bridgeId": "il-morris",
   "recordedDateUtc": "2026-09-26",
   "selectionStatus": "OWNER_SELECTED",
@@ -15,11 +15,35 @@
   "openingPosition": "FIXED",
   "publishedClearanceFt": "50.4",
   "lowSteelElevationFt": "532.9",
-  "referenceSurface": { "label": "POOL_LEVEL", "elevationFt": "482.5" },
+  "referenceSurface": {
+    "label": "POOL_LEVEL",
+    "elevationFt": "482.5"
+  },
   "verticalDatum": "NAVD88",
   "unitRealization": null,
-  "pilotEstimateEnabled": false,
+  "pilotEstimateEnabled": true,
   "gaugeAssociationApproved": false,
   "totalErrorValidated": false,
-  "productionEligible": false
+  "productionEligible": false,
+  "supersedes": "morris-owner-selected-chart-reference-1",
+  "gaugeReference": {
+    "gaugeId": "MORI2",
+    "usgsId": "05542500",
+    "zeroElevationFt": "478.17",
+    "verticalDatum": "NAVD88",
+    "unit": "ft",
+    "basis": "PUBLISHED_NOAA_NWPS_METADATA",
+    "effectiveEpochVerified": false
+  },
+  "bridgeWaterModel": {
+    "id": "morris-owner-assumed-direct-1",
+    "type": "DIRECT",
+    "bridgeId": "il-morris",
+    "gaugeId": "MORI2",
+    "offsetFt": "0",
+    "assumedMaxDifferenceInches": "2",
+    "basis": "OWNER_ASSUMPTION",
+    "recordedDateUtc": "2026-09-26",
+    "validated": false
+  }
 }

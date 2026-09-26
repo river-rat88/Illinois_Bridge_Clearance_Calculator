@@ -1,5 +1,5 @@
 {
-  "id": "eje-owner-selected-chart-reference-2",
+  "id": "eje-owner-selected-chart-reference-3",
   "bridgeId": "il-eje",
   "recordedDateUtc": "2026-09-26",
   "selectionStatus": "OWNER_SELECTED",
@@ -35,5 +35,26 @@
   "gaugeAssociationApproved": false,
   "totalErrorValidated": false,
   "productionEligible": false,
-  "supersedes": "eje-owner-reported-chart-reference-1"
+  "supersedes": "eje-owner-selected-chart-reference-2",
+  "gaugeReference": {
+    "gaugeId": "IL04",
+    "seriesId": "IL04.Elev-Tail.Inst.30Minutes.0.rev",
+    "valueKind": "ABSOLUTE_ELEVATION",
+    "verticalDatum": "NGVD29",
+    "unit": "ft",
+    "navd88Transform": null,
+    "status": "LOCAL_DATUM_CONVERSION_REQUIRED"
+  },
+  "bridgeWaterModel": {
+    "id": "eje-owner-assumed-tailwater-direct-1",
+    "type": "DIRECT",
+    "bridgeId": "il-eje",
+    "gaugeId": "IL04",
+    "requiredSide": "TAILWATER",
+    "offsetFt": "0",
+    "assumedMaxDifferenceInches": "2",
+    "basis": "OWNER_ASSUMPTION",
+    "recordedDateUtc": "2026-09-26",
+    "validated": false
+  }
 }

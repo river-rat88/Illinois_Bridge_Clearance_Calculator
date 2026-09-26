@@ -20,14 +20,14 @@ test('directory keeps pending bridges, orders numeric miles and separates remove
   assert.deepEqual(orderBridges(d.bridges,{direction:'down'}),rows.toReversed());
   const ties=orderBridges(d.bridges,{query:'Valley City bridge'});assert.equal(ties.length,2);assert.equal(ties[0].id,'il-valley-city-a');
 });
-test('owner locations and exact chart references preserve source differences without enabling new estimates',()=>{
+test('owner locations and exact chart references preserve source differences with explicit pilot eligibility',()=>{
   const rows=directory().bridges, m=rows.find(b=>b.id==='il-morris'), e=rows.find(b=>b.id==='il-eje');
   assert.equal(m.riverMile,'263.5');assert.equal(m.derivedRiverMile,'263.4');assert.equal(m.mileStatus,'OWNER_CONFIRMED');assert.equal(m.mileConflict,true);
   assert.equal(m.selectedReference.consistency,'INTERNALLY_CONSISTENT');assert.equal(m.selectedReference.publishedClearanceFt,'50.4');
   assert.equal(e.selectedReference.consistency,'INTERNALLY_CONSISTENT');
   assert.equal(Q.parse(e.selectedReference.lowSteelElevationFt).sub(e.selectedReference.referenceSurface.elevationFt).cmp('61'),0);
   assert.equal(e.selectedReference.publishedClearanceFt,'61');assert.equal(e.selectedReference.lowSteelElevationFt,'543.5');
-  assert.equal(m.selectedReference.pilotEstimateEnabled,false);assert.equal(e.selectedReference.pilotEstimateEnabled,false);
+  assert.equal(m.selectedReference.pilotEstimateEnabled,true);assert.equal(e.selectedReference.pilotEstimateEnabled,false);
 });
 test('directory rejects duplicate IDs and miles beyond the inclusive 0–279 range',()=>{
   const copy=structuredClone(extension);copy.bridges[0].id=inventory.bridges[0].id;

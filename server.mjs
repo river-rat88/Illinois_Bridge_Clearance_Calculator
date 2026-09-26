@@ -2,6 +2,8 @@ import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { buildDirectory } from './src/directory.js';
+import { createMorrisService } from './src/morris-service.js';
+import { createEjeService } from './src/eje-service.js';
 import { createHenryService } from './src/henry-service.js';
 
 const readJson = async path => JSON.parse(await readFile(new URL(path, import.meta.url), 'utf8'));
@@ -19,7 +21,8 @@ const routes = new Map([
   ['/henry', ['henry.html', 'text/html']], ['/henry.html', ['henry.html', 'text/html']],
   ['/henry.css', ['henry.css', 'text/css']], ['/src/henry-page.js', ['src/henry-page.js', 'text/javascript']]
 ]);
-export function makeServer({ henryService = createHenryService({ ...(process.env.HENRY_DATA_DIR ? { directory: process.env.HENRY_DATA_DIR } : {}) }) } = {}) {
+export function makeServer({ henryService = createHenryService({ ...(process.env.HENRY_DATA_DIR ? { directory: process.env.HENRY_DATA_DIR } : {}) }) , morrisService = createMorrisService({ ...(process.env.MORRIS_DATA_DIR ? {directory:process.env.MORRIS_DATA_DIR} : {}) }), ejeService = createEjeService({ ...(process.env.EJE_DATA_DIR ? {directory:process.env.EJE_DATA_DIR} : {}) }) } = {}) {
+  const services = {'/api/henry':henryService,'/api/morris':morrisService,'/api/eje':ejeService};
   return createServer(async (req, res) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'");
@@ -32,14 +35,14 @@ export function makeServer({ henryService = createHenryService({ ...(process.env
       res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
       res.end(req.method === 'HEAD' ? undefined : JSON.stringify(directory)); return;
     }
-    if (pathname === '/api/henry') {
+    if (services[pathname]) {
       try {
-        const receipt = await henryService.get();
+        const receipt = await services[pathname].get();
         res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
         res.end(req.method === 'HEAD' ? undefined : JSON.stringify(receipt));
       } catch {
         res.writeHead(503, { 'Content-Type': 'application/json; charset=utf-8' });
-        res.end(req.method === 'HEAD' ? undefined : JSON.stringify({ error: 'Henry source record unavailable' }));
+        res.end(req.method === 'HEAD' ? undefined : JSON.stringify({ error: 'Gauge source record unavailable' }));
       }
       return;
     }
