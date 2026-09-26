@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile, rename } from 'node:fs/promises';
 import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
-import { URLS, hash, check, evaluateHenry, utc } from './feeds/henry.js';
+import { URLS, hash, check, evaluateHenry, utc, HENRY_REFERENCE } from './feeds/henry.js';
 import { stableStringify } from './exact.js';
 
 async function immutable(path, body) {
@@ -67,13 +67,14 @@ export function createHenryService({ directory = join(process.cwd(), 'var', 'hen
       if (force || !state || now - Date.parse(state.completedAt) >= refreshMs || now < Date.parse(state.completedAt)) await refresh();
     })().finally(() => { inFlight = null; });
     await inFlight;
-    const asOf = clock(), result = evaluateHenry(state.snapshot, asOf);
+    const input = { ...state.snapshot, bridgeReference: structuredClone(HENRY_REFERENCE) };
+    const asOf = clock(), result = evaluateHenry(input, asOf);
     const previous = result.stage.status !== 'AVAILABLE' ? state.lastAcceptedStage : null;
     if (previous) {
       const ageSeconds = (Date.parse(asOf)-Date.parse(previous.observedAt))/1000;
       result.historicalStage = { ...previous, status: 'HISTORICAL_ONLY', ageSeconds, late: ageSeconds > 86400, delayed: ageSeconds > 4320 };
     }
-    const body = { schemaVersion: 1, input: state.snapshot, historicalContext: previous, snapshotId: state.snapshotId ?? null, result };
+    const body = { schemaVersion: 1, input, historicalContext: previous, snapshotId: state.snapshotId ?? null, result };
     return { receiptId: `sha256:${hash(stableStringify(body))}`, ...body };
   }
   return { get };

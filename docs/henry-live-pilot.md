@@ -2,11 +2,11 @@
 
 Implemented September 25, 2026. Run `npm start`, then open **http://localhost:3000/henry**. The original synthetic calculator links to this page. Nothing has been deployed or enabled as an operational clearance calculator.
 
-The Henry page displays a real USGS stage observation and separate NOAA forecast direction **at the gauge**. Calculated bridge clearance stays unavailable. It shows both conflicting published bridge heights and the reasons verification is incomplete.
+The Henry page displays a real USGS stage observation and separate NOAA forecast direction **at the gauge**. Calculated bridge clearance stays unavailable. The owner has selected the e-chart's 59.8-ft listed clearance, 499.6-ft low-steel elevation and 439.8-ft normal-pool elevation. The page shows that selection and the remaining datum/validation requirements.
 
 ![Henry pilot desktop](screenshots/henry-desktop.png)
 
-[Mobile screenshot](screenshots/henry-mobile.png). Screenshots are historical examples from the verification run; they are not current readings.
+[Mobile screenshot](screenshots/henry-mobile.png). Screenshots are historical examples from the first verification run, before the owner's reference selection; they are not current readings or the updated reference card.
 
 ## Run and verify
 
@@ -62,11 +62,17 @@ A downloaded receipt contains the adapter version, full source snapshot, histori
 
 The new NOAA gauge metadata explicitly lists **425.85 ft NAVD88** under vertical datums and identifies the same USGS site. This is stronger corroboration than the generic USGS land-surface/site-altitude field alone. It still supplies no effective gauge-zero interval, exact foot realization, surveyed bridge reference or validated bridge-water transfer. USACE's 425.88 ft NGVD29 zero remains a separate assertion; no −0.03-ft transformation has been approved or inferred.
 
-Henry's 59-ft Coast Pilot entry and historical 59.8-ft Light List entry remain unresolved. Neither is selected as the production height. No 440-ft pool-reference identity is assumed merely from adding a published flat-pool stage to a gauge zero.
+On September 25, 2026 Pacific time (September 26 UTC), the owner selected **59.8 ft**, reporting that their e-chart also shows **499.6 ft low steel** and **439.8 ft normal pool**. These assertions and the owner's selection are stored in `data/henry-bridge-reference.json`, with chart product/edition, vertical datum, foot realization and survey date explicitly unknown. No chart image has yet been supplied. This resolves the owner's choice of listed clearance; it does not independently reconcile the agency publications or verify the elevations' datum. Original source assertions remain in the historical research inventory.
+
+The exact consistency check passes: `499.6 − 439.8 = 59.8 ft`. The production model will use **low-steel elevation minus water elevation at the bridge**, expressed in the same verified datum. Changing the datum of the water alone would be wrong; if conversion is needed, low steel and water must both resolve to the canonical datum. The equivalent reference-clearance formula must give the same result.
+
+Preserve the bridge's reported **439.8-ft** normal pool. Do not replace it with the gauge's separately published 440.0-ft flat-pool sum: doing so would shift an inferred low-steel elevation by **0.2 ft (2.4 inches)**. Different local pool-reference elevations may reflect different locations or definitions and must not be equated without evidence.
+
+Adapter version `henry-stage-pilot-2` includes the selected reference and its hash in the output and includes the complete reference record in newly downloaded receipt inputs. The record passes an exact internal arithmetic check. Datum, gauge epoch, hydraulic transfer and accuracy gates remain unresolved, so clearance is still null with `DATUM_UNRESOLVED`.
 
 To enable clearance, obtain:
 
-1. Current controlling low-steel/clearance geometry, navigation-opening limits, reference surface and survey/effective date from the bridge owner or USCG bridge record.
+1. The e-chart's vertical datum and product/edition, then current controlling low-steel geometry, navigation-opening limits and survey/effective date from the bridge owner or USCG bridge record.
 2. Current USGS/USACE benchmark and gauge-zero epoch records, units and the documented local datum tie.
 3. Concurrent bridge-local/gauge water observations over the intended range and rising/falling regimes, followed by independent validation of the transfer model.
 4. A reviewed total error bound strictly below 0.5 ft, including geometry, reference, gauge, datum transfer, hydraulic transfer, age and display rounding.

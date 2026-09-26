@@ -105,3 +105,11 @@ test('Henry source cannot silently regress or replace equal-revision values betw
     const s=snapshot();s.previousAcceptedStage=result(s).stage;change(s,'stage',d=>mutation(d.features[0].properties));assert.equal(result(s).stage.status,expected);
   }
 });
+test('owner-selected Henry reference preserves low steel and exact normal pool without assuming a datum', () => {
+  const r=result(snapshot()),b=r.bridgeReference;
+  assert.equal(b.publishedClearanceFt,'59.8');assert.equal(b.lowSteelElevationFt,'499.6');
+  assert.equal(b.referenceSurface.elevationFt,'439.8');assert.equal(b.verticalDatum,null);
+  assert.equal(b.consistency,'INTERNALLY_CONSISTENT');assert.equal(r.clearance.status,'DATUM_UNRESOLVED');assert.equal(r.clearance.valueFt,null);
+  const s=snapshot();s.bridgeReference=structuredClone(b);s.bridgeReference.referenceSurface.elevationFt='440.0';
+  assert.equal(result(s).clearance.status,'REFERENCE_ARITHMETIC_CONFLICT');
+});

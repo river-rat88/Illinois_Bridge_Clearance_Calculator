@@ -1,0 +1,30 @@
+{
+  "id": "henry-owner-selected-chart-reference-1",
+  "bridgeId": "il-henry",
+  "recordedDateUtc": "2026-09-26",
+  "selectionStatus": "OWNER_SELECTED",
+  "source": {
+    "type": "USER_REPORTED_ECHART",
+    "description": "Owner selects 59.8 ft, attributed to Coast Guard and corroborated on their e-chart; reports low steel 499.6 ft and normal pool 439.8 ft.",
+    "chartProduct": null,
+    "chartEdition": null,
+    "chartImageOrDocument": null,
+    "surveyEffectiveDate": null
+  },
+  "openingPosition": "FIXED",
+  "publishedClearanceFt": "59.8",
+  "lowSteelElevationFt": "499.6",
+  "referenceSurface": {
+    "label": "NORMAL_POOL",
+    "elevationFt": "439.8"
+  },
+  "verticalDatum": null,
+  "unitRealization": null,
+  "gaugeAssociationApproved": false,
+  "totalErrorValidated": false,
+  "productionEligible": false,
+  "historicalAlternatives": [
+    { "sourceId": "noaa-cp6-20260920", "clearanceFt": "59", "selected": false },
+    { "sourceId": "uscg-ll5-2024", "clearanceFt": "59.8", "note": "Historical comparison supports listed clearance but does not establish the reported elevations' datum." }
+  ]
+}
