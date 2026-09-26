@@ -1,6 +1,6 @@
 # Illinois River Bridge Clearance Calculator
 
-A **calculation prototype** for Illinois River miles 0–273, with a separate [Henry live gauge pilot](docs/henry-live-pilot.md). It is not a live clearance service or a verified bridge inventory. The main calculator uses labeled fictional bridges, stages, forecasts and error allowances; `/henry` displays official stage and forecast data while withholding unverified clearance.
+A **calculation prototype** for Illinois River miles 0–273, with a separate [Henry live gauge pilot](docs/henry-live-pilot.md). It is not an operational clearance service or a verified bridge inventory. The main calculator uses labeled fictional bridges, stages, forecasts and error allowances; `/henry` displays official stage and forecast data and an assumption-labeled clearance estimate at observation time.
 
 ![Desktop prototype showing synthetic bridge clearances](docs/screenshots/prototype-desktop.png)
 
@@ -48,7 +48,7 @@ The sample cutoff stays frozen at **2026-09-25 18:00 UTC** so repeat runs can be
 | `src/app.js`, `index.html`, `styles.css` | Responsive browser interface; no external assets or libraries |
 | `server.mjs` | Local static server with an explicit asset allowlist |
 | `src/feeds/henry.js`, `src/henry-service.js` | Official stage/forecast parsing, validation, persistent source snapshots and receipts |
-| `henry.html`, `src/henry-page.js` | Separate live gauge pilot; no real numeric bridge clearance |
+| `henry.html`, `src/henry-page.js` | Live Henry pilot estimate with explicit owner assumptions |
 | `test/` | Calculation and HTTP tests; optional browser interaction check |
 | `docs/implementation.md` | Implemented behavior, limitations and next milestones |
 
@@ -64,7 +64,7 @@ All measured values are decimal strings. `ft` means the international foot; `us_
 
 ## Deliberate prototype limits
 
-- Production input is disabled. Setting `datasetKind` to anything except `SYNTHETIC` withholds clearance.
+- Production input in the synthetic core is disabled. Henry’s separate pilot adapter permits a labeled estimate using the owner’s direct-water-level assumption; overall accuracy remains unverified. Setting `datasetKind` to anything except `SYNTHETIC` withholds clearance.
 - The **six-inch objective is not field-validated**. Sample error allowances only exercise the gate and include elapsed-time and display-rounding contributions. No uncertainty or operating margin is deducted from the clearance.
 - Models implemented: direct, fixed offset, bracketed linear. Piecewise ratings, fallback gauge models, other movable-bridge geometries, and unlimited-clearance states are deferred.
 - The fixture's two-hour calculation stop, 24-hour forecast window, 0.1-ft forecast deadband and six-hour forecast issue limit are demonstration defaults. Only the observation late label **strictly after 24 hours** is owner-confirmed.

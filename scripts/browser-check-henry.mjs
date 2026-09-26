@@ -15,15 +15,18 @@ try{
  await page.goto(`http://127.0.0.1:${server.address().port}/henry`);
  await page.waitForFunction(()=>!document.getElementById('audit').disabled,{},{timeout:30000});
  assert.match(await page.locator('#checked').innerText(),/Evaluated/);
- assert.match(await page.locator('.snapshot').first().innerText(),/Unavailable/);
+ assert.match(await page.locator('.snapshot').first().innerText(),/Overall accuracy unverified/);
  assert.match(await page.locator('#stage').innerText(),/ft|Unavailable/);
  const downloadPromise=page.waitForEvent('download');await page.locator('#audit').click();const download=await downloadPromise;
  const stream=await download.createReadStream(),chunks=[];for await(const c of stream)chunks.push(c);
- const receipt=JSON.parse(Buffer.concat(chunks));assert.equal(receipt.result.clearance.valueFt,null);assert.ok(receipt.input.sources.stage.sha256);
+ const receipt=JSON.parse(Buffer.concat(chunks));const c=receipt.result.clearance;
+ assert.equal(await page.locator('#clearance').innerText(),c.status==='ESTIMATED'?`${c.valueFt} ft`:'Unavailable');
+ if(c.status==='ESTIMATED'){assert.equal(c.accuracyStatus,'UNVERIFIED');assert.equal(c.trace.uncertaintyDeducted,false);}
+ assert.ok(receipt.input.sources.stage.sha256);
  if(process.env.SCREENSHOT_DIR){await mkdir(process.env.SCREENSHOT_DIR,{recursive:true});await page.screenshot({path:`${process.env.SCREENSHOT_DIR}/henry-desktop.png`,fullPage:true});}
  await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  if(process.env.SCREENSHOT_DIR)await page.screenshot({path:`${process.env.SCREENSHOT_DIR}/henry-mobile.png`,fullPage:true});
  outage=true;await page.locator('#refresh').click();await page.waitForFunction(()=>!document.getElementById('pilot-error').hidden);
- assert.equal(await page.locator('#stage').innerText(),'Unavailable');assert.equal(await page.locator('#forecast').innerText(),'Unavailable');assert.equal(await page.locator('#audit').isDisabled(),true);
- assert.deepEqual(errors,[]);console.log('Henry browser checks passed: desktop/mobile, source download, withheld clearance, API outage removes old readings.');
+ assert.equal(await page.locator('#stage').innerText(),'Unavailable');assert.equal(await page.locator('#forecast').innerText(),'Unavailable');assert.equal(await page.locator('#clearance').innerText(),'Unavailable');assert.equal(await page.locator('#audit').isDisabled(),true);
+ assert.deepEqual(errors,[]);console.log('Henry browser checks passed: desktop/mobile, source download, assumption-labeled clearance, API outage removes old readings.');
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve));}

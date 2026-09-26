@@ -19,14 +19,18 @@ test('archived official Henry payload parses exact stage and independent station
   assert.equal(r.stage.valueFt,'16.78');assert.equal(r.stage.approvalStatus,'Provisional');
   assert.equal(r.stage.ageSeconds,2400);assert.equal(r.forecast.direction,'FALLING');
   assert.deepEqual(r.forecast.deltaFt,{numerator:'-3',denominator:'10',unit:'ft'});
-  assert.equal(r.forecast.bridgeAssociationApproved,false);assert.equal(r.clearance.valueFt,null);
+  assert.equal(r.forecast.bridgeAssociationApproved,false);assert.equal(r.clearance.valueFt,'56.9');
+  assert.deepEqual(r.clearance.trace.unroundedClearanceFt,{numerator:'5697',denominator:'100',unit:'ft'});
+  assert.deepEqual(r.clearance.trace.assumedTransferDifferenceFt,{numerator:'1',denominator:'6',unit:'ft'});
+  assert.equal(r.clearance.trace.uncertaintyDeducted,false);
   assert.equal(parseExact('{"primary":16.780000000000001}').primary,'16.780000000000001');
   assert.deepEqual(result(s),result(s));
 });
 test('Henry lateness uses observation time, strict 24 hours, and flags delay independently', () => {
   const s=snapshot();
   for (const [date,late] of [['2026-09-26T19:45:00.000Z',false],['2026-09-26T19:45:00.001Z',true]]) {
-    const r=evaluateHenry(s,date);assert.equal(r.stage.late,late);assert.equal(r.stage.delayed,true);assert.equal(r.clearance.valueFt,null);
+    const r=evaluateHenry(s,date);assert.equal(r.stage.late,late);assert.equal(r.stage.delayed,true);assert.equal(r.clearance.valueFt,'56.9');
+    assert.equal(r.clearance.historical,true);assert.equal(r.clearance.late,late);assert.equal(r.clearance.validAt,'2026-09-25T19:45:00.000Z');
   }
   s.sources.stage.receivedAt='2026-09-26T19:45:00.001Z';
   assert.equal(evaluateHenry(s,s.sources.stage.receivedAt).stage.late,true);
@@ -67,6 +71,8 @@ test('Henry service coalesces requests, persists snapshots, survives restart and
   const fetchImpl=async url=>{calls++;if(failed)throw new Error('offline');const key=Object.keys(URLS).find(k=>URLS[k]===url);return new Response(bodies[key],{headers:{'content-type':'application/json'}});};
   const settings={directory,fetchImpl,clock:()=>now};const service=createHenryService(settings);
   const [a,b]=await Promise.all([service.get(),service.get()]);assert.equal(calls,4);assert.equal(a.receiptId,b.receiptId);
+  assert.deepEqual(evaluateHenry(a.input,a.result.asOf),a.result);
+  assert.equal(a.input.bridgeReference.bridgeWaterModel.assumedMaxDifferenceInches,'2');
   const {receiptId,...body}=a;assert.equal(receiptId,`sha256:${hash(stableStringify(body))}`);
   assert.equal((await readdir(join(directory,'raw'))).length,4);
   assert.equal((await createHenryService(settings).get()).snapshotId,a.snapshotId);assert.equal(calls,4);
@@ -81,12 +87,12 @@ test('Henry service rejects corrupt persisted snapshots', async t => {
   const receipt=await createHenryService(settings).get();await writeFile(join(directory,'snapshots',`${receipt.snapshotId}.json`),'{}');
   await assert.rejects(()=>createHenryService(settings).get(),/STORAGE_HASH_MISMATCH/);
 });
-test('Henry HTTP endpoint returns an auditable stage-only record and protects storage files', async t => {
+test('Henry HTTP endpoint returns an auditable pilot estimate and protects storage files', async t => {
   const server=makeServer({henryService:{get:async()=>({result:result(snapshot())})}});
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));t.after(()=>new Promise(resolve=>server.close(resolve)));
   const url=`http://127.0.0.1:${server.address().port}`;
   assert.equal((await fetch(url+'/henry')).status,200);
-  const r=await (await fetch(url+'/api/henry')).json();assert.equal(r.result.stage.valueFt,'16.78');assert.equal(r.result.clearance.valueFt,null);
+  const r=await (await fetch(url+'/api/henry')).json();assert.equal(r.result.stage.valueFt,'16.78');assert.equal(r.result.clearance.valueFt,'56.9');
   for(const p of ['/var/henry/current.json','/src/henry-service.js','/data/henry-feed-contract.json'])assert.equal((await fetch(url+p)).status,404);
 });
 test('Henry fetch pipeline quarantines HTTP errors, HTML bodies, oversized responses and timeout failures', async t => {
@@ -105,13 +111,38 @@ test('Henry source cannot silently regress or replace equal-revision values betw
     const s=snapshot();s.previousAcceptedStage=result(s).stage;change(s,'stage',d=>mutation(d.features[0].properties));assert.equal(result(s).stage.status,expected);
   }
 });
-test('owner-confirmed NAVD88 reference preserves elevations without approving the gauge tie', () => {
+test('owner reference enables a labeled estimate without claiming validated accuracy', () => {
   const r=result(snapshot()),b=r.bridgeReference;
   assert.equal(b.publishedClearanceFt,'59.8');assert.equal(b.lowSteelElevationFt,'499.6');
   assert.equal(b.referenceSurface.elevationFt,'439.8');assert.equal(b.verticalDatum,'NAVD88');
-  assert.equal(b.consistency,'INTERNALLY_CONSISTENT');assert.equal(r.clearance.status,'GAUGE_REFERENCE_UNVERIFIED');assert.equal(r.clearance.valueFt,null);
+  assert.equal(b.consistency,'INTERNALLY_CONSISTENT');assert.equal(r.clearance.status,'ESTIMATED');assert.equal(r.clearance.valueFt,'56.9');
+  assert.equal(r.clearance.accuracyStatus,'UNVERIFIED');assert.equal(r.clearance.productionEligible,false);
   const s=snapshot();s.bridgeReference=structuredClone(b);s.bridgeReference.referenceSurface.elevationFt='440.0';
   assert.equal(result(s).clearance.status,'REFERENCE_ARITHMETIC_CONFLICT');
   s.bridgeReference=structuredClone(b);s.bridgeReference.verticalDatum=null;
   assert.equal(result(s).clearance.status,'DATUM_UNRESOLVED');
+});
+
+test('Henry datum drift and unapproved model changes withhold the estimate', () => {
+  for (const mutation of [d=>delete d.datums, d=>d.datums.vertical.value[0].abbrev='NGVD29', d=>d.datums.vertical.value.push(d.datums.vertical.value[0]), d=>d.datums.vertical.value[0].value=425.88, d=>d.usgsId='00000000']) {
+    const s=snapshot();change(s,'gauge',mutation);assert.equal(result(s).clearance.valueFt,null);
+  }
+  for (const mutation of [s=>s.sources.gauge.httpStatus=503, s=>s.sources.gauge.body+=' ']) {
+    const s=snapshot();mutation(s);assert.equal(result(s).clearance.valueFt,null);
+  }
+  const s=snapshot();s.bridgeReference=structuredClone(result(s).bridgeReference);
+  s.bridgeReference.bridgeWaterModel.gaugeId='OTHER';assert.equal(result(s).clearance.status,'MODEL_UNRESOLVED');
+  s.bridgeReference.pilotEstimateEnabled=false;assert.equal(result(s).clearance.status,'PILOT_ESTIMATE_DISABLED');
+});
+test('Henry normal-pool and one-foot-rise calculations use elevations exactly', () => {
+  const s=snapshot();change(s,'stage',d=>d.features[0].properties.value='13.95');
+  assert.equal(result(s).clearance.valueFt,'59.8');
+  assert.deepEqual(result(s).clearance.trace.waterElevationNavd88Ft,{numerator:'2199',denominator:'5',unit:'ft'});
+  change(s,'stage',d=>d.features[0].properties.value='14.95');assert.equal(result(s).clearance.valueFt,'58.8');
+});
+test('missing or stale forecasts never substitute for or block a valid estimate', () => {
+  const s=snapshot();s.sources.forecast.httpStatus=503;
+  assert.equal(result(s).forecast.status,'SOURCE_UNAVAILABLE');assert.equal(result(s).clearance.valueFt,'56.9');
+  const t=snapshot();change(t,'forecast',d=>d.issuedTime='2026-09-24T16:04:00Z');
+  assert.equal(result(t).forecast.status,'FORECAST_STALE');assert.equal(result(t).clearance.valueFt,'56.9');
 });

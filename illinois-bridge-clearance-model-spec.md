@@ -525,3 +525,10 @@ Pending clarification or validation:
 - [NOAA National Water Prediction Service APIs](https://water.noaa.gov/about/api)
 - [USGS Instantaneous Values Service](https://waterservices.usgs.gov/docs/instantaneous-values/instantaneous-values-details/)
 - [USGS Policy on Accurate Geodetic Vertical Datum Establishment and Conversion](https://water.usgs.gov/water-resources/memos/memo.php?id=4447)
+
+
+## Owner-approved pilot assumption — September 26, 2026
+
+For the initial pilot, the owner accepts equal bridge/gauge water elevation with an assumed difference within two inches (exactly 1/6 ft). Record this per selected bridge/gauge model as an owner assumption, not a field-validated bound, and deduct no allowance from simple calculated clearance. This does not authorize automatic nearest-gauge assignment across locks or hydraulic reaches.
+
+Henry uses low steel 499.6 ft NAVD88 and the published HNYI2 gauge zero 425.85 ft NAVD88: estimated clearance = 73.75 ft − observed stage. The pilot explicitly assumes this zero applies to the observation while effective-epoch and foot-realization verification remain pending. Display the result as an estimate at observation time with overall accuracy unverified; retain exact arithmetic, metadata checks, strict >24-hour lateness, forecast separation and full receipts. Delayed/late results must be historical, not current. Missing or invalid inputs withhold the estimate. This pilot exception does not change the validated production acceptance gate or demonstrate the overall six-inch target.

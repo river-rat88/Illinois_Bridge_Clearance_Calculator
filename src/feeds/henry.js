@@ -2,7 +2,7 @@ import { Q, stableStringify } from '../exact.js';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 
-export const ADAPTER_VERSION = 'henry-stage-pilot-3';
+export const ADAPTER_VERSION = 'henry-stage-pilot-4';
 export const HENRY_REFERENCE = JSON.parse(readFileSync(new URL('../../data/henry-bridge-reference.json', import.meta.url), 'utf8'));
 export const SERIES = '2368ad8cb32f4cc4bcd1068c0faab837';
 export const URLS = Object.freeze({
@@ -126,9 +126,38 @@ export function evaluateHenry(snapshot, asOf) {
     check(Q.parse(reference.lowSteelElevationFt).sub(reference.referenceSurface.elevationFt).cmp(reference.publishedClearanceFt) === 0, 'REFERENCE_ARITHMETIC_CONFLICT');
     return { status: 'INTERNALLY_CONSISTENT' };
   });
-  return { adapterVersion: ADAPTER_VERSION, asOf, bridgeId: 'il-henry', stage: attempt(() => observedStage(snapshot, asOf)),
+  const stage = attempt(() => observedStage(snapshot, asOf));
+  const calculation = attempt(() => {
+    check(referenceCheck.status === 'INTERNALLY_CONSISTENT', referenceCheck.status);
+    check(reference.verticalDatum === 'NAVD88', 'DATUM_UNRESOLVED');
+    check(reference.pilotEstimateEnabled === true, 'PILOT_ESTIMATE_DISABLED');
+    check(stage.status === 'AVAILABLE', stage.status);
+    const g = source(snapshot, 'gauge', asOf), metadata = g.document;
+    const gaugeReference = reference.gaugeReference, model = reference.bridgeWaterModel;
+    check(metadata.lid === 'HNYI2' && metadata.usgsId === '05558300' && metadata.pedts?.observed === 'HGIRG', 'GAUGE_IDENTITY_CHANGED');
+    check(gaugeReference?.gaugeId === 'HNYI2' && gaugeReference.usgsId === '05558300' && gaugeReference.verticalDatum === 'NAVD88' && gaugeReference.unit === 'ft', 'GAUGE_REFERENCE_UNRESOLVED');
+    const datums = metadata.datums?.vertical?.value;
+    check(Array.isArray(datums), 'GAUGE_DATUM_MISSING');
+    const matches = datums.filter(d => d.abbrev === 'NAVD88');
+    check(matches.length === 1 && typeof matches[0].value === 'string', 'GAUGE_DATUM_MISSING');
+    const zero = Q.parse(matches[0].value);
+    check(zero.cmp(gaugeReference.zeroElevationFt) === 0, 'GAUGE_ZERO_CHANGED');
+    check(model?.bridgeId === 'il-henry' && model.gaugeId === 'HNYI2' && model.type === 'DIRECT' && model.basis === 'OWNER_ASSUMPTION' && model.validated === false && model.offsetFt === '0' && model.assumedMaxDifferenceInches === '2', 'MODEL_UNRESOLVED');
+    const water = zero.add(stage.valueFt), lowSteel = Q.parse(reference.lowSteelElevationFt);
+    const clearance = lowSteel.sub(water), display = clearance.floor(1);
+    return { status: 'ESTIMATED', valueFt: display, validAt: stage.observedAt,
+      timeBasis: 'AT_OBSERVATION_TIME', historical: stage.delayed, late: stage.late,
+      accuracyStatus: 'UNVERIFIED', method: 'LOW_STEEL_MINUS_WATER_NAVD88',
+      trace: { stageFt: stage.valueFt, gaugeZeroNavd88Ft: gaugeReference.zeroElevationFt,
+        waterElevationNavd88Ft: water.toJSON(), lowSteelNavd88Ft: reference.lowSteelElevationFt,
+        unroundedClearanceFt: clearance.toJSON(), displayRoundingFt: clearance.sub(display).toJSON(),
+        modelId: model.id, bridgeMinusGaugeFt: model.offsetFt,
+        assumedTransferDifferenceFt: Q.parse(model.assumedMaxDifferenceInches).div('12').toJSON(),
+        metadataSourceHash: g.sha256, uncertaintyDeducted: false },
+      assumptions: ['Bridge water elevation equals gauge water elevation; owner assumes differences within two inches.', 'Published 425.85-ft NAVD88 gauge zero applies to this observation; effective epoch and exact foot realization are not independently verified.', 'The overall six-inch accuracy target has not been demonstrated.'] };
+  });
+  return { adapterVersion: ADAPTER_VERSION, asOf, bridgeId: 'il-henry', stage,
     forecast: attempt(() => stationForecast(snapshot, asOf)),
     bridgeReference: { ...reference, consistency: referenceCheck.status, recordSha256: hash(stableStringify(reference)) },
-    clearance: { status: referenceCheck.status === 'INTERNALLY_CONSISTENT' ? (reference.verticalDatum === 'NAVD88' ? 'GAUGE_REFERENCE_UNVERIFIED' : 'DATUM_UNRESOLVED') : referenceCheck.status, valueFt: null, productionEligible: false,
-      blockers: ['Gauge-zero epoch, units and same-datum bridge-to-gauge tie need verification.', 'Bridge-to-gauge water transfer and total error below six inches are unverified.'] } };
+    clearance: { ...calculation, productionEligible: false } };
 }

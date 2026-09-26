@@ -2,7 +2,7 @@
 
 Implemented September 25, 2026. Run `npm start`, then open **http://localhost:3000/henry**. The original synthetic calculator links to this page. Nothing has been deployed or enabled as an operational clearance calculator.
 
-The Henry page displays a real USGS stage observation and separate NOAA forecast direction **at the gauge**. Calculated bridge clearance stays unavailable. The owner has selected the e-chart's 59.8-ft listed clearance, 499.6-ft low-steel elevation and 439.8-ft normal-pool elevation. The page shows that selection and the remaining datum/validation requirements.
+The Henry page displays a real USGS stage observation and separate NOAA forecast direction **at the gauge**. Calculated bridge clearance is an **estimate at observation time**, using the owner-approved direct water-level assumption. The owner has selected the e-chart's 59.8-ft listed clearance, 499.6-ft low-steel elevation and 439.8-ft normal-pool elevation. The page shows that selection and the working assumptions and remaining validation requirements.
 
 ![Henry pilot desktop](screenshots/henry-desktop.png)
 
@@ -27,7 +27,7 @@ The default local store is `var/henry/`, excluded from git. Set `HENRY_DATA_DIR`
 | USGS observation | [latest-continuous, Henry, parameter 00065](https://api.waterdata.usgs.gov/ogcapi/v1/collections/latest-continuous/items?f=json&monitoring_location_id=USGS-05558300&parameter_code=00065&limit=100) | One instantaneous stage series, string value in ft, explicit timestamp, approval status and qualifier |
 | USGS series metadata | [time-series-metadata](https://api.waterdata.usgs.gov/ogcapi/v1/collections/time-series-metadata/items?f=json&monitoring_location_id=USGS-05558300&parameter_code=00065&limit=100) | Series `2368ad8cb32f4cc4bcd1068c0faab837`, statistic 00011, Primary / Points / Instantaneous; semantic fields pinned |
 | NOAA forecast | [HNYI2 forecast stageflow](https://api.water.noaa.gov/nwps/v1/gauges/hnyi2/stageflow/forecast) | HGIFF, Stage, ft, ILX, a single issued/generated run, valid times and full window coverage |
-| NOAA station | [HNYI2 metadata](https://api.water.noaa.gov/nwps/v1/gauges/hnyi2) | Crosswalk explicitly identifies USGS 05558300; verifies forecast product identity |
+| NOAA station | [HNYI2 metadata](https://api.water.noaa.gov/nwps/v1/gauges/hnyi2) | Crosswalk explicitly identifies USGS 05558300; verifies product identity and the pinned 425.85-ft NAVD88 vertical reference |
 
 [USGS schema](https://api.waterdata.usgs.gov/ogcapi/v1/collections/latest-continuous/schema?f=html) defines string-valued measurements, provisional/approved status, qualifiers and `last_modified`. The latter is a database refresh time, not proof the measurement changed. [NOAA API documentation](https://api.water.noaa.gov/nwps/v1/docs/) describes the gauge and forecast endpoints. The feed contract in `data/henry-feed-contract.json` preserves the reviewed instantaneous-series semantics, public suppression thresholds and data-gap interval. Relevant changes block stage display until reviewed; metadata period-of-record endpoint updates do not.
 
@@ -42,7 +42,7 @@ USGS sends stage as a decimal string. NOAA sends numeric tokens; the JSON revive
 - The checked agency public-suppression range is −1 to 40 ft for this series. It is not a validated bridge operating envelope.
 - Older source observations, older revisions, and different values with the same observation/revision time are blocked across polls. Prior accepted stages remain historical context only, with original observation and receipt times.
 - HTTP failures, timeouts, unexpected content type, malformed JSON and responses above 1 MiB cannot become readings. Requests time out after 15 seconds; concurrent requests share one refresh. HTTP error bodies are archived when within the size limit. Oversized/transport-failed downloads retain failure metadata but not a truncated pretend source document.
-- An upstream failure does not replace or refresh the age of the last accepted reading. The UI labels it historical and shows the newest attempt's error state. A failure of the local API clears previously displayed stage/forecast values instead of leaving them looking current.
+- An upstream failure does not replace or refresh the age of the last accepted reading. The UI labels it historical and shows the newest attempt's error state. A failure of the local API clears previously displayed stage, forecast and clearance values instead of leaving them looking current.
 
 ## Independent forecast direction
 
@@ -68,17 +68,25 @@ The exact consistency check passes: `499.6 − 439.8 = 59.8 ft`. The production 
 
 Preserve the bridge's reported **439.8-ft** normal pool. Do not replace it with the gauge's separately published 440.0-ft flat-pool sum: doing so would shift an inferred low-steel elevation by **0.2 ft (2.4 inches)**. Different local pool-reference elevations may reflect different locations or definitions and must not be equated without evidence.
 
-Adapter version `henry-stage-pilot-3` includes the selected reference and its hash in the output and includes the complete reference record in newly downloaded receipt inputs. The record passes an exact internal arithmetic check. The bridge reference is now explicitly NAVD88 with owner-confirmation provenance. Gauge epoch, hydraulic transfer and accuracy gates remain unresolved, so clearance is still null with `GAUGE_REFERENCE_UNVERIFIED`. No NGVD29 feed values are relabeled NAVD88.
+## Owner-approved pilot calculation
 
-To enable clearance, obtain:
+On September 26, the owner authorized assuming bridge water elevation equals the selected gauge water elevation, with differences within **two inches**. Reference revision 3 records this as `OWNER_ASSUMPTION`, not a measured error bound. Henry alone is enabled; other bridges require an explicit selected gauge and reference record.
 
-1. The e-chart product/edition and evidence supporting the owner-confirmed NAVD88 reference, then current controlling low-steel geometry, navigation-opening limits and survey/effective date from the bridge owner or USCG bridge record.
-2. Current USGS/USACE benchmark and gauge-zero epoch records, units and the documented local datum tie.
-3. Concurrent bridge-local/gauge water observations over the intended range and rising/falling regimes, followed by independent validation of the transfer model.
-4. A reviewed total error bound strictly below 0.5 ft, including geometry, reference, gauge, datum transfer, hydraulic transfer, age and display rounding.
+Adapter `henry-stage-pilot-4` uses:
 
-Those records/measurements were not established by the public feed metadata retrieved in this milestone. The remaining block is evidence, not a missing subtraction formula. Clearance stays null until it is resolved.
+```text
+water elevation NAVD88 = 425.85 + observed Henry stage
+estimated clearance = 499.6 − water elevation = 73.75 − stage
+```
+
+The 2-inch allowance is exactly 1/6 ft and is recorded, **not deducted**. Clearance is rounded downward to 0.1 ft for display; the exact result and actual rounding difference remain in the receipt. At normal-pool stage 13.95 ft, the result is exactly 59.8 ft. The archived test observation of 16.78 ft gives water elevation 442.63 ft and exact clearance 56.97 ft, displayed as 56.9 ft; this is a test example, not a current reading.
+
+Each result explicitly identifies its observation time. Above 72 minutes it is labeled `DELAYED — historical estimate`; strictly above 24 hours it is labeled `LATE — historical estimate`. Old observations are never described as current clearance. Source failures withhold the estimate; a last accepted stage can appear only as separate historical context. A missing or stale forecast does not block an otherwise valid observed-stage estimate and never supplies its water elevation.
+
+The adapter verifies source hashes, station crosswalk, observed product identity, exactly one NAVD88 reference matching the pinned 425.85-ft zero, bridge reference arithmetic and the explicit bridge/gauge model. A changed or missing zero/datum, mismatched gauge/model, disabled pilot or rejected observation produces no numeric clearance. No NGVD29 source value is relabeled NAVD88. The complete versioned bridge record and source payloads accompany the replayable receipt.
+
+The pilot assumes the published zero applies to the observation. Its effective epoch and exact foot realization have not been independently verified. Overall accuracy remains `UNVERIFIED`, and production eligibility remains false. The two-inch hydraulic assumption alone does not establish the total six-inch target. Operational validation still needs chart/survey evidence, gauge-zero epoch and unit records, independent bridge/gauge observations across changing conditions, and a reviewed total error allowance below 0.5 ft including age and display rounding.
 
 ## Verification
 
-Live requests successfully returned USGS Henry stage and NOAA Henry forecast; the page displayed them with their actual source timestamps and provisional label. Automated checks cover source parsing, exact decimal preservation, 24-hour boundaries, metadata drift, quality flags, future times, source regression, forecast run/coverage rules, raw hash integrity, restart persistence, request coalescing and failure handling. Browser checks cover desktop and 390-pixel mobile layout, audit download and clearing readings after an API outage. No operational accuracy or bridge association is claimed by these software checks.
+Live requests successfully returned USGS Henry stage and NOAA Henry forecast; the page displayed them with their actual source timestamps and provisional label. Automated checks cover source parsing, exact decimal preservation, 24-hour boundaries, metadata drift, quality flags, future times, source regression, forecast run/coverage rules, raw hash integrity, restart persistence, request coalescing and failure handling. The browser-check script covers desktop and 390-pixel mobile layout, audit download and clearing readings after an API outage. Previous browser verification predates the numeric estimate; the current rerun was blocked by a missing Chromium executable and a failed browser download. Current automated verification passes all 38 tests plus inventory checks, including exact clearance, receipt replay, metadata/model rejection and late historical estimates. No operational accuracy or bridge association is claimed by these software checks.

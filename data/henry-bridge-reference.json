@@ -1,5 +1,5 @@
 {
-  "id": "henry-owner-selected-chart-reference-2",
+  "id": "henry-owner-selected-chart-reference-3",
   "bridgeId": "il-henry",
   "recordedDateUtc": "2026-09-26",
   "selectionStatus": "OWNER_SELECTED",
@@ -35,10 +35,31 @@
       "note": "Historical comparison supports listed clearance but does not establish the reported elevations' datum."
     }
   ],
-  "supersedes": "henry-owner-selected-chart-reference-1",
+  "supersedes": "henry-owner-selected-chart-reference-2",
   "datumConfirmation": {
     "source": "USER_CONFIRMATION",
     "recordedDateUtc": "2026-09-26",
     "scope": "Henry and all owner-supplied chart elevations use NAVD88. External feed datums remain source-specific."
+  },
+  "pilotEstimateEnabled": true,
+  "gaugeReference": {
+    "gaugeId": "HNYI2",
+    "usgsId": "05558300",
+    "zeroElevationFt": "425.85",
+    "verticalDatum": "NAVD88",
+    "unit": "ft",
+    "basis": "PUBLISHED_NOAA_NWPS_METADATA",
+    "effectiveEpochVerified": false
+  },
+  "bridgeWaterModel": {
+    "id": "henry-owner-assumed-direct-1",
+    "type": "DIRECT",
+    "bridgeId": "il-henry",
+    "gaugeId": "HNYI2",
+    "offsetFt": "0",
+    "assumedMaxDifferenceInches": "2",
+    "basis": "OWNER_ASSUMPTION",
+    "recordedDateUtc": "2026-09-26",
+    "validated": false
   }
 }
