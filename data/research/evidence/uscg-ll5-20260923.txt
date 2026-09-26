@@ -1,0 +1,517 @@
+                 Light List for Volume 5 (Heartland District - MRS) - 09/23/2026
+6145      Kankakee River       41-23-59.136N  Fl G 4s      On sinker base
+          Light                088-15-50.281W              tower.
+6155      Big Dresden Island   41-23-53.660N  Fl G 4s      On sinker base
+          Light                088-17-12.084W              tower.
+6180      Aux Sable North      41-23-30.008N  Fl G 4s      On sinker base
+          Light                088-18-53.575W              tower.
+6185      Aux Sable South      41-23-16.872N  Fl (2)R 5s   On sinker base
+          Light                088-19-02.514W              tower.
+6190      Aux Sable Island     41-23-02.375N               On tree.
+          Daybeacon            088-19-30.097W
+6195      Hutchins Island      41-22-15.780N               On tree.
+          Upper Daybeacon      088-21-21.000W
+6200      Hutchins Island      41-21-59.944N  Fl (2)R 5s   On sinker base
+          Light                088-22-04.386W              tower.
+6203      NRG Energy Lighted 41-21-46.540N                 Marks floating        Private Aid.
+          Danger Buoy        088-22-49.830W                barrier.
+6203.01   NRG Energy Lighted 41-21-46.800N                 Marks floating        Private Aid.
+          Danger Buoy        088-22-48.610W                barrier.
+6203.02   NRG Energy Lighted 41-21-47.070N                 Marks floating        Private Aid.
+          Danger Buoy        088-22-47.380W                barrier.
+6203.03   NRG Energy Lighted 41-21-47.330N                 Marks floating        Private Aid.
+          Danger Buoy        088-22-46.110W                barrier.
+6203.04   NRG Energy Lighted 41-21-47.600N                 Marks floating        Private Aid.
+          Danger Buoy        088-22-44.850W                barrier.
+6203.05   NRG Energy Lighted 41-21-47.870N                 Marks floating        Private Aid.
+          Danger Buoy        088-22-43.580W                barrier.
+6203.06   NRG Energy Lighted 41-21-48.140N                 Marks floating        Private Aid.
+          Danger Buoy        088-22-42.320W                barrier.
+6205      Hutchins Island      41-21-50.774N               On sinker base
+          Lower Daybeacon      088-22-40.076W              tower.
+6215      Paper Mill Light     41-21-34.373N  Fl G 4s      On sinker base
+                               088-24-16.726W              tower..
+6220      Kinneys Island       41-21-15.786N               On tree.
+          Daybeacon            088-24-43.315W
+6225      Kinneys Island Light 41-21-12.161N  Fl (2)R 5s   On tree.
+                               088-25-02.669W
+6235      MORRIS IL            41-22-48.824N
+                               088-25-27.595W
+6250      Nettle Creek Light   41-21-08.356N  Fl G 4s      On tree.
+                               088-26-06.464W
+6255      Nettle Bend Light    41-20-58.556N  Fl (2)R 5s   On sinker base
+                               088-26-11.800W              tower.
+6265      Hatcher Daybeacon    41-20-53.686N               On tree base tower.
+                               088-27-22.806W
+6270      Waupecan Creek       41-20-32.903N               On tree.
+          Daybeacon            088-28-17.558W
+6275      Sugar Island Light   41-20-35.790N  Fl G 4s      On sinker base
+                               088-28-35.886W              tower.
+6280      Grist Island         41-20-19.021N               On tree.
+          Daybeacon            088-29-37.784W
+6285      Grist Island Head    41-20-12.240N  Fl G 4s      On sinker base
+          Light                088-29-50.160W              tower.
+6290      Grist Island Light   41-20-01.356N  Fl (2)R 5s   On sinker base
+                               088-29-51.392W              tower.
+6295      Grist Island Bend    41-19-53.411N               On tree.
+          Daybeacon            088-30-06.232W
+6300      Barry Island Light   41-19-24.337N  Fl G 4s      On tree.
+                               088-33-18.983W
+6305      Huele Light          41-18-57.420N  Fl G 4s      On sinker base
+                               088-34-17.119W              tower.
+6315      Rock Island Bridge   41-18-22.867N               On sinker base
+          Upper Daybeacon      088-35-09.107W              tower.
+6320      Rock Island Bridge   41-18-21.074N               On bridge pier.
+          Daybeacon            088-35-08.524W
+6330      Lewis Daybeacon      41-18-03.647N               On tree.
+                              088-35-37.151W
+6335   Seneca Daybeacon       41-17-53.416N               On sinker base
+                              088-36-13.450W              tower.
+6355   Spring Brook Light     41-17-56.933N  Fl (2)R 5s   On sinker base
+                              088-37-37.603W              tower.
+6360   Tautz Bend Light       41-18-33.246N  Fl G 4s      On sinker base
+                              088-38-07.638W              tower.
+6365   North Kickapoo         41-18-54.180N  Fl G 4s      On sinker base
+       Creek Upper Light      088-39-13.370W              tower.
+6375   Johnson Island Light 41-18-38.149N  Fl (2)R 5s     On sinker base
+                            088-39-54.216W                tower.
+6380   South Kickapoo         41-18-37.944N  Fl (2)R 5s   On sinker base
+       Creek Light            088-40-11.060W              tower.
+6385   South Kickapoo         41-18-44.910N               On tree.
+       Creek Daybeacon        088-40-35.562W
+6395   Ballards Island Light 41-19-00.642N  Fl (2)R 5s    On sinker base
+                             088-41-15.155W               tower.
+6400   Gum Creek Light        41-19-15.506N  Fl G 4s      On sinker base
+                              088-41-29.677W              tower.
+6405   MARSEILLES IL          41-16-55.927N
+                              088-40-53.195W
+6415   Marseilles Dam         41-19-19.740N  Fl G 6s                             Maintained by U.S. Army Corps of Engineers
+       Light                  088-42-31.715W
+6425   Canal Light            41-19-41.041N  Fl G 4s      On sinker base
+                              088-44-04.506W              tower.
+6445   Marseilles Lock        41-19-47.942N               On sinker base tower
+       Upper Daybeacon        088-45-52.484W              mounted on lock
+                                                          mooring cell.
+6450   Marseilles Lock        41-19-57.025N               On sinker base tower
+       Middle Daybeacon       088-46-07.090W              mounted on lock
+                                                          mooring cell.
+6460   Marseilles Lock        41-19-56.986N               On tree.
+       Daybeacon              088-46-38.420W
+6465   Moores Creek Light     41-20-05.089N  Fl (2)R 5s   On sinker base
+                              088-47-00.438W              tower.
+6470   Milliken Creek Light   41-20-14.338N  Fl G 4s      On sinker base
+                              088-46-58.894W              tower.
+6485   Bulls Island Bend      41-20-30.386N  Fl G 4s      On tower.
+       Light                  088-48-25.574W
+6490   Bulls Island Ferry     41-20-17.880N  Fl (2)R 5s   On skeleton tower.
+       Light                  088-49-24.240W
+6500   Ottawa Upper Light     41-20-32.860N  Fl G 4s      On sinker base
+                              088-50-11.753W              tower.
+6510   OTTAWA IL              41-21-14.566N
+                              088-49-24.269W
+6515   SOUTH OTTAWA IL 41-18-29.988N
+                       088-51-28.537W
+6525   Ottawa Light           41-20-13.106N  Fl G 4s      On sinker base
+                              088-51-50.602W              tower.
+6530   Mayo Island Light      41-19-18.005N  Fl (2)R 5s   On single pile.
+                              088-52-44.386W
+6535   Delbridge Island       41-19-05.894N  Fl (2)R 5s   On single pile.
+       Head Light             088-55-23.297W
+6540   Delbridge Island       41-19-09.872N  Fl G 4s      On sinker base
+       Middle Light           088-55-41.272W              tower.
+6545   Delbridge Island       41-19-07.748N  Fl G 4s      On sinker base
+       Light                  088-57-07.963W              tower.
+6550   Delbridge Island       41-19-07.903N               On sinker base
+       Lower Daybeacon        088-57-16.798W              tower.
+6555   Starved Rock           41-19-14.412N               On single pile.
+       Daybeacon              088-58-35.684W
+6565   Utica Bridge Upper     41-19-42.650N               On sinker base
+       Daybeacon              089-00-09.490W              tower.
+6570   Utica Bridge Lower     41-19-42.989N               On tree.
+       Daybeacon              089-00-29.322W
+6590   Deer Park Light        41-19-07.838N  Fl (2)R 5s   On sinker base
+                              089-02-25.314W              tower.
+6595   Vermillion River       41-19-15.593N               On tree.
+       Daybeacon              089-04-14.124W
+6600   La Salle Light         41-19-33.510N  Fl G 4s      On tree.
+                              089-04-43.831W
+6620   LA SALLE IL            41-20-06.634N
+                              089-05-50.082W
+6625   Peru Upper Light       41-18-44.220N  Fl (2)R 5s       On skeleton tower.
+                              089-06-22.740W
+6645   PERU IL                41-21-28.544N
+                              089-08-21.804W
+6660   Huse Slough            41-18-49.298N                   On transmission line
+       Daybeacon              089-09-13.907W                  tower concrete base.
+6675   Spring Valley          41-18-42.390N                   On tree.
+       Daybeacon              089-11-19.090W
+6690   SPRING VALLEY IL 41-19-22.580N
+                        089-11-00.060W
+6710   Tree Top Bar Lower 41-18-48.575N                       On transmission line
+       Daybeacon          089-13-48.338W                      tower concrete base.
+6715   Clark Island Upper     41-19-06.287N                   On single pile.
+       Daybeacon              089-14-15.392W
+6720   Clark Island           41-19-11.940N                   On tree.
+       Daybeacon              089-15-15.120W
+6725   Marquette Bar          41-19-24.474N                   On sinker base
+       Upper Daybeacon        089-15-52.258W                  tower.
+6730   Marquette Bar          41-19-14.610N                   On tree.
+       Daybeacon              089-16-24.784W
+6745   Lake Depue Light       41-17-58.916N  Fl G 4s          On single pile.
+                              089-20-23.640W
+6760   Bureau Creek Light     41-16-56.644N  Fl (2)R 5s       On single pile.
+                              089-20-09.326W
+6780   HENNEPIN IL            41-15-01.897N
+                              089-18-50.738W
+6800   Sisters Island Light   41-11-25.667N  Fl (2)R 5s       On single pile.
+                              089-19-38.557W
+6805   Willow Point           41-10-10.056N                   On single pile.
+       Daybeacon              089-19-26.508W
+6810   Halls Landing          41-09-47.410N                   On tree.
+       Daybeacon              089-19-06.060W
+6825   Websters Landing       41-07-57.396N  Fl G 4s          On sinker base
+       Light                  089-20-04.873W                  tower.
+6840   Henry Lock Light       41-06-57.106N  Fl (2)R 5s       On single pile.
+                              089-20-06.105W
+6860   HENRY IL               41-07-02.521N
+                              089-21-26.215W
+6865   Henry Island Upper     41-05-05.774N  Fl (2)R 5s       On tree.
+       Light                  089-22-19.027W
+6870   Henry Island Light     41-04-45.034N  Fl G 4s      4   On pile.
+                              089-23-02.623W
+6875   Henry Island Lower     41-04-16.936N                   On single pile.
+       Daybeacon              089-23-30.745W
+6880   Lacon Upper            41-03-20.912N                   On single pile.
+       Daybeacon              089-24-17.483W
+6885   Lacon Light            41-02-24.539N  Fl G 4s          On single pile.
+                              089-24-57.255W
+6900   LACON IL               41-01-22.429N
+                              089-24-22.788W
+6905   Woodyard Creek         40-59-13.185N  Fl (2)R 5s       On pile.
+       Light                  089-26-16.552W
+6910   Bennetts Landing       40-58-13.938N  Fl G 4s          On 12 foot tower on
+       Light                  089-27-01.459W                  tree.
+6920   Babbs Slough Light     40-57-29.984N  Fl (2)R 5s       On sinker base
+                              089-26-47.990W                  tower.
+6930   Spring Branch Light    40-56-34.384N  Fl G 4s          On tree.
+                              089-27-27.090W
+6935   At &amp; SF Bridge     40-56-27.340N  Fl (2)R 5s       On pile.
+       Light                  089-27-09.987W
+6950   Chillicothe Upper      40-55-22.920N                   On tree.
+       Daybeacon              089-28-00.180W
+6955   CHILLICOTHE IL         40-54-57.460N
+                              089-30-09.648W
+6960   Chillicothe            40-54-40.244N                   On tree.
+       Daybeacon              089-29-05.471W
+6965   Chillicothe Island     40-53-38.940N  Fl (2)R 5s       On concrete tower
+       Light                  089-29-22.556W                  on caisson.
+6970   ROME IL                40-52-38.759N
+                              089-30-47.668W
+6975   Rome Light             40-52-24.647N  Fl (2)R 5s       On concrete tower
+                              089-30-03.078W                  on caisson.
+6980   Sand Point Light       40-51-52.078N    Fl G 4s        On tower on caisson.
+                            089-30-42.332W
+6985   Sand Point Lower     40-51-10.408N  Fl (2)R 5s   On 4 pile dolphin.
+       Light                089-31-00.350W
+6990   Circle Light         40-50-31.918N  Fl G 4s      On 4 pile dolphin.
+                            089-31-28.723W
+6995   Spring Bay           40-49-53.868N               On single pile.
+       Daybeacon            089-31-55.834W
+7000   SPRING BAY IL        40-49-16.496N
+                            089-31-52.072W
+7010   Blue Creek Point     40-49-08.634N  Fl (2)R 5s   On 4 pile dolphin.
+       Middle Light         089-32-36.791W
+7015   Blue Creek Point     40-48-39.550N  Fl G 4s      Green can.             Removed during ice season and replaced with an unlighted buoy.
+       Lower Lighted Buoy   089-32-58.295W
+7020   MOSSVILLE IL         40-49-01.560N
+                            089-34-13.267W
+7025   Detweiller Park Light 40-47-36.600N  Fl G 4s     On tower on caisson.
+                             089-33-45.061W
+7030   Drolls Point Upper   40-46-41.353N  Fl (2)R 5s   Red nun.               Removed during ice season and replaced with an unlighted buoy.
+       Lighted Buoy         089-33-29.907W
+7035   Drolls Point Light   40-45-50.512N  Fl G 4s      On concrete tower
+                            089-33-24.962W              on caisson.
+7040   Peoria Heights       40-44-49.200N  Fl (2)R 5s   Red nun.               Removed during ice season and replaced with an unlighted buoy.
+       Lighted Buoy         089-33-05.861W
+7045   Peoria Lake          40-43-54.279N  Fl G 4s      On sinker base tower
+       Narrows Light        089-33-03.787W
+7055   Mccluggage Bridge    40-42-46.778N  Fl G 4s      On 4 pile dolphin.
+       Light                089-33-02.182W
+7060   Avery Light          40-42-42.916N  Fl (2)R 5s   On tower on caisson.
+                            089-32-43.829W
+7065   Letourneau Point     40-42-06.055N  Fl (2)R 5s   On 4 pile dolphin.
+       Upper Light          089-33-25.272W
+7070   Letourneau Point     40-42-12.895N  Fl G 4s      On sinker base
+       Light                089-33-37.318W              tower.
+7145   Farm Creek Channel 40-41-40.841N  Fl (2)R 5s     On 4 pile dolphin.
+       Light              089-34-10.726W
+7155   PEORIA IL            40-45-05.908N
+                            089-37-01.913W
+7180   Peoria And Pekin     40-39-39.866N               On sinker base
+       Railway Bridge       089-37-04.915W              tower.
+       Daybeacon
+7210   Amc Dock Lights (2) 40-37-33.600N  Fl (2)R 6s                           Private Aid.
+                           089-37-49.560W
+7215   Clark Dock Lights    40-36-10.560N  Fl G 6s                             Private Aid.
+       (3)                  089-39-30.480W
+7220   Edwards Station      40-35-54.000N  Fl G 6s                             Private Aid.
+       Light                089-39-40.800W
+7225   Cargo Carriers Dock 40-35-25.200N  Fl G 6s                              Private Aid.
+       Lights (2)          089-39-35.100W
+7230   Pekin Bridge         40-34-53.679N               On tree.
+       Daybeacon            089-39-13.579W
+7235   Pekin Boat Club      40-34-45.600N  Fl (2)R 6s                          Private Aid.
+       Breakwater Light     089-39-12.360W
+7245   PEKIN IL             40-34-07.525N
+                            089-37-30.414W
+7250   Shell Dock Lights (2) 40-34-12.060N  Fl G 6s                            Private Aid.
+                             089-39-22.200W
+7255   Adm Growmark         40-39-13.800N  Fl (2)R 6s                          Private Aid.
+       Mooring Light        089-39-16.020W
+7270   Pekin Energy         40-33-34.800N  Fl (2)R 6s                          Private Aid. MARKS WATER INTAKE.
+       Company Lights (2)   089-40-00.650W
+7275   Illinois Corn        40-33-24.600N  Fl (2)R 6s                          Private Aid.
+       Processing Dock      089-40-14.700W
+       Lights (2)
+7278   Ameren Lighted       40-33-13.990N  Fl W 2.5s    Marks submerged        Private Aid.
+       Danger Buoy          089-40-25.670W              gas pipeline.
+7285   Pekin Daybeacon      40-33-04.001N               On tree.
+                            089-40-56.115W
+7290   Turkey Island Upper 40-33-29.526N                On tree.
+       Upper Daybeacon     089-42-14.271W
+7295   Adm Growmark         40-33-32.340N  Fl G 6s                             Private Aid.
+       Mooring Lights (3)   089-42-17.280W
+7300   Turkey Island        40-33-20.153N               On tree.
+       Daybeacon            089-43-20.144W
+7310   Mackinaw River         40-33-00.936N  Fl (2)R 5s   On sinker base
+       Light                  089-44-23.711W              tower.
+7320   KINGSTON               39-49-10.016N
+       LANDING IL             091-01-37.204W
+7325   Kingston Landing       40-33-13.524N  Fl G 4s      On sinker base
+       Light                  089-46-32.036W              tower.
+7330   Cf Industries Dock     40-33-11.580N  Fl G 6s                         Private Aid.
+       Light                  089-46-33.540W
+7335   LANCASTER              42-20-12.516N
+       LANDING IL             089-34-08.094W
+7340   Lancaster Landing      40-32-23.508N               On tree.
+       Daybeacon              089-48-43.214W
+7350   Coon Hollow Island     40-31-21.024N               On tree.
+       Daybeacon              089-51-08.732W
+7355   Canton Landing         40-30-24.210N               On sinker base
+       Daybeacon              089-52-57.313W              tower.
+7370   Lock Pond              40-28-32.059N               On tree.
+       Daybeacon              089-53-09.492W
+7385   Spring Lake Slough     40-26-24.727N  Fl (2)R 5s   On tree.
+       Light                  089-54-44.460W
+7390   Spring Lake Slough     40-26-22.402N               On tree.
+       Lower Daybeacon        089-54-48.996W
+7395   Woodyard Light         40-25-35.303N  Fl G 4s      On pile.
+                              089-56-52.128W
+7405   Liverpool Light        40-23-58.412N  Fl G 4s      On single pile.
+                              089-58-47.728W
+7410   Freeman Coal Dock 40-23-39.640N  Fl G 6s                              Private Aid.
+       Lights (3)        089-59-18.480W
+7415   LIVERPOOL IL           40-23-23.658N
+                              090-00-05.911W
+7425   Garvey Marine Dock 40-22-59.520N  Fl G 6s                             Private Aid.
+       Lights (2)         090-46-00.080W
+7430   Thompson Lake          40-22-40.363N               On single pile.
+       Slough Daybeacon       090-02-07.403W
+7435   Chautauqua Bend        40-20-48.006N               On sinker base
+       Daybeacon              090-03-13.957W              tower.
+7440   Quiver Beach           40-20-06.013N               On tree.
+       Daybeacon              090-02-55.964W
+7445   Siebs Lake Light       40-18-55.810N  Fl G 4s      On single pile.
+                              090-04-08.922W
+7450   HAVANA IL              40-17-42.392N
+                              090-03-28.116W
+7455   Cargill Mooring        40-17-55.740N  Fl (2)R 6s                      Private Aid.
+       Lights (2)             090-40-04.380W
+7460   Cargill Mooring        40-17-48.720N  Fl (2)R 6s                      Private Aid.
+       Lights (2)             090-40-03.960W
+7485   Dynegy Midwest         40-16-59.400N  Fl (2)R 6s                      Private Aid.
+       Mooring Cell Lights    090-44-06.500W
+       (6)
+7495   Devils Elbow Upper     40-15-29.419N  Fl G 4s      On sinker base
+       Light                  090-06-38.482W              tower.
+7500   Devils Elbow Lower     40-13-49.500N               On tree.
+       Daybeacon              090-07-17.040W
+7505   Grand Island Head      40-13-17.460N  Fl (2)R 5s   On tree.
+       Light                  090-08-18.960W
+7510   Otter Creek            40-12-42.684N               On tree.
+       Daybeacon              090-10-17.948W
+7515   Grand Island           40-11-43.020N               On tree.
+       Daybeacon              090-10-49.680W
+7520   Anderson Lake Light 40-11-31.979N  Fl G 4s         On tree.
+                           090-11-43.102W
+7525   Grand Island Foot      40-09-27.414N  Fl (2)R 5s   On skeleton base
+       Light                  090-12-11.801W              tower.
+7530   Grand Island Bend      40-08-56.807N  Fl (2)R 5s   On sinker base
+       Light                  090-13-25.417W              tower.
+7535   Sharp Landing Light 40-09-21.840N  Fl G 4s         On sinker base
+                           090-15-50.166W                 tower.
+7540   Hickory Island Light   40-08-20.416N  Fl (2)R 5s   On single pile.
+                              090-18-28.661W
+7545   Sangamon Chute         40-08-15.358N  Fl G 4s      On sinker base
+       Upper Light            090-20-12.340W              tower.
+7555   Sangamon Chute         40-07-25.753N  Fl (2)R 5s   On sinker base
+       Light                  090-21-04.296W              tower.
+7560   BROWNING IL           40-07-37.380N
+                             090-22-22.811W
+7565   Sugar Creek Light     40-05-26.499N  Fl G 4s      On single pile.
+                             090-23-42.120W
+7570   Sugar Creek Island    40-05-13.522N               On tree.
+       Daybeacon             090-23-29.270W
+7575   Sugar Creek Bar       40-04-34.660N  Fl (2)R 5s   On sinker base
+       Light                 090-23-38.840W              tower.
+7580   FREDERICK IL          40-05-31.168N
+                             090-25-49.573W
+7585   Frederick Light       40-03-39.714N  Fl G 4s      On single pile.
+                             090-25-46.640W
+7590   Adm Growmark          40-25-04.720N  Fl G 6s                         Private Aid.
+       Lights (2)            090-25-45.300W
+7600   Beardstown Railroad 40-01-49.550N                 On tree.
+       Bridge Daybeacon    090-25-53.824W
+7615   BEARDSTOWN IL         40-00-36.371N
+                             090-25-52.072W
+7630   Grape Island Light    40-00-26.280N  Fl (2)R 5s   On tree.
+                             090-27-46.980W
+7635   Grape Island Lower    40-00-20.280N               On tree.
+       Daybeacon             090-28-11.940W
+7645   Coal Creek Island     40-00-07.638N               On tree.
+       Daybeacon             090-29-32.020W
+7650   Briggs Landing Light 39-59-36.705N  Fl G 4s       On skeleton base
+                            090-30-48.375W               tower.
+7655   Beaver Dam Light      39-58-10.410N  Fl (2)R 5s   On sinker base
+                             090-30-32.170W              tower.
+7665   LA GRANGE             41-48-25.967N
+       LANDING IL            087-52-26.933W
+7680   Indian Creek Upper    39-55-12.907N               On tree.
+       Daybeacon             090-32-08.218W
+7685   Indian Creek Lower    39-54-58.784N               On tree.
+       Daybeacon             090-32-15.324W
+7690   La Grange Lock        39-53-54.928N               On single pile.
+       Daybeacon             090-33-24.253W
+7695   Moores Island Light   39-53-35.297N  Fl G 4s      On single pile.
+                             090-34-19.290W
+7700   Kamp Creek Lower      39-52-16.651N               On tree.
+       Daybeacon             090-35-14.888W
+7705   Wilson Island         39-51-09.580N               On tree.
+       Daybeacon             090-34-59.941W
+7710   Meredosia Terminal    39-50-14.640N  Fl G 6s                         Private Aid.
+       Dock Lights (5)       090-34-10.260W
+7715   MEREDOSIA IL          39-49-53.386N
+                             090-33-26.060W
+7725   Cargill Terminal      39-49-50.700N  Fl (2)R 6s                      Private Aid.
+       Lights (2)            090-33-57.380W
+7730   Public Service Co.    39-49-29.520N  Fl (2)R 6s                      Private Aid.
+       Dock Lights (6)       090-34-03.780W
+7740   Royster Clark         39-48-28.800N  Fl (2)R 6s                      Private Aid.
+       Nitrogen Dock         090-35-02.520W
+       Lights(2)
+7745   Meredosia Island      39-48-32.897N               On tree.
+       Daybeacon             090-35-06.191W
+7750   Meredosia Lower       39-47-58.866N               On tree.
+       Island Daybeacon      090-35-39.606W
+7755   Mcgees Creek Light 39-46-17.580N  Fl G 4s         On tree.
+                          090-36-31.554W
+7760   Adm Growmark          39-45-54.600N  Fl (2)R 6s                      Private Aid.
+       Grain Elevator        090-36-21.720W
+       Lights (2)
+7765   NAPLES IL             39-45-12.442N
+                             090-36-24.869W
+7770   Consolidated Grain    39-44-55.800N  Fl (2)R 6s                      Private Aid.
+       &amp; Barge           090-36-57.420W
+       Terminal Lights (2)
+7780   Mauvaise Terre        39-43-17.288N               On single pile.
+       Daybeacon             090-38-05.240W
+7785   Valley City Bridge    39-43-16.072N               On single pile.
+       Daybeacon             090-38-22.164W
+7795   Owens Daybeacon       39-41-56.753N               On tree.
+                             090-38-49.963W
+7800   GRIGGSVILLE           39-42-28.170N
+       LANDING IL            090-43-39.389W
+7810   Big Blue Island       39-39-20.916N               On single pile.
+       Lower Daybeacon       090-37-34.889W
+7815   Hulett Daybeacon      39-39-07.927N               On pile.
+                             090-37-03.104W
+7820   Bevington Light       39-38-29.072N  Fl (2)R 5s   On pile.
+                             090-36-29.495W
+7825   Bevington             39-38-19.226N               On tree.
+       Daybeacon             090-36-24.498W
+7840   FLORENCE IL           39-37-42.301N
+                             090-36-45.990W
+7845   Cargill Dock Light    39-37-28.200N  Fl G 6s                           Private Aid.
+                             090-36-24.480W
+7850   Florence Light        39-37-06.110N  Fl G 4s      On sinker base
+                             090-36-21.751W              tower.
+7860   MONTEZUMA IL          39-31-57.612N
+                             090-37-41.398W
+7865   Glasgow Landing       39-33-02.441N  Fl (2)R 5s   On pile.
+       Light                 090-34-24.276W
+7870   BEDFORD IL            38-31-17.648N
+                             088-24-53.420W
+7875   Pilot Peak Bend       39-31-10.067N               On pile.
+       Daybeacon             090-34-44.353W
+7880   Buckhorn Island       39-29-46.097N               On pile.
+       Daybeacon             090-35-25.408W
+7885   Van Geson Island      39-28-49.800N               On tree.
+       Daybeacon             090-35-40.258W
+7890   Grand Pass Bridge     39-28-14.999N  Fl G 4s      On sinker base
+       Upper Light           090-36-15.523W              tower.
+7915   PEARL LANDING IL 39-27-45.623N
+                        090-37-10.837W
+7920   Pearl Island Light    39-25-58.321N  Fl G 4s      On 5 pile dolphin.
+                             090-37-00.347W
+7925   Spar Island           39-24-31.705N               On tree.
+       Daybeacon             090-36-50.515W
+7943   Twin Island Light     39-22-56.395N  Fl G 4s      On sinker base
+                             090-37-06.280W              tower.
+7960   KAMPSVILLE IL         39-17-49.852N
+                             090-36-46.552W
+7965   Kampsville Ferry      39-17-33.259N  Fl (2)R 5s   On pile.
+       Light                 090-36-02.416W
+7970   Crawford Creek        39-16-40.627N               On sinker base
+       Daybeacon             090-36-28.620W              tower.
+7980   Hurricane Isle Upper 39-14-49.780N                On tree.
+       Daybeacon            090-36-12.971W
+7985   Campbell Landing      39-14-45.179N  Fl (2)R 5s   On pile.
+       Reach Light           090-35-55.266W
+7995   Diamond Island    39-12-58.234N                   On tree.
+       Appoach Daybeacon 090-35-26.236W
+8000   Hurricane Island      39-12-51.142N               On tree.
+       Daybeacon             090-35-35.779W
+8005   Diamond Island        39-11-38.947N               On sinker base
+       Chute Daybeacon       090-35-29.378W              tower.
+8015   Tip Island Lower      39-10-42.812N               On tree.
+       Daybeacon             090-35-59.845W
+8020   Diamond Island        39-10-40.915N               On tree.
+       Daybeacon             090-36-16.790W
+8030   HARDIN IL             39-09-32.303N
+                             090-37-23.308W
+8035   Jersey County         39-08-57.600N  Fl G 6s                           Private Aid.
+       Elevator Lights (3)   090-36-56.760W
+8040   Mortland Island       39-07-46.708N               On pile.
+       Upper Daybeacon       090-36-42.336W
+8050   Mcdonald Landing      39-05-24.410N               On pile.
+       Daybeacon             090-35-43.714W
+8055   Helmbold Island       39-04-06.121N               On pile.
+       Daybeacon             090-35-07.465W
+8060   Otter Creek Light     39-03-58.763N  Fl (2)R 5s   On multi-pile.
+                             090-34-48.860W
+8065   HADLEYS               39-43-01.204N
+       LANDING IL            090-57-52.488W
+8070   Hadley'S Landing      39-02-59.860N    Fl G 4s    On dolphin.
+          Light                090-35-30.019W
+8075      Coon Creek Landing 39-01-58.098N  Fl (2)R 5s         On 5-pile dolphin.
+          Light              090-34-25.709W
+8090      Six-Mile Island      38-58-58.066N                   On tree.
+          Daybeacon            090-33-46.271W
+8095      Pere Marquette Boat 38-58-12.000N  Fl (2)R 6s        On steel pile wall.   Private Aid.
+          Harbor Light        090-32-48.240W
+8105      Cherokee Bend        38-57-10.444N                   On dolphin.
+          Daybeacon            090-31-29.903W
+8115      Island 526 Light     38-57-55.264N  Fl G 4s          On dolphin.
+                               090-26-27.146W
+8120      GRAFTON IL           38-58-35.234N
+                               090-25-32.513W

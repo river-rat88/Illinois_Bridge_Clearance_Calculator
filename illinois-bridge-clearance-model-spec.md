@@ -2,10 +2,10 @@
 
 ## Data and Mathematical Model Specification
 
-**Status:** Initial system design; owner requirements updated September 25, 2026. Observation lateness unit awaits clarification.  
+**Status:** Initial system design; owner requirements updated September 25, 2026. Observation lateness threshold confirmed as 24 hours.
 **Confirmed scope:** Illinois River miles 0–273 only, from the Mississippi River at Grafton to the head of the Illinois River. The Chicago River, Chicago Sanitary and Ship Canal, Cal-Sag Channel, and Des Plaines River are excluded from phase 1.
 
-**Confirmed presentation requirements:** Lift-bridge clearances are calculated for the fully open position. Show simple calculated clearance, without subtracting an uncertainty allowance or operating margin. The desired total clearance error is strictly less than six inches (0.5 ft). Include forecast river direction separately from observed stage and calculated clearance.
+**Confirmed presentation requirements:** Lift-bridge clearances are calculated for the fully open position. Show simple calculated clearance, without subtracting an uncertainty allowance or operating margin. The desired total clearance error is strictly less than six inches (0.5 ft). Include forecast river direction separately from observed stage and calculated clearance. Mark observations older than 24 hours as `LATE`.
 
 ## 1. Design position
 
@@ -102,6 +102,8 @@ These are water-surface references or profiles, not geodetic datums. They may va
 The Illinois River Coast Pilot table explicitly supplies clearances at **pool level** and **high water**. Those labels must remain intact; neither may be silently renamed LWRP.
 
 ## 5. Canonical mathematical model
+
+**Owner confirmation (September 26, 2026 UTC):** All owner-supplied chart elevations use NAVD88. Use NAVD88 for normalized bridge and water elevations throughout the Illinois River app. Preserve external sources' original datum labels; convert other datums only through documented, scoped transformations. This confirmation does not establish gauge-zero epochs, hydraulic equivalence or field accuracy.
 
 Use `NAVD88` as the phase-1 canonical internal datum when a valid transformation is available. The model remains datum-agnostic: another canonical datum can be introduced by versioning the datum graph and formula version.
 
@@ -271,21 +273,21 @@ Do not activate a model solely because correlation is high; constant bias can pr
 
 Freshness is evaluated from `observed_at`, not from download time. Store `received_at` separately so ingestion delay remains visible.
 
-**Pending unit clarification:** The owner requested that data older than `24yrs` be marked late. Do not silently interpret this as 24 hours or configure 24 years. The final `late_after_seconds` value is unresolved until confirmed. This request concerns observation age; it does not automatically set an age limit for bridge surveys or source publications.
+**Confirmed late-label rule:** Set `late_after_seconds = 86400`. An observation is `LATE` when `as_of_utc - observed_at > 86400 seconds`; exactly 24 hours old is not yet late. Compare UTC timestamps, not calendar dates or download times. This request concerns observation age; it does not automatically set an age limit for bridge surveys or source publications.
 
-Keep the display's lateness label separate from calculation eligibility. An observation can be younger than the eventual lateness threshold and still fail the six-inch accuracy target because the river is changing. A forecast arrow does not make an old stage current. If a numeric result is retained for historical context, label it `Clearance at observation time`, with the actual time, rather than current clearance.
+Keep the display's lateness label separate from calculation eligibility. An observation can be younger than 24 hours and still fail the six-inch accuracy target because the river is changing. A forecast arrow does not make an old stage current. If a numeric result is retained for historical context, label it `Clearance at observation time`, with the actual time, rather than current clearance.
 
 Each gauge has explicit policy fields:
 
 - `expected_interval_seconds`
 - `expected_latency_seconds`
-- `late_after_seconds` (owner threshold; unit pending)
+- `late_after_seconds` (confirmed owner threshold: 86400)
 - `warn_after_seconds`
 - `stop_after_seconds`
 - `rapid_change_threshold_ft_per_hour`
 - `max_clock_skew_seconds`
 
-The original cadence-based defaults below remain **unapproved technical stop/warning proposals**, not the owner-requested late-label threshold. Reconcile them after the timing unit is confirmed; do not assume that the late-label threshold authorizes using data for that long:
+The original cadence-based defaults below remain **unapproved technical stop/warning proposals**, separate from the confirmed 24-hour late-label threshold. Validate these limits per gauge before approval; do not assume that the late-label threshold authorizes using data for that long. A calculation may be stopped before its observation becomes `LATE`:
 
 \[
 warn=\min(\max(2I+L,30\text{ min}),90\text{ min})
@@ -302,7 +304,7 @@ States:
 | State | Behavior |
 |---|---|
 | `FRESH` | Calculate and display only if datum, model, and total error gates also pass. |
-| `LATE` | Mark observation late after the confirmed owner threshold; show exact time and age. A numeric current clearance also requires the independent accuracy and availability gates. |
+| `LATE` | Observation age is strictly greater than 24 hours; show exact time and age. A numeric current clearance also requires the independent accuracy and availability gates. |
 | `STALE` | No calculated current-clearance value. Show last accepted stage and age as historical context only. |
 | `MISSING` | Try only an explicitly approved fallback. Otherwise withhold. |
 | `SOURCE_CONFLICT` | Withhold until the conflict clears or is reviewed. |
@@ -324,7 +326,7 @@ Fallback rules:
 
 Add a separate `Forecast direction` field showing `RISING`, `FALLING`, `STEADY`, `VARIABLE`, or `UNAVAILABLE`. Label it as a forecast at the named gauge; do not describe recent observed movement as a forecast.
 
-Proposed initial direction window: **the next 24 hours**, independently of the unresolved observation-lateness unit. Use the latest accepted official forecast run issued at or before the page cutoff. Compare forecast stage at the cutoff with forecast stage 24 hours later, using linear interpolation only between valid points within the same run. Both endpoints must be covered; never extrapolate, join different forecast runs, or substitute observed stage for a missing forecast endpoint.
+Proposed initial direction window: **the next 24 hours**. This forecast horizon is a separate, still-proposed setting; confirmation of the observation-lateness threshold does not approve it. Use the latest accepted official forecast run issued at or before the page cutoff. Compare forecast stage at the cutoff with forecast stage 24 hours later, using linear interpolation only between valid points within the same run. Both endpoints must be covered; never extrapolate, join different forecast runs, or substitute observed stage for a missing forecast endpoint.
 
 Let \(\Delta_f=h_f(t+24h)-h_f(t)\). A proposed versioned deadband is 0.1 ft: `RISING` when \(\Delta_f>0.1\) ft, `FALLING` when \(\Delta_f<-0.1\) ft, and `STEADY` otherwise. If the path contains both a rise and a fall larger than the deadband, show `VARIABLE` with the net change so a crest or trough is not hidden by one arrow. Evaluate the piecewise-linear path, including the exact endpoints, deterministically.
 
@@ -474,7 +476,7 @@ Run static-source checks at least weekly and on manual notice. Poll gauge feeds 
 - Every lift-bridge main row selects `FULLY_OPEN` for both listed and calculated values; missing open geometry cannot fall back to closed clearance.
 - Total error allowance of 0.499 ft passes the numeric accuracy gate; 0.500 ft or unknown fails it. All other validation gates remain required.
 - Display rounding and time-age error are included in the total error budget; no uncertainty or operating margin is subtracted from the simple calculation.
-- Test observation-lateness immediately below, exactly at, and above the eventual confirmed threshold; the stated `older than` rule uses a strict greater-than comparison.
+- Test observation ages of 86,399, 86,400, and 86,401 seconds: only the last is `LATE`. The stated `older than` rule uses a strict greater-than comparison. Verify that a refreshed download cannot reset observation age and that calculation eligibility is checked independently.
 - Forecast-direction tests cover rise, fall, deadband boundaries, intervening crest/trough, stale issue time, missing horizon, different runs, and datum mismatch. Forecast availability never overrides current-clearance validation.
 
 ### Golden tests
@@ -487,7 +489,7 @@ Back-test bridge-water models against independent observations over low, normal,
 
 ## 14. Recommended implementation sequence
 
-1. **Apply confirmed phase-1 scope.** Illinois River miles 0–273 only, fully open lift bridges, simple calculated clearance, forecast direction, and an under-six-inch total error target. Clarify the observation-lateness unit before finalizing its policy; resolve whether locks/dam service bridges count as “bridges.”
+1. **Apply confirmed phase-1 scope.** Illinois River miles 0–273 only, fully open lift bridges, simple calculated clearance, forecast direction, observations older than 24 hours marked late, and an under-six-inch total error target. Finalize calculation-eligibility age rules separately; resolve whether locks/dam service bridges count as “bridges.”
 2. **Build and review the bridge catalog.** Extract the current Coast Pilot table, reconcile USACE IDs/names/miles, and preserve aliases and inactive spans.
 3. **Build the datum registry.** Load gauge-zero epochs, pool/high-water/LWRP reference surfaces, and documented transformations.
 4. **Inventory gauges and hydraulic reaches.** Assign candidate primary/fallback series and expected freshness policies.
@@ -505,10 +507,10 @@ Confirmed by the owner on September 25, 2026:
 3. Desired total clearance error is **under six inches**, subject to demonstrated data/model capability.
 4. Include **forecast river direction**, separately from observed stage.
 5. Show **simple calculated clearance**, without an uncertainty or operating-margin deduction.
+6. Mark observations **older than 24 hours** as `LATE`, measured from observation time, not download time.
 
 Pending clarification or validation:
 
-- Does `24yrs` mean **24 hours** or literally **24 years** for marking observations late? No unit has been assumed or approved.
 - The next-24-hours forecast window and 0.1-ft direction deadband are proposed implementation defaults, not owner-specified values.
 - The six-inch target requires reviewed uncertainty evidence and a documented coverage level/operating envelope; it cannot be promised from unvalidated source data.
 - Finalize calculation-stop/accuracy-age rules separately from the late label. A late label alone does not establish whether a historical number should remain visible.
@@ -523,3 +525,10 @@ Pending clarification or validation:
 - [NOAA National Water Prediction Service APIs](https://water.noaa.gov/about/api)
 - [USGS Instantaneous Values Service](https://waterservices.usgs.gov/docs/instantaneous-values/instantaneous-values-details/)
 - [USGS Policy on Accurate Geodetic Vertical Datum Establishment and Conversion](https://water.usgs.gov/water-resources/memos/memo.php?id=4447)
+
+
+## Owner-approved pilot assumption — September 26, 2026
+
+For the initial pilot, the owner accepts equal bridge/gauge water elevation with an assumed difference within two inches (exactly 1/6 ft). Record this per selected bridge/gauge model as an owner assumption, not a field-validated bound, and deduct no allowance from simple calculated clearance. This does not authorize automatic nearest-gauge assignment across locks or hydraulic reaches.
+
+Henry uses low steel 499.6 ft NAVD88 and the published HNYI2 gauge zero 425.85 ft NAVD88: estimated clearance = 73.75 ft − observed stage. The pilot explicitly assumes this zero applies to the observation while effective-epoch and foot-realization verification remain pending. Display the result as an estimate at observation time with overall accuracy unverified; retain exact arithmetic, metadata checks, strict >24-hour lateness, forecast separation and full receipts. Delayed/late results must be historical, not current. Missing or invalid inputs withhold the estimate. This pilot exception does not change the validated production acceptance gate or demonstrate the overall six-inch target.

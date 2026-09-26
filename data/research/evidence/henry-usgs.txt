@@ -1,0 +1,202 @@
+Illinois River at Henry, IL - USGS Water Data for the Nation
+Skip to main content
+An official website of the United States government
+Here’s how you know
+Here’s how you know
+Official websites use .gov
+A
+.gov
+website belongs to an official government organization in the United States.
+Secure .gov websites use HTTPS
+A
+lock
+(
+Lock
+Locked padlock
+) or
+https://
+means you’ve safely connected to the .gov website. Share sensitive information only on official, secure websites.
+Menu
+Monitoring location
+Illinois River at Henry, IL - USGS-05558300
+WDFN Home
+WDFN tools and data
+My Favorite Monitoring Locations
+National Water Dashboard
+WaterAlert
+Explore USGS Water Data
+USGS Water Data APIs
+Statistics documentation
+Related links
+Water Year Summary
+Revisions
+Other water data resources
+Water Resources Mission Area
+Water Data Visualizations
+Water Science School
+WMA Catalog
+National Water Availability Assessment Data Companion
+Connect
+USGS Water Resources Instagram
+USGS Water Resources Facebook
+USGS Water Resources X
+USGS Data Science X
+Questions or Comments
+Water Data for the Nation Blog
+Important for you to know:
+How are we doing? We want to hear from you. Take our quick
+survey
+to tell us what you think.
+Important changes are coming soon to NWISWeb websites and services.
+Attend our webinar
+October 1, 2026 at 2:00 PM Eastern to learn about the final phase of decommissioning. Learn more about our
+modernization plans and timeline
+.
+Important
+Legacy real-time page
+Did you know
+You can see all water data collected at this monitoring location in the
+Available data
+section of the page. Learn more about
+centralized water data delivery
+in WDFN.
+Available data
+Select data types to graph from categories based on the way the data were collected.
+Learn about the data collection categories
+Expand all data collections
+Continuous data
+12 data types available - data from 1990-08-30 to 2026-09-25
+Show these data types
+Daily data
+7 data types available - data from 1981-10-01 to 2026-09-24
+Show these data types
+Field measurements
+9 data types available - data from 1981-11-10 to 2026-08-19
+Show these data types
+Discrete sample data
+1097 Observed properties (data types) available - data from 1983-10-25 to 2026-08-12
+145 Sampling activities
+Show these data types
+Peak measurements
+2 data types available - data from 1982-03-22 to 2025-04-09
+Show these data types
+Statistical tables for select daily data types
+7 data types available - data from 1981-10-01 to 2026-09-24
+Show these data types
+Location details and information
+Show location details
+Metadata Element
+Location Metadata
+Metadata Code
+Agency
+U.S. Geological Survey
+USGS
+Location identification number
+05558300
+n/a
+Location name
+ILLINOIS RIVER AT HENRY, IL
+n/a
+Site type
+Stream
+ST
+Decimal latitude (WGS84)
+41.1072777777778
+n/a
+Decimal longitude (WGS84)
+-89.3562222222222
+n/a
+Latitude-longitude method
+GNSS2 - Level 1 Quality Survey Grade Global Navigation Satellite System
+X
+Latitude-longitude accuracy
+Accurate to + or - 5 sec.
+F
+District
+Illinois
+17
+State
+Illinois
+17
+County
+Marshall County
+123
+Country
+United States of America
+n/a
+Altitude of gage/land surface
+425.85
+feet
+n/a
+Method altitude determined
+GNSS2 - Level 2 Quality Survey Grade Global Navigation Satellite System
+X
+Altitude accuracy
+0.07
+feet
+n/a
+Altitude datum
+North American Vertical Datum of 1988
+NAVD88
+Subbasin hydrologic unit
+Lower Illinois-Senachwine Lake
+07130001
+Drainage basin
+n/a
+Date of first construction
+n/a
+Drainage area
+13544
+square miles
+n/a
+Contributing drainage area
+n/a
+Time zone abbreviation
+CST
+n/a
+Site honors Daylight Saving Time
+N
+n/a
+National aquifer
+n/a
+Local aquifer
+n/a
+Local aquifer type
+n/a
+Well depth
+n/a
+Hole depth
+n/a
+Source of depth data
+n/a
+Available location images
+Hide location images
+Illinois River at Henry
+IL River at Henry, IL, camera is on left bank looking upstream
+View more imagery information for Illinois River at Henry
+Hide location images
+Monitoring locations with continuous data in last 120 days
+No locations found
+Zoom out to see link to My Favorites
+Use Explore USGS Water Data to discover additional data near this location
+Operated in cooperation with:
+US Army Corps of Engineers - Rock Island District
+DOI Privacy Policy
+|
+Legal
+|
+Accessibility
+|
+Site Map
+|
+Contact USGS
+Follow
+U.S. Department of the Interior
+|
+DOI Inspector General
+|
+White House
+|
+No Fear Act
+|
+FOIA
