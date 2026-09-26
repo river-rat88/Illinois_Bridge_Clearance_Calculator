@@ -103,6 +103,8 @@ The Illinois River Coast Pilot table explicitly supplies clearances at **pool le
 
 ## 5. Canonical mathematical model
 
+**Owner confirmation (September 26, 2026 UTC):** All owner-supplied chart elevations use NAVD88. Use NAVD88 for normalized bridge and water elevations throughout the Illinois River app. Preserve external sources' original datum labels; convert other datums only through documented, scoped transformations. This confirmation does not establish gauge-zero epochs, hydraulic equivalence or field accuracy.
+
 Use `NAVD88` as the phase-1 canonical internal datum when a valid transformation is available. The model remains datum-agnostic: another canonical datum can be introduced by versioning the datum graph and formula version.
 
 Use exact decimal arithmetic or integer millimetres internally. Never use binary floating point for final clearance calculations.

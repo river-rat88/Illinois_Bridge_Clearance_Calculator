@@ -2,7 +2,7 @@ import { Q, stableStringify } from '../exact.js';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 
-export const ADAPTER_VERSION = 'henry-stage-pilot-2';
+export const ADAPTER_VERSION = 'henry-stage-pilot-3';
 export const HENRY_REFERENCE = JSON.parse(readFileSync(new URL('../../data/henry-bridge-reference.json', import.meta.url), 'utf8'));
 export const SERIES = '2368ad8cb32f4cc4bcd1068c0faab837';
 export const URLS = Object.freeze({
@@ -129,6 +129,6 @@ export function evaluateHenry(snapshot, asOf) {
   return { adapterVersion: ADAPTER_VERSION, asOf, bridgeId: 'il-henry', stage: attempt(() => observedStage(snapshot, asOf)),
     forecast: attempt(() => stationForecast(snapshot, asOf)),
     bridgeReference: { ...reference, consistency: referenceCheck.status, recordSha256: hash(stableStringify(reference)) },
-    clearance: { status: referenceCheck.status === 'INTERNALLY_CONSISTENT' ? 'DATUM_UNRESOLVED' : referenceCheck.status, valueFt: null, productionEligible: false,
-      blockers: ['Selected e-chart elevations: low steel 499.6 ft, normal pool 439.8 ft; chart vertical datum is not yet identified.', 'Gauge-zero epoch, units and same-datum bridge-to-gauge tie need verification.', 'Bridge-to-gauge water transfer and total error below six inches are unverified.'] } };
+    clearance: { status: referenceCheck.status === 'INTERNALLY_CONSISTENT' ? (reference.verticalDatum === 'NAVD88' ? 'GAUGE_REFERENCE_UNVERIFIED' : 'DATUM_UNRESOLVED') : referenceCheck.status, valueFt: null, productionEligible: false,
+      blockers: ['Gauge-zero epoch, units and same-datum bridge-to-gauge tie need verification.', 'Bridge-to-gauge water transfer and total error below six inches are unverified.'] } };
 }

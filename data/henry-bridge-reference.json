@@ -1,5 +1,5 @@
 {
-  "id": "henry-owner-selected-chart-reference-1",
+  "id": "henry-owner-selected-chart-reference-2",
   "bridgeId": "il-henry",
   "recordedDateUtc": "2026-09-26",
   "selectionStatus": "OWNER_SELECTED",
@@ -18,13 +18,27 @@
     "label": "NORMAL_POOL",
     "elevationFt": "439.8"
   },
-  "verticalDatum": null,
+  "verticalDatum": "NAVD88",
   "unitRealization": null,
   "gaugeAssociationApproved": false,
   "totalErrorValidated": false,
   "productionEligible": false,
   "historicalAlternatives": [
-    { "sourceId": "noaa-cp6-20260920", "clearanceFt": "59", "selected": false },
-    { "sourceId": "uscg-ll5-2024", "clearanceFt": "59.8", "note": "Historical comparison supports listed clearance but does not establish the reported elevations' datum." }
-  ]
+    {
+      "sourceId": "noaa-cp6-20260920",
+      "clearanceFt": "59",
+      "selected": false
+    },
+    {
+      "sourceId": "uscg-ll5-2024",
+      "clearanceFt": "59.8",
+      "note": "Historical comparison supports listed clearance but does not establish the reported elevations' datum."
+    }
+  ],
+  "supersedes": "henry-owner-selected-chart-reference-1",
+  "datumConfirmation": {
+    "source": "USER_CONFIRMATION",
+    "recordedDateUtc": "2026-09-26",
+    "scope": "Henry and all owner-supplied chart elevations use NAVD88. External feed datums remain source-specific."
+  }
 }
