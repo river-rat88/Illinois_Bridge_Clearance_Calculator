@@ -30,6 +30,8 @@ This implementation follows the confirmed specification with observations older 
 | Forecast maximum issue age | 21,600 seconds | Synthetic policy only |
 | Clearance precision | Down to 0.1 ft | Specification design choice; rounding included in error budget |
 
+The owner reported a separate company operating rule on September 27: leave at least **2 ft of actual air gap above the tow/vessel** when passing under a bridge. This does not change the page's simple bridge-to-water clearance calculation. No vessel air draft is stored, so the app cannot evaluate remaining gap or passage eligibility. A future optional passage assessment must use the tow's current highest-point air draft and validated uncertainty bounds; it may show a pass indication only if the conservative remaining gap is at least 2 ft. The owner is considering whether the initial under-six-inch data-accuracy target is too strict, but has not selected a replacement. The existing accuracy gate and unverified pilot labels remain in place; see [model §5.6](../illinois-bridge-clearance-model-spec.md#56-separate-vessel-passage-policy).
+
 ### Validation limits
 
 The synthetic tests prove programmed behavior for their inputs. They do not validate bridge elevations, gauge ties, real hydraulic relationships, sensor quality, or six-inch field accuracy. Approval flags and error allowances are trusted versioned inputs; the future administration/ingestion service must enforce who can approve them and retain the evidence.
