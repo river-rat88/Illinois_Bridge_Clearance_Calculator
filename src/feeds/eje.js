@@ -3,7 +3,7 @@ import { Q, stableStringify } from '../exact.js';
 import { hash, check, parseExact, utc } from './usgs-pilot.js';
 export const EJE_REFERENCE = JSON.parse(readFileSync(new URL('../../data/eje-bridge-reference.json',import.meta.url),'utf8'));
 export const SERIES = 'IL04.Elev-Tail.Inst.30Minutes.0.rev';
-export const ADAPTER_VERSION = 'eje-tailwater-pilot-2';
+export const ADAPTER_VERSION = 'eje-tailwater-pilot-3';
 // CWMS unit conversion can return more than nine decimal places. Preserve its literal digits.
 function cwmsDecimal(value) {
   check(typeof value==='string' && /^-?\d{1,9}(?:\.\d{1,18})?$/.test(value),'INVALID_VALUE');
@@ -13,7 +13,8 @@ const millis = value => Date.parse(utc(value));
 export function urlsFor(queryAt) {
   const end=utc(queryAt),begin=new Date(millis(queryAt)-172800000).toISOString();
   const query=new URLSearchParams({name:SERIES,office:'MVR',unit:'ft',datum:'NATIVE',begin,end,'page-size':'500'});
-  return {stage:`https://cwms-data.usace.army.mil/cwms-data/timeseries?${query}`,gauge:'https://cwms-data.usace.army.mil/cwms-data/locations/IL04?office=MVR&unit=EN'};
+  return {stage:`https://cwms-data.usace.army.mil/cwms-data/timeseries?${query}`,gauge:'https://cwms-data.usace.army.mil/cwms-data/locations/IL04?office=MVR&unit=EN',
+    noaaGauge:'https://api.water.noaa.gov/nwps/v1/gauges/cdii2'};
 }
 function source(snapshot,key,asOf) {
   const s=snapshot.sources?.[key];
@@ -69,11 +70,20 @@ export function evaluateEje(snapshot,asOf) {
     check(stage.status==='AVAILABLE',stage.status);
     const gauge=reference.gaugeReference,transform=gauge?.navd88Transform,model=reference.bridgeWaterModel;
     check(gauge?.gaugeId==='IL04' && gauge.seriesId===SERIES && gauge.valueKind==='ABSOLUTE_ELEVATION' && gauge.verticalDatum==='NGVD29' && gauge.unit==='ft' && stage.verticalDatum==='NGVD29','GAUGE_REFERENCE_UNRESOLVED');
-    check(gauge.status==='OWNER_REPORTED_TRANSFORM_PILOT' && transform?.id==='eje-owner-chart-ngvd29-to-navd88-1' &&
+    check(gauge.status==='PUBLISHED_NOAA_ZERO_OWNER_SCOPED_PILOT' && transform?.id==='eje-noaa-cdii2-ngvd29-to-navd88-1' &&
       transform.fromDatum==='NGVD29' && transform.toDatum==='NAVD88' && transform.operation==='ADD_OFFSET_TO_SOURCE_ELEVATION' && transform.offsetFt==='-0.21' &&
       transform.scope?.bridgeId==='il-eje' && transform.scope.gaugeId==='IL04' && transform.scope.seriesId===SERIES &&
-      transform.basis==='OWNER_REPORTED_ECHART' && transform.directionConfirmedDateUtc==='2026-09-27' && transform.independentlyVerified===false,
+      transform.basis==='PUBLISHED_NOAA_NWPS_METADATA' && transform.sourceGaugeId==='CDII2' && transform.sourceUrl===urlsFor(snapshot.queryAt).noaaGauge &&
+      transform.directionConfirmedDateUtc==='2026-09-27' && transform.effectiveEpochVerified===false &&
+      transform.crossAgencyGaugeTieValidated===false && transform.independentlyVerified===false,
       'DATUM_TRANSFORM_UNRESOLVED');
+    const noaa=source(snapshot,'noaaGauge',asOf),metadata=noaa.document;
+    check(metadata.lid==='CDII2' && metadata.name==='Illinois River at Dresden Lock (tailwater)' && metadata.pedts?.observed==='HTIRG','NOAA_GAUGE_IDENTITY_CHANGED');
+    check(cwmsDecimal(metadata.latitude).sub('41.39806').cmp('0.001')<0 && cwmsDecimal(metadata.latitude).sub('41.39806').cmp('-0.001')>0 &&
+      cwmsDecimal(metadata.longitude).sub('-88.27917').cmp('0.001')<0 && cwmsDecimal(metadata.longitude).sub('-88.27917').cmp('-0.001')>0,
+      'NOAA_GAUGE_LOCATION_CHANGED');
+    const navd88=metadata.datums?.vertical?.value?.filter(d=>d.abbrev==='NAVD88');
+    check(navd88?.length===1 && typeof navd88[0].value==='string' && Q.parse(navd88[0].value).cmp(transform.offsetFt)===0,'NOAA_DATUM_CHANGED');
     check(model?.bridgeId==='il-eje' && model.gaugeId==='IL04' && model.requiredSide==='TAILWATER' && model.type==='DIRECT' &&
       model.basis==='OWNER_ASSUMPTION' && model.validated===false && model.offsetFt==='0' && model.assumedMaxDifferenceInches==='2','MODEL_UNRESOLVED');
     const waterNgvd29=cwmsDecimal(stage.valueFt),waterNavd88=waterNgvd29.add(transform.offsetFt);
@@ -82,12 +92,13 @@ export function evaluateEje(snapshot,asOf) {
       historical:stage.delayed,late:stage.late,accuracyStatus:'UNVERIFIED',productionEligible:false,
       method:'LOW_STEEL_NAVD88_MINUS_CONVERTED_TAILWATER_NAVD88',openingPosition:'FULLY_OPEN',positionVerified:false,
       trace:{tailwaterNgvd29Ft:waterNgvd29.toJSON(),datumTransformId:transform.id,datumOffsetFt:transform.offsetFt,
+        noaaGaugeId:transform.sourceGaugeId,noaaMetadataSourceHash:noaa.source.sha256,
         waterElevationNavd88Ft:waterNavd88.toJSON(),lowSteelNavd88Ft:reference.lowSteelElevationFt,
         unroundedClearanceFt:exact.toJSON(),displayRoundingFt:exact.sub(display).toJSON(),
         modelId:model.id,bridgeMinusGaugeFt:model.offsetFt,
         assumedTransferDifferenceFt:Q.parse(model.assumedMaxDifferenceInches).div('12').toJSON(),
         sourceHash:stage.sourceHash,uncertaintyDeducted:false},
-      assumptions:['The owner reports that adding -0.21 ft converts Dresden NGVD29 tailwater to NAVD88 at EJE; chart edition, effective epoch and foot realization are not independently verified.',
+      assumptions:['NOAA CDII2 publishes a -0.21-ft NAVD88 gauge zero for Dresden tailwater; applying it to USACE IL04 NGVD29 elevation is a pilot cross-agency tie with unverified epoch and foot realization.',
         'Bridge water elevation equals Dresden tailwater; owner assumes a difference within two inches.',
         'The lift span is fully open; its actual position and the overall six-inch accuracy target have not been verified.']};
   } catch(e) { clearance={status:e.code||'INVALID_REFERENCE',valueFt:null,productionEligible:false}; }

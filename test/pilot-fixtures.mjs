@@ -11,7 +11,7 @@ async function fixture(folder,names,urls,now) {
  })))};
 }
 const morris=await fixture('morris',{stage:'usgs-latest',series:'usgs-series',gauge:'nwps-gauge',forecast:'nwps-forecast'},URLS,MORRIS_NOW);
-const eje={...await fixture('eje',{stage:'cwms-tailwater',gauge:'cwms-location'},urlsFor(EJE_NOW),EJE_NOW),queryAt:EJE_NOW};
+const eje={...await fixture('eje',{stage:'cwms-tailwater',gauge:'cwms-location',noaaGauge:'nwps-gauge'},urlsFor(EJE_NOW),EJE_NOW),queryAt:EJE_NOW};
 export const makeMorrisSnapshot=()=>structuredClone(morris);
 export const makeEjeSnapshot=()=>structuredClone(eje);
 export function change(s,key,fn){const d=JSON.parse(s.sources[key].body);fn(d);s.sources[key].body=JSON.stringify(d);s.sources[key].sha256=hash(s.sources[key].body);}

@@ -37,13 +37,14 @@ test('Morris forecast uses LOT product and correct gauge when a fresh run is pre
  const r=morris(s);assert.equal(r.forecast.status,'AVAILABLE');assert.equal(r.forecast.direction,'STEADY');assert.equal(r.forecast.gaugeId,'MORI2');
  change(s,'forecast',d=>d.wfo='ILX');assert.notEqual(morris(s).forecast.status,'AVAILABLE');assert.equal(morris(s).clearance.valueFt,'49.0');
 });
-test('EJE applies the owner-directed local datum correction exactly to Dresden tailwater',()=>{
+test('EJE verifies NOAA CDII2 NAVD88 zero and applies the local datum tie exactly to Dresden tailwater',()=>{
  const s=makeEjeSnapshot(),r=eje(s);
  assert.equal(r.stage.status,'AVAILABLE');assert.equal(r.stage.valueKind,'ABSOLUTE_ELEVATION');assert.equal(r.stage.verticalDatum,'NGVD29');
  assert.equal(r.stage.gaugeZeroAdded,false);assert.equal(r.stage.displayValueFt,'485.01');assert.equal(r.stage.approvalStatus,'Unscreened USACE data');
  assert.equal(r.stage.delayed,true);assert.equal(r.clearance.status,'ESTIMATED');assert.equal(r.clearance.valueFt,'58.6');
  assert.equal(r.clearance.historical,true);assert.equal(r.clearance.accuracyStatus,'UNVERIFIED');assert.equal(r.clearance.productionEligible,false);
  assert.equal(r.clearance.trace.datumOffsetFt,'-0.21');
+ assert.equal(r.clearance.trace.noaaGaugeId,'CDII2');assert.equal(r.clearance.trace.noaaMetadataSourceHash,s.sources.noaaGauge.sha256);
  assert.deepEqual(r.clearance.trace.waterElevationNavd88Ft,{numerator:'1212021605781',denominator:'2500000000',unit:'ft'});
  assert.deepEqual(r.clearance.trace.unroundedClearanceFt,{numerator:'146728394219',denominator:'2500000000',unit:'ft'});
  assert.equal(r.clearance.trace.uncertaintyDeducted,false);assert.equal(r.clearance.openingPosition,'FULLY_OPEN');
@@ -66,6 +67,18 @@ test('EJE withholds clearance when the chart transform direction, scope, or mode
    r=>r.pilotEstimateEnabled=false
  ]){const s=makeEjeSnapshot();s.bridgeReference=structuredClone(eje(s).bridgeReference);mutate(s.bridgeReference);
    assert.equal(eje(s).clearance.valueFt,null);assert.equal(eje(s).stage.status,'AVAILABLE');}
+ });
+test('EJE withholds clearance when NOAA metadata is missing, changed, or unaudited',()=>{
+ for(const fn of [d=>d.lid='OTHER',d=>d.datums.vertical.value[0].value=-0.2,
+   d=>d.datums.vertical.value[0].abbrev='NGVD29',d=>d.latitude=40]){
+  const s=makeEjeSnapshot();change(s,'noaaGauge',fn);
+  assert.notEqual(eje(s).clearance.status,'ESTIMATED');assert.equal(eje(s).clearance.valueFt,null);
+  assert.equal(eje(s).stage.status,'AVAILABLE');
+ }
+ const s=makeEjeSnapshot();s.sources.noaaGauge.httpStatus=503;
+ assert.equal(eje(s).clearance.status,'SOURCE_UNAVAILABLE');assert.equal(eje(s).stage.status,'AVAILABLE');
+ const bad=makeEjeSnapshot();bad.sources.noaaGauge.body+=' ';
+ assert.equal(eje(bad).clearance.status,'SOURCE_HASH_MISMATCH');
 });
 test('Dresden rejects pool substitution, schema changes, incomplete windows, duplicate times and invalid latest points',()=>{
  for(const [key,fn] of [
