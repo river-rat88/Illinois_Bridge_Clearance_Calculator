@@ -5,7 +5,7 @@
 **Status:** Initial system design; owner requirements updated September 26, 2026. Observation lateness threshold confirmed as 24 hours.
 **Confirmed scope (revised September 26):** Illinois Waterway miles 0–279, from the Mississippi River at Grafton through the Illinois River and into the lower Des Plaines River. This supersedes the earlier 0–273 limit. The Chicago River, Chicago Sanitary and Ship Canal, Cal-Sag Channel and reaches above mile 279 remain excluded. The main page lists bridges in ascending river-mile order by default, with each mile marker visible even when clearance is unavailable.
 
-**Confirmed presentation requirements:** Lift-bridge clearances are calculated for the fully open position. Show simple calculated clearance, without subtracting an uncertainty allowance or operating margin. The desired total clearance error is strictly less than six inches (0.5 ft). Include forecast river direction separately from observed stage and calculated clearance. Mark observations older than 24 hours as `LATE`.
+**Confirmed presentation requirements:** Lift-bridge clearances are calculated for the fully open position. Show simple calculated clearance, without subtracting an uncertainty allowance or operating margin. The initial desired total clearance error is strictly less than six inches (0.5 ft); the owner is reviewing whether this target is necessary given a separate two-foot minimum remaining-clearance operating policy. Include forecast river direction separately from observed stage and calculated clearance. Mark observations older than 24 hours as `LATE`.
 
 ## 1. Design position
 
@@ -215,6 +215,18 @@ Record the evidence type for each error allowance: reviewed engineering bound, s
 For the recommended production acceptance gate, withhold a current-clearance number when the total error allowance is unknown or reaches 0.5 ft; show `ACCURACY_UNVERIFIED` or `ACCURACY_LIMIT_EXCEEDED` and retain the bridge row. Meeting the numerical gate is not a guarantee of real-world error. Its confidence/coverage and operating envelope must be approved during validation.
 
 Calculate to at least 0.001 ft internally. Display clearance by rounding downward to 0.1 ft; this formatting is not a safety margin, and its downward difference of less than 0.1 ft counts toward the total error budget. Show listed clearance at its published precision and record the unrounded calculated result in the audit record.
+
+### 5.6 Separate vessel passage policy
+
+On September 27, 2026 the owner reported a company policy requiring **at least 2.0 ft of actual vertical clearance above the tow/vessel** when passing under a bridge. This is a minimum *remaining air gap*, not a requirement that the water-to-bridge clearance displayed on this page exceed 2 ft. The page has no vessel/tow air draft, so it cannot currently evaluate the policy or label a passage acceptable.
+
+For a future optional passage assessment, let \(A\) be the highest point's air draft above the waterline, including applicable load, trim and configuration. The simple bridge clearance remains \(C_b=S_b-W_b\). Estimated remaining gap is \(M=C_b-A\). If defensible absolute error bounds \(U_C\) for bridge clearance and \(U_A\) for air draft exist over the relevant time and operating conditions, a conservative policy test is:
+
+\[
+C_b-A-U_C-U_A\geq 2.0\text{ ft}.
+\]
+
+Unknown bounds, stale data, unknown opening position or an unverified vessel profile must yield **not assessed**, never a pass indication. The two feet cannot also be counted as a measurement-error allowance: if the estimated gap is exactly 2.0 ft and the clearance might be 0.5 ft less than estimated, the actual gap might be only 1.5 ft. The earlier six-inch accuracy objective is a *data-quality target*, separate from the two-foot *minimum physical gap*. The owner has suggested reviewing the accuracy target, but no replacement numerical target or error coverage has been approved; retain the initial target and pilot/production gates pending that decision. The page must continue showing the unadjusted simple bridge-clearance number.
 
 ## 6. Bridge-to-gauge association
 
@@ -506,13 +518,15 @@ Confirmed by the owner on September 25, 2026:
 2. Lift-bridge listed and calculated clearances use the **fully open** position.
 3. Desired total clearance error is **under six inches**, subject to demonstrated data/model capability.
 4. Include **forecast river direction**, separately from observed stage.
-5. Show **simple calculated clearance**, without an uncertainty or operating-margin deduction.
+5. Show **simple calculated bridge clearance**, without an uncertainty or operating-margin deduction.
 6. Mark observations **older than 24 hours** as `LATE`, measured from observation time, not download time.
+7. The owner reports a company minimum of **2.0 ft actual remaining gap above the tow/vessel** under a bridge. This is a separate passage policy requiring vessel air draft; the directory does not currently assess it.
 
 Pending clarification or validation:
 
 - The next-24-hours forecast window and 0.1-ft direction deadband are proposed implementation defaults, not owner-specified values.
 - The six-inch target requires reviewed uncertainty evidence and a documented coverage level/operating envelope; it cannot be promised from unvalidated source data.
+- The owner is considering relaxing the six-inch data-quality target, but has not supplied a replacement target or validated error bound. The two-foot operating minimum does not by itself determine an acceptable error bound.
 - Finalize calculation-stop/accuracy-age rules separately from the late label. A late label alone does not establish whether a historical number should remain visible.
 
 ## References
