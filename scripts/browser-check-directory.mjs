@@ -1,0 +1,48 @@
+import { evaluateMorris } from '../src/feeds/morris.js';
+import { evaluateEje } from '../src/feeds/eje.js';
+import { makeMorrisSnapshot, makeEjeSnapshot, MORRIS_NOW, EJE_NOW } from '../test/pilot-fixtures.mjs';
+import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import { readFile } from 'node:fs/promises';
+import { makeServer } from '../server.mjs';
+import { evaluateHenry, URLS, hash } from '../src/feeds/henry.js';
+const require=createRequire(import.meta.url);
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE || 'playwright');
+const now='2026-09-25T20:25:00.000Z';
+const names={stage:'usgs-latest',series:'usgs-series',gauge:'nwps-gauge',forecast:'nwps-forecast'};
+const sources=Object.fromEntries(await Promise.all(Object.entries(names).map(async([key,name])=>{
+ const body=await readFile(new URL(`../test/fixtures/henry/${name}.json`,import.meta.url),'utf8');
+ return [key,{body,sha256:hash(body),url:URLS[key],httpStatus:200,contentType:'application/json',receivedAt:now}];
+})));
+// Fixed fixtures exercise page behavior; they are never saved as live screenshots.
+let outage=false;
+const server=makeServer({morrisService:{get:async()=>({result:evaluateMorris(makeMorrisSnapshot(),MORRIS_NOW)})},ejeService:{get:async()=>({result:evaluateEje(makeEjeSnapshot(),EJE_NOW)})},henryService:{get:async()=>{if(outage)throw new Error('test outage');return {result:evaluateHenry({sources},now)};}}});
+await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+let browser;
+try {
+ browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_EXECUTABLE?{executablePath:process.env.CHROMIUM_EXECUTABLE}:{})});
+ const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(`http://127.0.0.1:${server.address().port}`);
+ await page.waitForFunction(()=>document.getElementById('available').textContent==='2');
+ assert.equal(await page.locator('tr[data-bridge]').count(),37);
+ assert.equal(await page.locator('tr[data-bridge]').first().getAttribute('data-bridge'),'il-hardin');
+ assert.equal(await page.locator('tr[data-bridge]').last().getAttribute('data-bridge'),'il-i55-desplaines');
+ assert.match(await page.locator('[data-bridge="il-henry"]').innerText(),/56.9/);
+ assert.match(await page.locator('[data-bridge="il-morris"]').innerText(),/50.4/);
+ assert.match(await page.locator('[data-bridge="il-morris"]').innerText(),/49.0/);
+ assert.match(await page.locator('[data-bridge="il-eje"]').innerText(),/NGVD29/);
+ assert.match(await page.locator('[data-bridge="il-eje"]').innerText(),/58.6/);
+ assert.match(await page.locator('[data-bridge="il-eje"]').innerText(),/Fully open/);
+ await page.locator('[data-record="il-eje"]').click();assert.match(await page.locator('#detail-il-eje').innerText(),/543.5/);
+ await page.locator('#search').fill('263.5');assert.equal(await page.locator('tr[data-bridge]').count(),1);
+ await page.locator('#search').fill('not a bridge');assert.equal(await page.locator('#empty').isVisible(),true);
+ await page.locator('#search').fill('');await page.locator('#order').selectOption('down');
+ assert.equal(await page.locator('tr[data-bridge]').first().getAttribute('data-bridge'),'il-i55-desplaines');
+ await page.locator('#show-historical').check();assert.equal(await page.locator('tr[data-bridge]').count(),38);
+ await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+ outage=true;await page.locator('#refresh').click();await page.waitForFunction(()=>!document.getElementById('refresh').disabled);
+ assert.equal(await page.locator('tr[data-bridge]').count(),38);
+ assert.doesNotMatch(await page.locator('[data-bridge="il-henry"]').innerText(),/56.9/);
+ assert.equal(await page.locator('#available').innerText(),'1');assert.deepEqual(errors,[]);
+ console.log('Directory browser checks passed: ordering, references, filters, records, mobile width, and outage retention.');
+} finally {if(browser)await browser.close();await new Promise(resolve=>server.close(resolve));}

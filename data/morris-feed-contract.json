@@ -1,0 +1,92 @@
+{
+  "series": {
+    "id": "eaa4fff04ce7425083d4493374156c10",
+    "monitoring_location_id": "USGS-05542500",
+    "parameter_code": "00065",
+    "unit_of_measure": "ft",
+    "statistic_id": "00011",
+    "computation_period_identifier": "Points",
+    "computation_identifier": "Instantaneous",
+    "primary": "Primary",
+    "sublocation_identifier": null,
+    "thresholds": [
+      {
+        "Name": "Peak Stage, 24.80 ft, May 19, 2020.",
+        "Type": "None",
+        "Periods": [
+          {
+            "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+            "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+            "AppliedTime": "2024-08-26T19:20:04.1264722Z",
+            "SuppressData": false,
+            "ReferenceValue": 24.8,
+            "SecondaryReferenceValue": 21
+          }
+        ],
+        "Severity": 0,
+        "Description": "Display reference value",
+        "DisplayColor": "#990600",
+        "ReferenceCode": "NWISWeb ref level - Public",
+        "ProcessingOrder": "Suppression"
+      },
+      {
+        "Name": "Operational limit (maximum)",
+        "Type": "ThresholdAbove",
+        "Periods": [
+          {
+            "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+            "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+            "AppliedTime": "2017-05-02T00:54:27.2521209Z",
+            "SuppressData": true,
+            "ReferenceValue": 30,
+            "SecondaryReferenceValue": 27
+          }
+        ],
+        "Severity": 0,
+        "Description": "Values above a specified threshold limit",
+        "DisplayColor": "#CCCCCC",
+        "ReferenceCode": "Operational limit - high-Public",
+        "ProcessingOrder": "Suppression"
+      },
+      {
+        "Name": "Operational limit (minimum)",
+        "Type": "ThresholdBelow",
+        "Periods": [
+          {
+            "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+            "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+            "AppliedTime": "2017-05-02T00:54:27.4878704Z",
+            "SuppressData": true,
+            "ReferenceValue": 1,
+            "SecondaryReferenceValue": 1.2
+          }
+        ],
+        "Severity": 0,
+        "Description": "Values below a specified threshold limit",
+        "DisplayColor": "#666666",
+        "ReferenceCode": "Operational limit - low-Public",
+        "ProcessingOrder": "Suppression"
+      },
+      {
+        "Name": "National Weather Service Flood Stage",
+        "Type": "None",
+        "Periods": [
+          {
+            "EndTime": "9999-12-31T23:59:59.9999999+00:00",
+            "StartTime": "0001-01-01T00:00:00.0000000+00:00",
+            "AppliedTime": "2019-05-13T15:38:41.4339439Z",
+            "SuppressData": false,
+            "ReferenceValue": 16,
+            "SecondaryReferenceValue": 12
+          }
+        ],
+        "Severity": 0,
+        "Description": "Display reference value",
+        "DisplayColor": "#990600",
+        "ReferenceCode": "NWISWeb ref level - Public",
+        "ProcessingOrder": "Suppression"
+      }
+    ],
+    "data_gap_interval": "PT1H12M"
+  }
+}

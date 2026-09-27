@@ -1,0 +1,79 @@
+{
+  "id": "eje-owner-selected-chart-reference-5",
+  "bridgeId": "il-eje",
+  "recordedDateUtc": "2026-09-26",
+  "selectionStatus": "OWNER_SELECTED",
+  "source": {
+    "type": "USER_REPORTED_ECHART",
+    "description": "Owner reports mile 270.6 and fully open clearance 61 ft at pool 482.5 ft, then confirms corrected fully open low steel 543.5 ft NAVD88.",
+    "chartProduct": null,
+    "chartEdition": null,
+    "surveyEffectiveDate": null
+  },
+  "riverMile": "270.6",
+  "routeMeasureSystem": "IL_RM_ABOVE_MOUTH",
+  "openingPosition": "FULLY_OPEN",
+  "publishedClearanceFt": "61",
+  "lowSteelElevationFt": "543.5",
+  "lowSteelPosition": "FULLY_OPEN",
+  "referenceSurface": {
+    "label": "POOL_LEVEL",
+    "elevationFt": "482.5"
+  },
+  "verticalDatum": "NAVD88",
+  "datumBasis": "Owner previously confirmed all supplied chart elevations use NAVD88.",
+  "unitRealization": null,
+  "reconciliation": {
+    "status": "RESOLVED_BY_OWNER",
+    "previousReportedLowSteelFt": "513.5",
+    "previousLowSteelPosition": "UNCONFIRMED",
+    "confirmedFullyOpenLowSteelFt": "543.5",
+    "confirmationDateUtc": "2026-09-26",
+    "note": "The initial reported low-steel elevation was superseded by the owner; no closed-position elevation is independently confirmed."
+  },
+  "pilotEstimateEnabled": true,
+  "gaugeAssociationApproved": false,
+  "totalErrorValidated": false,
+  "productionEligible": false,
+  "supersedes": "eje-owner-selected-chart-reference-4",
+  "gaugeReference": {
+    "gaugeId": "IL04",
+    "seriesId": "IL04.Elev-Tail.Inst.30Minutes.0.rev",
+    "valueKind": "ABSOLUTE_ELEVATION",
+    "verticalDatum": "NGVD29",
+    "unit": "ft",
+    "navd88Transform": {
+      "id": "eje-noaa-cdii2-ngvd29-to-navd88-1",
+      "fromDatum": "NGVD29",
+      "toDatum": "NAVD88",
+      "operation": "ADD_OFFSET_TO_SOURCE_ELEVATION",
+      "offsetFt": "-0.21",
+      "scope": {
+        "bridgeId": "il-eje",
+        "gaugeId": "IL04",
+        "seriesId": "IL04.Elev-Tail.Inst.30Minutes.0.rev"
+      },
+      "basis": "PUBLISHED_NOAA_NWPS_METADATA",
+      "sourceGaugeId": "CDII2",
+      "sourceUrl": "https://api.water.noaa.gov/nwps/v1/gauges/cdii2",
+      "directionConfirmedDateUtc": "2026-09-27",
+      "effectiveEpochVerified": false,
+      "crossAgencyGaugeTieValidated": false,
+      "unitRealization": null,
+      "independentlyVerified": false
+    },
+    "status": "PUBLISHED_NOAA_ZERO_OWNER_SCOPED_PILOT"
+  },
+  "bridgeWaterModel": {
+    "id": "eje-owner-assumed-tailwater-direct-1",
+    "type": "DIRECT",
+    "bridgeId": "il-eje",
+    "gaugeId": "IL04",
+    "requiredSide": "TAILWATER",
+    "offsetFt": "0",
+    "assumedMaxDifferenceInches": "2",
+    "basis": "OWNER_ASSUMPTION",
+    "recordedDateUtc": "2026-09-26",
+    "validated": false
+  }
+}

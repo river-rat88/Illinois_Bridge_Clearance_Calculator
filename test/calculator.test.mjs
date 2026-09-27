@@ -124,7 +124,7 @@ test('reach, regime, scope, and validated model range are enforced', async () =>
   for (const [change, status] of [
     [i => { i.gauges[0].reachId = 'across-dam'; }, 'HYDRAULIC_BOUNDARY'],
     [i => { i.regime = 'OPEN_PASS'; }, 'MODEL_UNAPPROVED'],
-    [i => { i.bridge.riverMile = '273.001'; }, 'OUT_OF_SCOPE'],
+    [i => { i.bridge.riverMile = '279.001'; }, 'OUT_OF_SCOPE'],
     [i => { i.model.waterRanges['gauge-a'].maxFt = '505'; }, 'OUT_OF_RANGE'],
     [i => { i.model.approved = false; }, 'MODEL_UNAPPROVED']
   ]) assert.equal((await result(change)).status, status);
@@ -181,4 +181,9 @@ test('source-payload corruption blocks a downloadable numeric receipt', async ()
   const r = await createReceipt(i);
   assert.equal(r.result.status, 'SOURCE_HASH_MISMATCH'); assert.equal(r.result.clearanceFt, null);
   assert.equal(r.result.forecast.direction, 'UNAVAILABLE');
+});
+
+test('expanded waterway scope includes mile 279 and rejects values beyond either endpoint', async () => {
+  for (const mile of ['0','277.9','279']) assert.equal((await result(i=>i.bridge.riverMile=mile)).status,'AVAILABLE');
+  for (const mile of ['-0.1','279.1']) assert.equal((await result(i=>i.bridge.riverMile=mile)).status,'OUT_OF_SCOPE');
 });

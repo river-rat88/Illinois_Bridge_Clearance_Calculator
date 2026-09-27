@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "scope": {
+    "minimumRiverMile": "0",
+    "maximumRiverMile": "279",
+    "waterway": "Illinois Waterway through the lower Des Plaines River"
+  },
+  "source": {
+    "id": "noaa-cp6-desplaines-20260920",
+    "title": "NOAA Coast Pilot 6, Des Plaines River structures",
+    "url": "https://www.nauticalcharts.noaa.gov/publications/coast-pilot/files/cp6/CPB6_WEB.pdf",
+    "edition": "20 SEP 2026",
+    "retrievedDate": "2026-09-26",
+    "locator": "Printed page 389, PDF page 395",
+    "originalSha256": "eb0302ba77a781bf77e6437228dff619dab81854171664eea917b8d8c1ceb0ac",
+    "evidencePath": "evidence/noaa-cp6-desplaines-20260920.txt",
+    "evidenceSha256": "3d30ad5bd1fddf2514be20f2ac694f532551e378fbac84b9f59fe34dc97d8992"
+  },
+  "bridges": [
+    {
+      "id": "il-i55-desplaines",
+      "nameAsPublished": "I-55 bridges",
+      "derivedRiverMile": "277.9",
+      "mileDerivation": "327.2 - 49.3; provisional route crosswalk",
+      "coastPilot": {
+        "sourceId": "noaa-cp6-desplaines-20260920",
+        "printedPage": 389,
+        "milesFromChicagoLock": "49.3",
+        "type": "fixed",
+        "poolClearanceFt": "47",
+        "highWaterClearanceFt": "41",
+        "referenceSurfaceLabel": "POOL_LEVEL",
+        "poolElevation": null,
+        "verticalDatum": null
+      },
+      "historicalLightList": null,
+      "lifecycle": "CURRENT_PHYSICAL_STATUS_UNVERIFIED",
+      "issues": [
+        "PHYSICAL_STRUCTURE_ID_UNVERIFIED",
+        "REFERENCE_SURFACE_TIE_UNVERIFIED",
+        "UNIT_REALIZATION_UNVERIFIED"
+      ],
+      "productionEligible": false,
+      "approvedGaugeAssociation": null
+    }
+  ]
+}

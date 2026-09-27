@@ -1,0 +1,88 @@
+20 SEP 2026                                                                                                                           U.S. Coast Pilot 6, Chapter 11﻿            ¢   389
+
+
+ (671)
+
+  Structures across Des Plaines River
+
+                                                                                                                            Clear Height
+                                                                                                                            above Water
+                                                                                                                            Datum (feet)
+
+                                                                                        Clear Width of Draw or                 Pool      High
+  Name•Description•Type                                                          Miles* Span Opening (feet)**                  Level     Water       Information
+
+  West end of the Chicago Sanitary and Ship Canal                                  37.1
+
+                                                                                                                                                     Notes 1 and 9
+  Lockport-Elgin, Joliet & Eastern Railroad Bridge (vertical lift)                 37.2     225                            24           20
+                                                                                                                                                     (WHX-746)
+
+                                                                                                                                                     Notes 2, 3, 5 and 9
+  Ruby Street / State Route 53 Bridge (bascule)                                    38.5     200 (right draw)               16           13
+                                                                                                                                                     (WZQ-8761)
+
+  Jackson Street Bridge (bascule)                                                  38.8     150                            16           13           Notes 4 and 5
+
+  Cass Street / US 30 Bridge (bascule)                                             39.1     150                            16           13           Notes 4 and 5
+
+  Jefferson Street Bridge (bascule)                                                39.4     150                            16           13           Notes 4 and 5
+
+  Chicago, Rock Island & Pacific Railroad Bridge (vertical lift)                   39.6     150                            9            6            Notes 6, 8 and 10
+                                                                                                                                                     (KUF-907)
+
+                                                                                                                                                     Notes 2, 4, 5 and 9
+  McDonough Street / US 6 / US 52 Bridge (bascule)                                 39.8     150                            16           14
+                                                                                                                                                     (WZQ-8761)
+
+  I-80 Bridges (fixed)                                                             40.3     300                            46           43
+
+  Brandon Road Lock and junction with Illinois and Michigan Canal                  41.2
+
+  Brandon Road Bridge (bascule)                                                    41.4     110                                         8            WZQ-8761
+
+  Overhead conveyor                                                                42.3     480                                         48           Suspension
+
+  I-55 Bridges (fixed)                                                             49.3     420                            47           41
+
+  Junction with Kankakee River (Head of Illinois River)                            54.3                                                              Note 7
+
+  * Miles above the end of Chicago Lock (41°53'18"N., 87°36'28"W.)
+  ** Clear width in feet proceeding away from Lake Michigan
+
+  Note 1 – Bridge kept in the open position except for the passage of a train.
+  Note 2 – Bridge clearance gages have been installed at Joliet near the upstream end of the retaining wall above Ruby Street for the guidance of downbound vessels
+  and on the left bridge pier downstream of McDonough Street for the guidance of upbound vessels. The gages are set to show the actual clearance between the water
+  surface and the low steel of the bridges for the center 80-foot width of span. A sign over the gages reads, “Closed Vertical Clearance for Center 80 Feet of Span Joliet City
+  Bridges.” Masters of all vessels that can safely pass under the bridges in closed position are requested to do so and refrain from opening the bridges whenever possible.
+  Note 3 – Clear heights are for 105-foot width.
+  Note 4 – Clear heights are for 80-foot width.
+  Note 5 – See 33 CFR 117.1 through 117.59 and 117.395, chapter 2, for drawbridge regulations.
+  Note 6 – Span raises 41.5 feet above heights shown. Several collisions have occurred at this bridge, and vessel masters are urged to reduce speed and exercise
+  caution when
+  passing the bridge.
+  Note 7 – For continuation, see the table of bridges across the Illinois River.
+  Note 8 – See 33 CFR 117.1 through 117.49, chapter 2, for drawbridge regulations.
+  Note 9 – The bridgetender monitors VHF-FM channel 16 and works on channel 13.
+  Note 10 – The bridgetender monitors VHF-FM channel 16 and works on channel 14.
+
+
+       the Illinois River is 46 feet above normal pool level (34                                  feet long and 110 feet wide with a depth over the sills
+       feet above extreme High water). (See the bridge tables                                     of 15 feet and a nominal lift of 2 feet. Passage through
+       following.)                                                                                the lock is governed by flashing traffic signal lights on
+ (681)		     Overhead cables–Numerous overhead cables cross                                       the west lock wall near the upper and lower lock gates.
+       all these channels but do not obstruct any craft that can                                  (See 33 CFR 207.300 and 207.425, chapter 2, for lock
+       pass under the bridges.                                                                    regulations.) With favorable river conditions or when for
+ (682)                                                                                            any reason the lock is not being operated, the lock gates
+       Locks                                                                                      at both ends of the chamber will be fully opened. At such
+ (683)		    The Illinois Waterway has nine U.S. Government                                        times, navigation through the lock remains under control
+       locks including Chicago Lock at the mouth of the                                           of the lockmaster and the following regulations apply: for
+       Chicago River. (See 33 CFR 207.300, chapter 2, for lock                                    commercial craft, the speed limit through the chamber
+       regulations in the Illinois Waterway.)                                                     is 4 mph, passing in the lock chamber in either direction
+ (684)		    The Thomas J. O’Brien Lock is on the west side of                                     is prohibited and stopping along or tying up to the lock
+       the Calumet River about 0.7 mile above Turning Basin                                       or guide walls is prohibited; for recreational craft, speed
+       No. 5 in Calumet Harbor. A dam with controlling works                                      through the chamber shall be commensurate with safety
+       extends from the lock wall east across the river and                                       but not more than 4 mph, passing commercial craft in
+       allows passage through the lock only. The lock is 1,000                                    either direction is prohibited and the lock is to be used
+                                                                                                  for through navigation only.
+

@@ -2,8 +2,8 @@
 
 ## Data and Mathematical Model Specification
 
-**Status:** Initial system design; owner requirements updated September 25, 2026. Observation lateness threshold confirmed as 24 hours.
-**Confirmed scope:** Illinois River miles 0–273 only, from the Mississippi River at Grafton to the head of the Illinois River. The Chicago River, Chicago Sanitary and Ship Canal, Cal-Sag Channel, and Des Plaines River are excluded from phase 1.
+**Status:** Initial system design; owner requirements updated September 26, 2026. Observation lateness threshold confirmed as 24 hours.
+**Confirmed scope (revised September 26):** Illinois Waterway miles 0–279, from the Mississippi River at Grafton through the Illinois River and into the lower Des Plaines River. This supersedes the earlier 0–273 limit. The Chicago River, Chicago Sanitary and Ship Canal, Cal-Sag Channel and reaches above mile 279 remain excluded. The main page lists bridges in ascending river-mile order by default, with each mile marker visible even when clearance is unavailable.
 
 **Confirmed presentation requirements:** Lift-bridge clearances are calculated for the fully open position. Show simple calculated clearance, without subtracting an uncertainty allowance or operating margin. The desired total clearance error is strictly less than six inches (0.5 ft). Include forecast river direction separately from observed stage and calculated clearance. Mark observations older than 24 hours as `LATE`.
 
@@ -489,7 +489,7 @@ Back-test bridge-water models against independent observations over low, normal,
 
 ## 14. Recommended implementation sequence
 
-1. **Apply confirmed phase-1 scope.** Illinois River miles 0–273 only, fully open lift bridges, simple calculated clearance, forecast direction, observations older than 24 hours marked late, and an under-six-inch total error target. Finalize calculation-eligibility age rules separately; resolve whether locks/dam service bridges count as “bridges.”
+1. **Apply confirmed phase-1 scope.** Illinois Waterway miles 0–279, fully open lift bridges, simple calculated clearance, forecast direction, observations older than 24 hours marked late, and an under-six-inch total error target. Finalize calculation-eligibility age rules separately; resolve whether locks/dam service bridges count as “bridges.”
 2. **Build and review the bridge catalog.** Extract the current Coast Pilot table, reconcile USACE IDs/names/miles, and preserve aliases and inactive spans.
 3. **Build the datum registry.** Load gauge-zero epochs, pool/high-water/LWRP reference surfaces, and documented transformations.
 4. **Inventory gauges and hydraulic reaches.** Assign candidate primary/fallback series and expected freshness policies.
@@ -502,7 +502,7 @@ Back-test bridge-water models against independent observations over low, normal,
 
 Confirmed by the owner on September 25, 2026:
 
-1. Illinois River only means river miles **0–273**.
+1. Initially 0–273; revised September 26 to Illinois Waterway miles **0–279**, including the lower Des Plaines reach.
 2. Lift-bridge listed and calculated clearances use the **fully open** position.
 3. Desired total clearance error is **under six inches**, subject to demonstrated data/model capability.
 4. Include **forecast river direction**, separately from observed stage.
@@ -532,3 +532,7 @@ Pending clarification or validation:
 For the initial pilot, the owner accepts equal bridge/gauge water elevation with an assumed difference within two inches (exactly 1/6 ft). Record this per selected bridge/gauge model as an owner assumption, not a field-validated bound, and deduct no allowance from simple calculated clearance. This does not authorize automatic nearest-gauge assignment across locks or hydraulic reaches.
 
 Henry uses low steel 499.6 ft NAVD88 and the published HNYI2 gauge zero 425.85 ft NAVD88: estimated clearance = 73.75 ft − observed stage. The pilot explicitly assumes this zero applies to the observation while effective-epoch and foot-realization verification remain pending. Display the result as an estimate at observation time with overall accuracy unverified; retain exact arithmetic, metadata checks, strict >24-hour lateness, forecast separation and full receipts. Delayed/late results must be historical, not current. Missing or invalid inputs withhold the estimate. This pilot exception does not change the validated production acceptance gate or demonstrate the overall six-inch target.
+
+## Pilot source update — September 26, 2026
+
+Morris/MORI2 uses USGS 05542500 instantaneous stage, NOAA’s published 478.17-ft NAVD88 zero and owner-selected 532.9-ft low steel NAVD88. Its assumption-labeled pilot formula is `532.9 − (478.17 + observed stage)`, with the 2-inch transfer assumption recorded but not deducted. Dresden/IL04 tailwater is an absolute NGVD29 elevation. EJE’s fully open low steel is 543.5 ft NAVD88 from the owner's e-chart. On September 27, 2026, the owner clarified that the −0.21-ft NAVD88 datum value comes from NOAA's Dresden tailwater hydrograph, not the chart, and confirmed its intended direction. The versioned pilot formula is `543.5 − (Dresden tailwater NGVD29 − 0.21)`, with NOAA CDII2 gauge metadata archived and validated before calculation. Applying its published gauge zero to the USACE IL04 tailwater is an unverified cross-agency pilot tie scoped to EJE's Dresden tailwater association; it is not a generic river-wide datum offset or a substitute for the upper-pool reading. The source datum, observation age, chart provenance gaps and unverified fully open position are displayed. Chart edition, effective survey epoch, foot realization, bridge-water transfer, cross-agency datum tie and total error validation remain open. Forecast direction requires a station-specific verified product and a labeled window; absence cannot be replaced by another station’s forecast. None of these pilot estimates demonstrates the overall six-inch accuracy target.

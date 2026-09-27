@@ -24,7 +24,7 @@ async function update() {
     if (s.observedAt) { text('stage-time', `Observed ${time(s.observedAt)}`); text('stage-age', `${age(s.ageSeconds)} · downloaded ${time(s.receivedAt)}`); text('quality', `${s.approvalStatus} USGS data${s.approvalStatus === 'Provisional' ? ' — subject to revision' : ''}`); }
     text('forecast', f.status === 'AVAILABLE' ? ({ RISING: '↑ Rising', FALLING: '↓ Falling', STEADY: '→ Steady', VARIABLE: '↕ Variable' })[f.direction] : 'Unavailable');
     text('forecast-time', f.status === 'AVAILABLE' ? `Issued ${time(f.issuedAt)}` : f.status.replaceAll('_',' '));
-    if (f.windowEnd) text('forecast-window', `Through ${time(f.windowEnd)}`);
+    if (f.windowEnd) text('forecast-window', `Forecast window: ${time(f.windowStart)} through ${time(f.windowEnd)}`);
     if (r.historicalStage) { const h = r.historicalStage; el('history').hidden = false; text('history-text', `${h.valueFt} ft · ${time(h.observedAt)} · ${age(h.ageSeconds)}${h.late ? ' · LATE' : ''}. Latest retrieval was not usable.`); }
     text('checked', `Evaluated ${time(r.asOf)} · upstream checks at most every 5 min`);
     el('pilot-error').hidden = true; el('audit').disabled = false;

@@ -1,6 +1,6 @@
 import { Q, feet, sha256, stableStringify } from './exact.js';
 
-export const FORMULA_VERSION = 'prototype-0.1.0';
+export const FORMULA_VERSION = 'prototype-0.1.1';
 export const LATE_AFTER_SECONDS = 86400;
 const ZERO = Q.parse('0');
 const failure = (code, detail) => { const error = new Error(detail); error.code = code; throw error; };
@@ -204,8 +204,8 @@ export function calculate(input) {
       'SOURCE_UNRESOLVED', 'Source IDs must be unique.');
     const { bridge, model } = input;
     provenance(bridge, input);
-    requireValue(Q.parse(bridge.riverMile).cmp('0') >= 0 && Q.parse(bridge.riverMile).cmp('273') <= 0,
-      'OUT_OF_SCOPE', 'Bridge is outside Illinois River miles 0–273.');
+    requireValue(Q.parse(bridge.riverMile).cmp('0') >= 0 && Q.parse(bridge.riverMile).cmp('279') <= 0,
+      'OUT_OF_SCOPE', 'Bridge is outside Illinois Waterway miles 0–279.');
     requireValue(['FIXED', 'LIFT'].includes(bridge.type), 'GEOMETRY_UNSUPPORTED', 'Unsupported bridge type in this prototype.');
     const opening = bridge.opening;
     requireValue(opening && (bridge.type !== 'LIFT' || opening.position === 'FULLY_OPEN'), 'OPEN_GEOMETRY_UNRESOLVED', 'Fully open lift-bridge geometry is required.');
