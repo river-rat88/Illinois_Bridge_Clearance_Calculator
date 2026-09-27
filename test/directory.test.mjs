@@ -27,7 +27,8 @@ test('owner locations and exact chart references preserve source differences wit
   assert.equal(e.selectedReference.consistency,'INTERNALLY_CONSISTENT');
   assert.equal(Q.parse(e.selectedReference.lowSteelElevationFt).sub(e.selectedReference.referenceSurface.elevationFt).cmp('61'),0);
   assert.equal(e.selectedReference.publishedClearanceFt,'61');assert.equal(e.selectedReference.lowSteelElevationFt,'543.5');
-  assert.equal(m.selectedReference.pilotEstimateEnabled,true);assert.equal(e.selectedReference.pilotEstimateEnabled,false);
+  assert.equal(m.selectedReference.pilotEstimateEnabled,true);assert.equal(e.selectedReference.pilotEstimateEnabled,true);
+  assert.equal(e.selectedReference.gaugeReference.navd88Transform.offsetFt,'-0.21');
 });
 test('directory rejects duplicate IDs and miles beyond the inclusive 0–279 range',()=>{
   const copy=structuredClone(extension);copy.bridges[0].id=inventory.bridges[0].id;

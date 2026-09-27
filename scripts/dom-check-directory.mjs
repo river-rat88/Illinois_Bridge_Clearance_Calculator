@@ -26,12 +26,12 @@ try{
  assert.match(document.querySelector('[data-bridge="il-henry"]').textContent,/56.9/);
  assert.match(document.querySelector('[data-bridge="il-morris"]').textContent,/49.0/);
  assert.match(document.querySelector('[data-bridge="il-eje"]').textContent,/NGVD29/);
- assert.match(document.querySelector('[data-bridge="il-eje"]').textContent,/conversion needed/);
+ assert.match(document.querySelector('[data-bridge="il-eje"]').textContent,/58.6/);
  $('search').value='263.5';$('search').dispatchEvent(new window.Event('input'));assert.equal(rows().length,1);assert.match(rows()[0].textContent,/50.4/);
  $('search').value='';$('search').dispatchEvent(new window.Event('input'));
  $('order').querySelector('[value="down"]').selected=true;$('order').dispatchEvent(new window.Event('change'));assert.equal(rows()[0].dataset.bridge,'il-i55-desplaines');
  $('show-historical').checked=true;$('show-historical').dispatchEvent(new window.Event('change'));assert.equal(rows().length,38);
- document.querySelector('[data-record="il-eje"]').click();assert.match($('detail-il-eje').textContent,/543.5/);
+ document.querySelector('[data-record="il-eje"]').click();assert.match($('detail-il-eje').textContent,/543.5/);assert.match($('detail-il-eje').textContent,/−0.21/);
  outage=true;$('refresh').click();
  for(let i=0;i<100&&$('refresh').disabled;i++)await new Promise(r=>setTimeout(r,10));
  assert.equal($('available').textContent,'1');assert.equal(rows().length,38);assert.doesNotMatch(document.querySelector('[data-bridge="il-henry"]').textContent,/56.9/);

@@ -37,12 +37,35 @@ test('Morris forecast uses LOT product and correct gauge when a fresh run is pre
  const r=morris(s);assert.equal(r.forecast.status,'AVAILABLE');assert.equal(r.forecast.direction,'STEADY');assert.equal(r.forecast.gaugeId,'MORI2');
  change(s,'forecast',d=>d.wfo='ILX');assert.notEqual(morris(s).forecast.status,'AVAILABLE');assert.equal(morris(s).clearance.valueFt,'49.0');
 });
-test('Dresden uses tailwater absolute NGVD29 elevation without inventing a NAVD88 transform',()=>{
+test('EJE applies the owner-directed local datum correction exactly to Dresden tailwater',()=>{
  const s=makeEjeSnapshot(),r=eje(s);
  assert.equal(r.stage.status,'AVAILABLE');assert.equal(r.stage.valueKind,'ABSOLUTE_ELEVATION');assert.equal(r.stage.verticalDatum,'NGVD29');
  assert.equal(r.stage.gaugeZeroAdded,false);assert.equal(r.stage.displayValueFt,'485.01');assert.equal(r.stage.approvalStatus,'Unscreened USACE data');
- assert.equal(r.stage.delayed,true);assert.equal(r.clearance.valueFt,null);assert.equal(r.clearance.status,'DATUM_CONVERSION_REQUIRED');
+ assert.equal(r.stage.delayed,true);assert.equal(r.clearance.status,'ESTIMATED');assert.equal(r.clearance.valueFt,'58.6');
+ assert.equal(r.clearance.historical,true);assert.equal(r.clearance.accuracyStatus,'UNVERIFIED');assert.equal(r.clearance.productionEligible,false);
+ assert.equal(r.clearance.trace.datumOffsetFt,'-0.21');
+ assert.deepEqual(r.clearance.trace.waterElevationNavd88Ft,{numerator:'1212021605781',denominator:'2500000000',unit:'ft'});
+ assert.deepEqual(r.clearance.trace.unroundedClearanceFt,{numerator:'146728394219',denominator:'2500000000',unit:'ft'});
+ assert.equal(r.clearance.trace.uncertaintyDeducted,false);assert.equal(r.clearance.openingPosition,'FULLY_OPEN');
  assert.equal(r.forecast.status,'NO_VERIFIED_FORECAST');assert.deepEqual(eje(s),r);
+});
+test('EJE normal pool and one-foot rise calibrate to listed fully open clearance',()=>{
+ const s=makeEjeSnapshot();change(s,'stage',d=>d.values.at(-1)[1]=482.71);
+ assert.equal(eje(s).clearance.valueFt,'61.0');
+ change(s,'stage',d=>d.values.at(-1)[1]=483.71);
+ assert.equal(eje(s).clearance.valueFt,'60.0');
+});
+test('EJE withholds clearance when the chart transform direction, scope, or model changes',()=>{
+ for(const mutate of [
+   r=>r.gaugeReference.navd88Transform.offsetFt='0.21',
+   r=>r.gaugeReference.navd88Transform.fromDatum='NAVD88',
+   r=>r.gaugeReference.navd88Transform.scope.gaugeId='OTHER',
+   r=>r.gaugeReference.navd88Transform.independentlyVerified=true,
+   r=>r.bridgeWaterModel.requiredSide='POOL',
+   r=>r.openingPosition='CLOSED',
+   r=>r.pilotEstimateEnabled=false
+ ]){const s=makeEjeSnapshot();s.bridgeReference=structuredClone(eje(s).bridgeReference);mutate(s.bridgeReference);
+   assert.equal(eje(s).clearance.valueFt,null);assert.equal(eje(s).stage.status,'AVAILABLE');}
 });
 test('Dresden rejects pool substitution, schema changes, incomplete windows, duplicate times and invalid latest points',()=>{
  for(const [key,fn] of [
@@ -76,7 +99,7 @@ test('pilot HTTP endpoints isolate failures and retain the full bridge directory
  await new Promise(r=>server.listen(0,'127.0.0.1',r));t.after(()=>new Promise(r=>server.close(r)));const root=`http://127.0.0.1:${server.address().port}`;
  assert.equal((await fetch(root+'/api/henry')).status,503);
  assert.equal((await (await fetch(root+'/api/morris')).json()).result.clearance.valueFt,'49.0');
- assert.equal((await (await fetch(root+'/api/eje')).json()).result.clearance.status,'DATUM_CONVERSION_REQUIRED');
+ assert.equal((await (await fetch(root+'/api/eje')).json()).result.clearance.valueFt,'58.6');
  assert.equal((await (await fetch(root+'/api/bridges')).json()).bridges.length,38);
  for(const path of ['/var/eje/current.json','/var/morris/current.json','/src/feeds/eje.js'])assert.equal((await fetch(root+path)).status,404);
 });

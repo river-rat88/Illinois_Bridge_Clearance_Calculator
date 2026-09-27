@@ -31,6 +31,7 @@ try {
  assert.match(await page.locator('[data-bridge="il-morris"]').innerText(),/50.4/);
  assert.match(await page.locator('[data-bridge="il-morris"]').innerText(),/49.0/);
  assert.match(await page.locator('[data-bridge="il-eje"]').innerText(),/NGVD29/);
+ assert.match(await page.locator('[data-bridge="il-eje"]').innerText(),/58.6/);
  assert.match(await page.locator('[data-bridge="il-eje"]').innerText(),/Fully open/);
  await page.locator('[data-record="il-eje"]').click();assert.match(await page.locator('#detail-il-eje').innerText(),/543.5/);
  await page.locator('#search').fill('263.5');assert.equal(await page.locator('tr[data-bridge]').count(),1);

@@ -3,7 +3,7 @@ import { Q, stableStringify } from '../exact.js';
 import { hash, check, parseExact, utc } from './usgs-pilot.js';
 export const EJE_REFERENCE = JSON.parse(readFileSync(new URL('../../data/eje-bridge-reference.json',import.meta.url),'utf8'));
 export const SERIES = 'IL04.Elev-Tail.Inst.30Minutes.0.rev';
-export const ADAPTER_VERSION = 'eje-tailwater-pilot-1';
+export const ADAPTER_VERSION = 'eje-tailwater-pilot-2';
 // CWMS unit conversion can return more than nine decimal places. Preserve its literal digits.
 function cwmsDecimal(value) {
   check(typeof value==='string' && /^-?\d{1,9}(?:\.\d{1,18})?$/.test(value),'INVALID_VALUE');
@@ -61,10 +61,38 @@ export function evaluateEje(snapshot,asOf) {
   utc(asOf);let stage;
   try{stage=observedTailwater(snapshot,asOf);}catch(e){stage={status:e.code||'INVALID_SOURCE',valueFt:null};}
   const reference=structuredClone(snapshot.bridgeReference??EJE_REFERENCE);
+  let clearance;
+  try {
+    check(reference.bridgeId==='il-eje' && reference.verticalDatum==='NAVD88' && reference.openingPosition==='FULLY_OPEN' && reference.lowSteelPosition==='FULLY_OPEN','REFERENCE_ID_MISMATCH');
+    check(Q.parse(reference.lowSteelElevationFt).sub(reference.referenceSurface.elevationFt).cmp(reference.publishedClearanceFt)===0,'REFERENCE_ARITHMETIC_CONFLICT');
+    check(reference.pilotEstimateEnabled===true,'PILOT_ESTIMATE_DISABLED');
+    check(stage.status==='AVAILABLE',stage.status);
+    const gauge=reference.gaugeReference,transform=gauge?.navd88Transform,model=reference.bridgeWaterModel;
+    check(gauge?.gaugeId==='IL04' && gauge.seriesId===SERIES && gauge.valueKind==='ABSOLUTE_ELEVATION' && gauge.verticalDatum==='NGVD29' && gauge.unit==='ft' && stage.verticalDatum==='NGVD29','GAUGE_REFERENCE_UNRESOLVED');
+    check(gauge.status==='OWNER_REPORTED_TRANSFORM_PILOT' && transform?.id==='eje-owner-chart-ngvd29-to-navd88-1' &&
+      transform.fromDatum==='NGVD29' && transform.toDatum==='NAVD88' && transform.operation==='ADD_OFFSET_TO_SOURCE_ELEVATION' && transform.offsetFt==='-0.21' &&
+      transform.scope?.bridgeId==='il-eje' && transform.scope.gaugeId==='IL04' && transform.scope.seriesId===SERIES &&
+      transform.basis==='OWNER_REPORTED_ECHART' && transform.directionConfirmedDateUtc==='2026-09-27' && transform.independentlyVerified===false,
+      'DATUM_TRANSFORM_UNRESOLVED');
+    check(model?.bridgeId==='il-eje' && model.gaugeId==='IL04' && model.requiredSide==='TAILWATER' && model.type==='DIRECT' &&
+      model.basis==='OWNER_ASSUMPTION' && model.validated===false && model.offsetFt==='0' && model.assumedMaxDifferenceInches==='2','MODEL_UNRESOLVED');
+    const waterNgvd29=cwmsDecimal(stage.valueFt),waterNavd88=waterNgvd29.add(transform.offsetFt);
+    const exact=Q.parse(reference.lowSteelElevationFt).sub(waterNavd88),display=exact.floor(1);
+    clearance={status:'ESTIMATED',valueFt:display,validAt:stage.observedAt,timeBasis:'AT_OBSERVATION_TIME',
+      historical:stage.delayed,late:stage.late,accuracyStatus:'UNVERIFIED',productionEligible:false,
+      method:'LOW_STEEL_NAVD88_MINUS_CONVERTED_TAILWATER_NAVD88',openingPosition:'FULLY_OPEN',positionVerified:false,
+      trace:{tailwaterNgvd29Ft:waterNgvd29.toJSON(),datumTransformId:transform.id,datumOffsetFt:transform.offsetFt,
+        waterElevationNavd88Ft:waterNavd88.toJSON(),lowSteelNavd88Ft:reference.lowSteelElevationFt,
+        unroundedClearanceFt:exact.toJSON(),displayRoundingFt:exact.sub(display).toJSON(),
+        modelId:model.id,bridgeMinusGaugeFt:model.offsetFt,
+        assumedTransferDifferenceFt:Q.parse(model.assumedMaxDifferenceInches).div('12').toJSON(),
+        sourceHash:stage.sourceHash,uncertaintyDeducted:false},
+      assumptions:['The owner reports that adding -0.21 ft converts Dresden NGVD29 tailwater to NAVD88 at EJE; chart edition, effective epoch and foot realization are not independently verified.',
+        'Bridge water elevation equals Dresden tailwater; owner assumes a difference within two inches.',
+        'The lift span is fully open; its actual position and the overall six-inch accuracy target have not been verified.']};
+  } catch(e) { clearance={status:e.code||'INVALID_REFERENCE',valueFt:null,productionEligible:false}; }
   return {adapterVersion:ADAPTER_VERSION,asOf,bridgeId:'il-eje',stage,
     bridgeReference:{...reference,recordSha256:hash(stableStringify(reference))},
-    clearance:{status:stage.status==='AVAILABLE'?'DATUM_CONVERSION_REQUIRED':stage.status,valueFt:null,productionEligible:false,
-      reason:'Dresden tailwater is NGVD29; bridge low steel is NAVD88. A documented local transformation is required.',
-      openingPosition:'FULLY_OPEN',positionVerified:false},
+    clearance,
     forecast:{status:'NO_VERIFIED_FORECAST',direction:'UNAVAILABLE',valueFt:null,reason:'No verified Dresden tailwater forecast is configured; Morris forecasts are not substituted.'}};
 }
