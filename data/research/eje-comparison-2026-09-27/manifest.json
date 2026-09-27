@@ -1,0 +1,23 @@
+{
+  "queryAt": "2026-09-27T14:59:22.154Z",
+  "sources": {
+    "cwms": {
+      "url": "https://cwms-data.usace.army.mil/cwms-data/timeseries?name=IL04.Elev-Tail.Inst.30Minutes.0.rev&office=MVR&unit=ft&datum=NATIVE&begin=2026-09-25T14%3A59%3A22.154Z&end=2026-09-27T14%3A59%3A22.154Z&page-size=500",
+      "receivedAt": "2026-09-27T14:59:27.076Z",
+      "httpStatus": 200,
+      "contentType": "application/json;version=2",
+      "path": "data/research/eje-comparison-2026-09-27/cwms.json",
+      "sha256": "9c013ff021cdec347dd20337250953cc3d5794e42c615a709be52bdd85155f7a",
+      "bytes": 3742
+    },
+    "noaa": {
+      "url": "https://api.water.noaa.gov/nwps/v1/gauges/cdii2/stageflow/observed",
+      "receivedAt": "2026-09-27T14:59:31.194Z",
+      "httpStatus": 200,
+      "contentType": "application/json",
+      "path": "data/research/eje-comparison-2026-09-27/noaa.json",
+      "sha256": "2beaf854ae7e0ad4a8c2aaa87b5380f030bbe80c44d69e97068c309d1650fd2d",
+      "bytes": 214984
+    }
+  }
+}
