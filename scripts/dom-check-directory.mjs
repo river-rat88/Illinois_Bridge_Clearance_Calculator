@@ -12,7 +12,8 @@ import {evaluateHenry,URLS,hash} from '../src/feeds/henry.js';
 const root=fileURLToPath(new URL('..',import.meta.url)).replace(/\/$/,'');
 const now='2026-09-25T20:25:00.000Z';const names={stage:'usgs-latest',series:'usgs-series',gauge:'nwps-gauge',forecast:'nwps-forecast'};
 const sources=Object.fromEntries(await Promise.all(Object.entries(names).map(async([key,name])=>{const body=await readFile(`${root}/test/fixtures/henry/${name}.json`,'utf8');return [key,{body,sha256:hash(body),url:URLS[key],httpStatus:200,contentType:'application/json',receivedAt:now}];})));
-let outage=false;const server=makeServer({morrisService:{get:async()=>({result:evaluateMorris(makeMorrisSnapshot(),MORRIS_NOW)})},ejeService:{get:async()=>({result:evaluateEje(makeEjeSnapshot(),EJE_NOW)})},henryService:{get:async()=>{if(outage)throw Error('offline');return {result:evaluateHenry({sources},now)};}}});
+let outage=false;const lincoln={bridgeId:'il-abraham-lincoln',asOf:now,stage:{status:'AVAILABLE',valueFt:'14.11',valueKind:'STAGE_ABOVE_GAUGE_ZERO',observedAt:now,approvalStatus:'NOAA feed; point quality not independently verified'},forecast:{status:'AVAILABLE',direction:'FALLING',windowStart:now,issuedAt:now},clearance:{status:'NAVD88_REFERENCE_REQUIRED',valueFt:null}};
+const server=makeServer({morrisService:{get:async()=>({result:evaluateMorris(makeMorrisSnapshot(),MORRIS_NOW)})},ejeService:{get:async()=>({result:evaluateEje(makeEjeSnapshot(),EJE_NOW)})},lincolnService:{get:async()=>({result:lincoln})},henryService:{get:async()=>{if(outage)throw Error('offline');return {result:evaluateHenry({sources},now)};}}});
 await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const {document,window}=parseHTML(await readFile(`${root}/index.html`,'utf8'));globalThis.document=document;
 const savedFetch=globalThis.fetch,savedInterval=globalThis.setInterval;
@@ -27,6 +28,8 @@ try{
  assert.match(document.querySelector('[data-bridge="il-morris"]').textContent,/49.0/);
  assert.match(document.querySelector('[data-bridge="il-eje"]').textContent,/NGVD29/);
  assert.match(document.querySelector('[data-bridge="il-eje"]').textContent,/58.6/);
+ assert.match(document.querySelector('[data-bridge="il-abraham-lincoln"]').textContent,/14.11/);
+ assert.match(document.querySelector('[data-bridge="il-abraham-lincoln"]').textContent,/NAVD88 bridge reference and gauge tie pending/);
  $('search').value='263.5';$('search').dispatchEvent(new window.Event('input'));assert.equal(rows().length,1);assert.match(rows()[0].textContent,/50.4/);
  $('search').value='';$('search').dispatchEvent(new window.Event('input'));
  $('order').querySelector('[value="down"]').selected=true;$('order').dispatchEvent(new window.Event('change'));assert.equal(rows()[0].dataset.bridge,'il-i55-desplaines');
