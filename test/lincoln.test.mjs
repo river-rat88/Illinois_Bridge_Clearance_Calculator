@@ -7,6 +7,7 @@ import { URLS, evaluateLincoln } from '../src/feeds/lincoln.js';
 import { createLincolnService } from '../src/lincoln-service.js';
 import { hash } from '../src/feeds/usgs-pilot.js';
 import { makeServer } from '../server.mjs';
+import { Q } from '../src/exact.js';
 
 const now = '2026-09-27T18:30:00.000Z';
 const gauge = {lid:'LSLI2',usgsId:'411925089063901',name:'Illinois River near La Salle',
@@ -35,11 +36,32 @@ test('La Salle stage and gauge-only forecast never imply a bridge clearance',()=
   assert.equal(r.stage.gaugeZeroFt,'430');assert.equal(r.stage.verticalDatum,'NGVD29');
   assert.equal(r.stage.late,false);assert.equal(r.forecast.status,'AVAILABLE');
   assert.equal(r.forecast.direction,'FALLING');assert.equal(r.forecast.bridgeAssociationApproved,false);
-  assert.equal(r.clearance.status,'NAVD88_REFERENCE_REQUIRED');assert.equal(r.clearance.valueFt,null);
-  assert.equal(r.bridgeReference.ownerReportedChart.lowSteelElevationFt,'505.8');
+  assert.equal(r.clearance.status,'GAUGE_DATUM_TIE_UNRESOLVED');assert.equal(r.clearance.valueFt,null);
+  assert.equal(r.bridgeReference.lowSteelElevationFt,'505.8');
+  assert.equal(r.bridgeReference.referenceSurface.elevationFt,'439.8');
+  assert.equal(r.bridgeReference.publishedClearanceFt,'66.0');
+  assert.equal(r.bridgeReference.consistency,'INTERNALLY_CONSISTENT');
   assert.equal(r.bridgeReference.gaugeCandidate.ownerReportedConversion.convertedZeroNavd88Ft,'429.88');
   assert.equal(r.bridgeReference.gaugeCandidate.ownerReportedConversion.verified,false);
+  assert.equal(Q.parse('429.88').add('10.20').sub(r.bridgeReference.referenceSurface.elevationFt).cmp('0.28'),0);
   assert.equal(r.clearance.productionEligible,false);assert.deepEqual(evaluateLincoln(snapshot(),now),r);
+});
+test('owner-reported converter value and optimistic flags cannot enable a bridge estimate',()=>{
+  const s=snapshot();s.bridgeReference=structuredClone(evaluateLincoln(s,now).bridgeReference);
+  s.bridgeReference.pilotEstimateEnabled=true;
+  s.bridgeReference.gaugeAssociationApproved=true;
+  s.bridgeReference.gaugeCandidate.ownerReportedConversion.verified=true;
+  const r=evaluateLincoln(s,now);
+  assert.equal(r.stage.status,'AVAILABLE');assert.equal(r.clearance.status,'GAUGE_DATUM_TIE_UNRESOLVED');
+  assert.equal(r.clearance.valueFt,null);
+});
+test('altered chart arithmetic or datum blocks even the reference consistency label',()=>{
+  for (const edit of [r=>r.lowSteelElevationFt='505.7',r=>r.verticalDatum='NGVD29',r=>r.bridgeId='OTHER']) {
+    const s=snapshot();s.bridgeReference=structuredClone(evaluateLincoln(s,now).bridgeReference);edit(s.bridgeReference);
+    const r=evaluateLincoln(s,now);
+    assert.notEqual(r.bridgeReference.consistency,'INTERNALLY_CONSISTENT');
+    assert.equal(r.clearance.valueFt,null);
+  }
 });
 test('late is strictly after 24 hours, and does not turn stage into current bridge clearance',()=>{
   for (const [elapsed,late] of [[86400000,false],[86400001,true]]) {

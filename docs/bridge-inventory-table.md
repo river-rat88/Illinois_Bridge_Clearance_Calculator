@@ -20,7 +20,7 @@ Historical LL = 2024 Light List, corrected through 52/23. Its values are not cur
 | `il-veterans-ottawa` — State Route 23/Veterans Memorial bridge | 239.7 | 47 | — | 47.6 | unreconciled published clearance difference |
 | `il-burlington-ottawa` — Burlington Northern bridge | 239.4 | 21 | 47.4 | 47.7 | type missing in coast pilot, unreconciled published clearance difference |
 | `il-utica` — State Route 178 bridge | 229.6 | 63 | — | 65.76 | unreconciled published clearance difference |
-| `il-abraham-lincoln` — Route 412 bridge | 225.7 | 66 | — | 66.0 | reference, geometry and gauge validation |
+| `il-abraham-lincoln` — Route 412 bridge | 225.7 | 66 | — | 66.0 | selected 66.0-ft NAVD88 chart reference in [later source review](abraham-lincoln-source-review.md); gauge conversion and water tie pending |
 | `il-illinois-central-lasalle` — Illinois Central Railroad bridge | 225.5 | 61 | — | 62.2 | unreconciled published clearance difference |
 | `il-lasalle` — State Route 351 bridge | 224.7 | 64 | — | 64.0 | reference, geometry and gauge validation |
 | `il-peru` — US Route 51 bridge | 222.9 | 62 | — | 64.5 | unreconciled published clearance difference, river mile difference |

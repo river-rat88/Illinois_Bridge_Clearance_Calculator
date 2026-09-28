@@ -16,7 +16,7 @@ const sources=Object.fromEntries(await Promise.all(Object.entries(names).map(asy
 })));
 // Fixed fixtures exercise page behavior; they are never saved as live screenshots.
 let outage=false;
-const lincoln={bridgeId:'il-abraham-lincoln',asOf:now,stage:{status:'AVAILABLE',valueFt:'14.11',valueKind:'STAGE_ABOVE_GAUGE_ZERO',observedAt:now,approvalStatus:'NOAA feed; point quality not independently verified'},forecast:{status:'AVAILABLE',direction:'FALLING',windowStart:now,issuedAt:now},clearance:{status:'NAVD88_REFERENCE_REQUIRED',valueFt:null}};
+const lincoln={bridgeId:'il-abraham-lincoln',asOf:now,stage:{status:'AVAILABLE',valueFt:'14.11',valueKind:'STAGE_ABOVE_GAUGE_ZERO',observedAt:now,approvalStatus:'NOAA feed; point quality not independently verified'},forecast:{status:'AVAILABLE',direction:'FALLING',windowStart:now,issuedAt:now},clearance:{status:'GAUGE_DATUM_TIE_UNRESOLVED',valueFt:null}};
 const server=makeServer({morrisService:{get:async()=>({result:evaluateMorris(makeMorrisSnapshot(),MORRIS_NOW)})},ejeService:{get:async()=>({result:evaluateEje(makeEjeSnapshot(),EJE_NOW)})},lincolnService:{get:async()=>({result:lincoln})},henryService:{get:async()=>{if(outage)throw new Error('test outage');return {result:evaluateHenry({sources},now)};}}});
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 let browser;
@@ -35,7 +35,8 @@ try {
  assert.match(await page.locator('[data-bridge="il-eje"]').innerText(),/58.6/);
  assert.match(await page.locator('[data-bridge="il-eje"]').innerText(),/Fully open/);
  assert.match(await page.locator('[data-bridge="il-abraham-lincoln"]').innerText(),/14.11/);
- assert.match(await page.locator('[data-bridge="il-abraham-lincoln"]').innerText(),/NAVD88 pool reference and gauge tie pending/);
+ assert.match(await page.locator('[data-bridge="il-abraham-lincoln"]').innerText(),/Gauge datum and bridge water tie pending/);
+ assert.match(await page.locator('[data-bridge="il-abraham-lincoln"]').innerText(),/66.0/);
  await page.locator('[data-record="il-eje"]').click();assert.match(await page.locator('#detail-il-eje').innerText(),/543.5/);
  await page.locator('#search').fill('263.5');assert.equal(await page.locator('tr[data-bridge]').count(),1);
  await page.locator('#search').fill('not a bridge');assert.equal(await page.locator('#empty').isVisible(),true);

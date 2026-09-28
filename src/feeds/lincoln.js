@@ -1,25 +1,14 @@
 import { Q, stableStringify } from '../exact.js';
 import { hash, check, parseExact, utc } from './usgs-pilot.js';
+import { readFileSync } from 'node:fs';
 
-export const ADAPTER_VERSION = 'lincoln-noaa-stage-review-2';
+export const ADAPTER_VERSION = 'lincoln-noaa-stage-review-3';
 export const URLS = Object.freeze({
   gauge: 'https://api.water.noaa.gov/nwps/v1/gauges/lsli2',
   stage: 'https://api.water.noaa.gov/nwps/v1/gauges/lsli2/stageflow/observed',
   forecast: 'https://api.water.noaa.gov/nwps/v1/gauges/lsli2/stageflow/forecast'
 });
-export const LINCOLN_REFERENCE = Object.freeze({
-  bridgeId: 'il-abraham-lincoln', riverMile: '225.7', openingPosition: 'FIXED',
-  selectedNavd88Reference: null, pilotEstimateEnabled: false,
-  ownerReportedChart: { edition: '2013', publisher: 'USACE', lowSteelElevationFt: '505.8',
-    verticalDatum: 'NAVD88', listedClearanceFt: null, referencePoolElevationFt: null,
-    sourceStatus: 'OWNER_REPORTED_CHART_VALUE; PAGE_AND_SPAN_NOT_INDEPENDENTLY_CHECKED' },
-  gaugeCandidate: { gaugeId: 'LSLI2', riverMile: '224.7', pool: 'PEORIA',
-    stageKind: 'STAGE_ABOVE_GAUGE_ZERO', gaugeZeroFt: '430.00', verticalDatum: 'NGVD29',
-    ownerReportedConversion: { convertedZeroNavd88Ft: '429.88',
-      inputZeroNgvd29Ft: '430.00', method: 'NGS_CONVERTER_OWNER_REPORTED',
-      coordinates: null, modelVersion: null, localErrorEstimateFt: null, verified: false },
-    associationStatus: 'CANDIDATE_NOT_VALIDATED', bridgeMinusGaugeFt: null }
-});
+export const LINCOLN_REFERENCE = JSON.parse(readFileSync(new URL('../../data/lincoln-bridge-reference.json',import.meta.url),'utf8'));
 const millis = value => Date.parse(utc(value));
 const attempt = fn => { try { return fn(); } catch(e) { return { status: e.code || 'INVALID_SOURCE', valueFt: null }; } };
 function source(snapshot, key, asOf) {
@@ -118,12 +107,22 @@ export function stationForecast(snapshot, asOf) {
 }
 export function evaluateLincoln(snapshot, asOf) {
   utc(asOf);
-  // No NAVD88 chart elevation and no approved bridge-to-gauge transfer are present.
-  const reference = structuredClone(LINCOLN_REFERENCE);
+  const reference = structuredClone(snapshot.bridgeReference ?? LINCOLN_REFERENCE);
+  const consistency = attempt(() => {
+    check(reference.bridgeId === 'il-abraham-lincoln' && reference.openingPosition === 'FIXED' &&
+      reference.verticalDatum === 'NAVD88' && reference.referenceSurface?.label === 'NORMAL_POOL', 'REFERENCE_ID_MISMATCH');
+    check(Q.parse(reference.lowSteelElevationFt).sub(reference.referenceSurface.elevationFt).cmp(reference.publishedClearanceFt) === 0,
+      'REFERENCE_ARITHMETIC_CONFLICT');
+    return { status: 'INTERNALLY_CONSISTENT' };
+  }).status;
+  // The NAVD88 bridge reference is selected, but the gauge conversion and water-level transfer are not validated.
   return { adapterVersion: ADAPTER_VERSION, asOf, bridgeId: reference.bridgeId,
     stage: attempt(() => observedStage(snapshot, asOf)),
     forecast: attempt(() => stationForecast(snapshot, asOf)),
-    bridgeReference: { ...reference, recordSha256: hash(stableStringify(reference)) },
-    clearance: { status: 'NAVD88_REFERENCE_REQUIRED', valueFt: null, productionEligible: false,
-      reason: 'Owner NAVD88 low steel is recorded; listed clearance, reference pool, gauge conversion details, and bridge-to-gauge tie remain unresolved.' } };
+    bridgeReference: { ...reference, consistency, recordSha256: hash(stableStringify(reference)) },
+    clearance: { status: consistency === 'INTERNALLY_CONSISTENT' ? 'GAUGE_DATUM_TIE_UNRESOLVED' : consistency,
+      valueFt: null, productionEligible: false,
+      reason: consistency === 'INTERNALLY_CONSISTENT'
+        ? 'Chart reference reconciles; the La Salle NAVD88 gauge-zero conversion and bridge-to-gauge water-level tie remain unverified.'
+        : 'Bridge chart reference failed identity, datum, or arithmetic validation.' } };
 }

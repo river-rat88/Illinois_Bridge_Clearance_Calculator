@@ -8,8 +8,8 @@ import { createHenryService } from './src/henry-service.js';
 import { createLincolnService } from './src/lincoln-service.js';
 
 const readJson = async path => JSON.parse(await readFile(new URL(path, import.meta.url), 'utf8'));
-const [inventory, extension, henryReference, morrisReference, ejeReference, sources] = await Promise.all(['./data/research/bridge-inventory.json','./data/research/scope-extension.json','./data/henry-bridge-reference.json','./data/morris-bridge-reference.json','./data/eje-bridge-reference.json','./data/research/sources.json'].map(readJson));
-const directory = buildDirectory(inventory, extension, [henryReference, morrisReference, ejeReference], sources);
+const [inventory, extension, henryReference, morrisReference, ejeReference, lincolnReference, sources] = await Promise.all(['./data/research/bridge-inventory.json','./data/research/scope-extension.json','./data/henry-bridge-reference.json','./data/morris-bridge-reference.json','./data/eje-bridge-reference.json','./data/lincoln-bridge-reference.json','./data/research/sources.json'].map(readJson));
+const directory = buildDirectory(inventory, extension, [henryReference, morrisReference, ejeReference, lincolnReference], sources);
 
 // Explicit allowlist prevents serving repository files, credentials, or traversal paths.
 const routes = new Map([
