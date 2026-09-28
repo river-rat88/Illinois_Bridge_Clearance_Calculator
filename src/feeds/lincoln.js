@@ -2,13 +2,16 @@ import { Q, stableStringify } from '../exact.js';
 import { hash, check, parseExact, utc } from './usgs-pilot.js';
 import { readFileSync } from 'node:fs';
 
-export const ADAPTER_VERSION = 'lincoln-noaa-stage-review-3';
+export const ADAPTER_VERSION = 'lincoln-noaa-converted-pilot-1';
 export const URLS = Object.freeze({
   gauge: 'https://api.water.noaa.gov/nwps/v1/gauges/lsli2',
   stage: 'https://api.water.noaa.gov/nwps/v1/gauges/lsli2/stageflow/observed',
   forecast: 'https://api.water.noaa.gov/nwps/v1/gauges/lsli2/stageflow/forecast'
 });
 export const LINCOLN_REFERENCE = JSON.parse(readFileSync(new URL('../../data/lincoln-bridge-reference.json',import.meta.url),'utf8'));
+const NCAT_REVIEW = JSON.parse(readFileSync(new URL('../../data/research/lincoln-ncat-api-review.json',import.meta.url),'utf8'));
+const NCAT_RAW_BODY = readFileSync(new URL('../../data/research/lincoln-ncat-raw-response.json',import.meta.url),'utf8');
+const NCAT_RAW = JSON.parse(NCAT_RAW_BODY);
 const millis = value => Date.parse(utc(value));
 const attempt = fn => { try { return fn(); } catch(e) { return { status: e.code || 'INVALID_SOURCE', valueFt: null }; } };
 function source(snapshot, key, asOf) {
@@ -26,8 +29,8 @@ function gauge(snapshot, asOf) {
     g.wfo?.abbreviation === 'LOT' && g.pedts?.observed === 'HGIRG' && g.pedts?.forecast === 'HGIFF', 'GAUGE_IDENTITY_CHANGED');
   const zeros = g.datums?.vertical?.value?.filter(d => d.abbrev === 'NGVD29');
   check(zeros?.length === 1 && typeof zeros[0].value === 'string' && Q.parse(zeros[0].value).cmp('430.00') === 0, 'GAUGE_ZERO_CHANGED');
-  // NOAA publishes only the NGVD29 zero here; an owner-reported NGS conversion is
-  // retained as research and is not used without location/model/error evidence.
+  // NOAA publishes only the NGVD29 zero here; the pinned NCAT gauge-location
+  // conversion is checked independently before a pilot estimate is calculated.
   return { sourceHash: s.sha256, zeroNgvd29Ft: zeros[0].value };
 }
 const stageValue = value => {
@@ -115,14 +118,69 @@ export function evaluateLincoln(snapshot, asOf) {
       'REFERENCE_ARITHMETIC_CONFLICT');
     return { status: 'INTERNALLY_CONSISTENT' };
   }).status;
-  // The NAVD88 bridge reference is selected, but the gauge conversion and water-level transfer are not validated.
+  const model = attempt(() => {
+    const m = reference.bridgeWaterModel, g = reference.gaugeCandidate;
+    check(reference.gaugeAssociationApproved === true && g?.gaugeId === 'LSLI2' &&
+      g.associationStatus === 'OWNER_APPROVED_DIRECT_WATER_ASSUMPTION_NOT_FIELD_VALIDATED' &&
+      g.bridgeMinusGaugeFt === '0' && m?.id === 'lincoln-lsli2-owner-direct-1' &&
+      m.bridgeId === 'il-abraham-lincoln' && m.gaugeId === 'LSLI2' && m.type === 'DIRECT' &&
+      m.basis === 'OWNER_ASSUMPTION' && m.offsetFt === '0' && m.validated === false &&
+      m.ownerClaimedDifferenceInchesLessThan === '1' && m.errorBoundVerified === false &&
+      m.appliesTo === 'ASSUMPTION_LABELED_PILOT_ONLY', 'MODEL_UNRESOLVED');
+    return { status: 'OWNER_ASSUMPTION_RECORDED' };
+  }).status;
+  const stage = attempt(() => observedStage(snapshot, asOf));
+  const clearance = attempt(() => {
+    check(consistency === 'INTERNALLY_CONSISTENT', consistency);
+    check(model === 'OWNER_ASSUMPTION_RECORDED', model);
+    check(reference.pilotEstimateEnabled === true, 'PILOT_ESTIMATE_DISABLED');
+    check(stage.status === 'AVAILABLE', stage.status);
+    const g = reference.gaugeCandidate, candidate = g?.ncatApiCandidate;
+    check(g?.stageKind === 'STAGE_ABOVE_GAUGE_ZERO' && g.gaugeZeroFt === '430.00' &&
+      g.verticalDatum === 'NGVD29' && stage.gaugeZeroFt === '430' && stage.verticalDatum === 'NGVD29',
+      'GAUGE_DATUM_CHANGED');
+    check(candidate?.active === true && candidate.researchRecordId === NCAT_REVIEW.id &&
+      candidate.rawResponseSha256 === NCAT_REVIEW.rawResponseSha256 &&
+      hash(NCAT_RAW_BODY) === candidate.rawResponseSha256 &&
+      candidate.latitude === NCAT_REVIEW.input.latitude && candidate.longitude === NCAT_REVIEW.input.longitude &&
+      candidate.sourceInputZeroNgvd29Meters === NCAT_REVIEW.input.zeroNgvd29Meters &&
+      candidate.outputZeroNavd88Meters === NCAT_RAW.destOrthoht &&
+      candidate.localTransformationErrorMeters === NCAT_RAW.sigOrthoht &&
+      candidate.vertconVersion === NCAT_RAW.vertconVersion && NCAT_REVIEW.captureStatus === 'RAW_RESPONSE_ARCHIVED_AFTER_REPEAT_HTTP_200' &&
+      NCAT_REVIEW.stationCoordinateSource.startsWith('https://rivergages.mvr.usace.army.mil/'),
+      'DATUM_TRANSFORM_UNRESOLVED');
+    check(NCAT_RAW.srcLat === '41.3235800000' && NCAT_RAW.srcLon === '-89.1107900000' &&
+      NCAT_RAW.srcDatum === 'NAD83(2011)' && NCAT_RAW.destDatum === 'NAD83(2011)' &&
+      NCAT_RAW.srcVertDatum === 'NGVD29' && NCAT_RAW.destVertDatum === 'NAVD88' &&
+      NCAT_RAW.heightUnits === 'm' && NCAT_RAW.srcOrthoht === '131.064' &&
+      NCAT_RAW.destOrthoht === '130.997' && NCAT_RAW.vertconVersion === '3.0' &&
+      NCAT_REVIEW.input.metersPerFoot === '0.3048' &&
+      Q.parse(g.gaugeZeroFt).mul(NCAT_REVIEW.input.metersPerFoot).cmp(NCAT_RAW.srcOrthoht) === 0,
+      'DATUM_TRANSFORM_UNRESOLVED');
+    const zero = Q.parse(NCAT_RAW.destOrthoht).div(NCAT_REVIEW.input.metersPerFoot);
+    const water = zero.add(stage.valueFt).add(reference.bridgeWaterModel.offsetFt);
+    const exact = Q.parse(reference.lowSteelElevationFt).sub(water), display = exact.floor(1);
+    return { status: 'ESTIMATED', valueFt: display, productionEligible: false,
+      validAt: stage.observedAt, timeBasis: 'AT_OBSERVATION_TIME', historical: stage.delayed, late: stage.late,
+      accuracyStatus: 'UNVERIFIED', method: 'LOW_STEEL_NAVD88_MINUS_NCAT_CONVERTED_STAGE',
+      trace: { stageFt: stage.valueFt, sourceGaugeZeroNgvd29Ft: g.gaugeZeroFt,
+        ncatSourceZeroNgvd29Meters: NCAT_RAW.srcOrthoht, ncatZeroNavd88Meters: NCAT_RAW.destOrthoht,
+        metersPerFoot: NCAT_REVIEW.input.metersPerFoot, gaugeZeroNavd88Ft: zero.toJSON(),
+        ncatTransformErrorMeters: NCAT_RAW.sigOrthoht, ncatVertconVersion: NCAT_RAW.vertconVersion,
+        ncatRawResponseSha256: candidate.rawResponseSha256, ncatResearchRecordId: candidate.researchRecordId,
+        ownerScreenshotSha256: g.ownerNcatCrosscheck?.imageSha256,
+        waterElevationNavd88Ft: water.toJSON(), lowSteelNavd88Ft: reference.lowSteelElevationFt,
+        unroundedClearanceFt: exact.toJSON(), displayRoundingFt: exact.sub(display).toJSON(),
+        modelId: reference.bridgeWaterModel.id, bridgeMinusGaugeFt: reference.bridgeWaterModel.offsetFt,
+        uncertaintyDeducted: false },
+      assumptions: ['La Salle water elevation equals water elevation at the bridge; owner-approved direct-water assumption, not field validated.',
+        'The NCAT VERTCON 3.0 gauge-zero transformation is modeled at published Corps station coordinates; the station coordinate frame, source foot realization, and effective gauge-zero epoch are not independently verified.',
+        'Owner NCAT screenshot at different coordinates reports 429.790 ft NAVD88 and is a cross-check only; the older verbal 429.88 ft is superseded.',
+        'The claimed sub-inch bridge-water difference and the overall six-inch clearance accuracy target have not been demonstrated.'] };
+  });
   return { adapterVersion: ADAPTER_VERSION, asOf, bridgeId: reference.bridgeId,
-    stage: attempt(() => observedStage(snapshot, asOf)),
+    stage,
     forecast: attempt(() => stationForecast(snapshot, asOf)),
-    bridgeReference: { ...reference, consistency, recordSha256: hash(stableStringify(reference)) },
-    clearance: { status: consistency === 'INTERNALLY_CONSISTENT' ? 'GAUGE_DATUM_TIE_UNRESOLVED' : consistency,
-      valueFt: null, productionEligible: false,
-      reason: consistency === 'INTERNALLY_CONSISTENT'
-        ? 'Chart reference reconciles; the La Salle NAVD88 gauge-zero conversion and bridge-to-gauge water-level tie remain unverified.'
-        : 'Bridge chart reference failed identity, datum, or arithmetic validation.' } };
+    bridgeReference: { ...reference, consistency, modelStatus: model, recordSha256: hash(stableStringify(reference)) },
+    clearance: { ...clearance, productionEligible: false } };
 }
