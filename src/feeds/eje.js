@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { Q, stableStringify } from '../exact.js';
+import { withPocRange } from '../poc-range.js';
 import { hash, check, parseExact, utc } from './usgs-pilot.js';
 export const EJE_REFERENCE = JSON.parse(readFileSync(new URL('../../data/eje-bridge-reference.json',import.meta.url),'utf8'));
 export const SERIES = 'IL04.Elev-Tail.Inst.30Minutes.0.rev';
@@ -104,6 +105,6 @@ export function evaluateEje(snapshot,asOf) {
   } catch(e) { clearance={status:e.code||'INVALID_REFERENCE',valueFt:null,productionEligible:false}; }
   return {adapterVersion:ADAPTER_VERSION,asOf,bridgeId:'il-eje',stage,
     bridgeReference:{...reference,recordSha256:hash(stableStringify(reference))},
-    clearance,
+    clearance:withPocRange(clearance),
     forecast:{status:'NO_VERIFIED_FORECAST',direction:'UNAVAILABLE',valueFt:null,reason:'No verified Dresden tailwater forecast is configured; Morris forecasts are not substituted.'}};
 }

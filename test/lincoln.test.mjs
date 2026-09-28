@@ -58,6 +58,8 @@ test('Lincoln uses NCAT gauge-location zero and owner direct-water assumption fo
   assert.equal(r.stage.late,false);assert.equal(r.forecast.status,'AVAILABLE');
   assert.equal(r.forecast.direction,'FALLING');assert.equal(r.forecast.bridgeAssociationApproved,false);
   assert.equal(r.clearance.status,'ESTIMATED');assert.equal(r.clearance.valueFt,'61.9');
+  assert.equal(r.clearance.pocRange.lowerFt,'58.9');assert.equal(r.clearance.pocRange.upperFt,'65.0');
+  assert.equal(r.clearance.pocRange.measuredErrorBound,false);
   assert.equal(r.clearance.trace.ncatRawResponseSha256,ncatReview.rawResponseSha256);
   assert.equal(r.clearance.trace.ncatZeroNavd88Meters,'130.997');
   assert.equal(r.clearance.trace.bridgeMinusGaugeFt,'0');
