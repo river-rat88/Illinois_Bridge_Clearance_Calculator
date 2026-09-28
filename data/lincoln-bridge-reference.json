@@ -22,7 +22,7 @@
   },
   "verticalDatum": "NAVD88",
   "unitRealization": null,
-  "pilotEstimateEnabled": false,
+  "pilotEstimateEnabled": true,
   "gaugeAssociationApproved": true,
   "totalErrorValidated": false,
   "productionEligible": false,
@@ -54,7 +54,8 @@
       "coordinates": null,
       "modelVersion": null,
       "localErrorEstimateFt": null,
-      "verified": false
+      "verified": false,
+      "supersededByOwnerScreenshot": true
     },
     "ncatApiCandidate": {
       "researchRecordId": "lincoln-ncat-api-review-2026-09-28",
@@ -63,7 +64,17 @@
       "convertedZeroNavd88FtApprox": "429.78",
       "localTransformationErrorMeters": "0.053",
       "vertconVersion": "3.0",
-      "active": false
+      "rawResponseSha256": "971f32f6ee534477a0d08787089689f8804a5d026d908aaf143a82b156f005d6",
+      "latitude": "41.32358",
+      "longitude": "-89.11079",
+      "active": true
+    },
+    "ownerNcatCrosscheck": {
+      "imageSha256": "1349ccac93b7806f737f821015e6e0a2fb3646a83b82127f4945085ec264c10e",
+      "latitude": "41.3108238809",
+      "longitude": "-89.0826416016",
+      "zeroNavd88Ft": "429.790",
+      "note": "NCAT screenshot at different entered coordinates, cross-check only; prior verbal 429.88 ft corrected."
     },
     "associationStatus": "OWNER_APPROVED_DIRECT_WATER_ASSUMPTION_NOT_FIELD_VALIDATED",
     "bridgeMinusGaugeFt": "0"

@@ -33,7 +33,7 @@ test('owner locations and exact chart references preserve source differences wit
   assert.equal(l.riverMile,'225.7');assert.equal(l.mileStatus,'OWNER_CONFIRMED');
   assert.equal(l.selectedReference.consistency,'INTERNALLY_CONSISTENT');
   assert.equal(Q.parse(l.selectedReference.lowSteelElevationFt).sub(l.selectedReference.referenceSurface.elevationFt).cmp('66.0'),0);
-  assert.equal(l.selectedReference.pilotEstimateEnabled,false);
+  assert.equal(l.selectedReference.pilotEstimateEnabled,true);
 });
 test('directory rejects duplicate IDs and miles beyond the inclusive 0–279 range',()=>{
   const copy=structuredClone(extension);copy.bridges[0].id=inventory.bridges[0].id;
