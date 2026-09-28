@@ -20,6 +20,7 @@ test('archived official Henry payload parses exact stage and independent station
   assert.equal(r.stage.ageSeconds,2400);assert.equal(r.forecast.direction,'FALLING');
   assert.deepEqual(r.forecast.deltaFt,{numerator:'-3',denominator:'10',unit:'ft'});
   assert.equal(r.forecast.bridgeAssociationApproved,false);assert.equal(r.clearance.valueFt,'56.9');
+  assert.equal(r.clearance.pocRange.lowerFt,'53.9');assert.equal(r.clearance.pocRange.upperFt,'60.0');
   assert.deepEqual(r.clearance.trace.unroundedClearanceFt,{numerator:'5697',denominator:'100',unit:'ft'});
   assert.deepEqual(r.clearance.trace.assumedTransferDifferenceFt,{numerator:'1',denominator:'6',unit:'ft'});
   assert.equal(r.clearance.trace.uncertaintyDeducted,false);

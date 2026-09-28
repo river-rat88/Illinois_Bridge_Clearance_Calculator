@@ -1,4 +1,5 @@
 import { Q, stableStringify } from '../exact.js';
+import { withPocRange } from '../poc-range.js';
 import { hash, check, parseExact, utc } from './usgs-pilot.js';
 import { readFileSync } from 'node:fs';
 
@@ -182,5 +183,5 @@ export function evaluateLincoln(snapshot, asOf) {
     stage,
     forecast: attempt(() => stationForecast(snapshot, asOf)),
     bridgeReference: { ...reference, consistency, modelStatus: model, recordSha256: hash(stableStringify(reference)) },
-    clearance: { ...clearance, productionEligible: false } };
+    clearance: withPocRange({ ...clearance, productionEligible: false }) };
 }

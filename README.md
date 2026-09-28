@@ -2,6 +2,8 @@
 
 A **bridge-directory and calculation prototype** for Illinois Waterway miles 0–279. The main page lists source crossings in increasing river-mile order, with search, reverse order, mile-source records and visible pending-data rows. Henry, Morris, EJE and Abraham Lincoln have separate live, assumption-labeled pilot estimates. Lincoln uses an archived NGS NCAT gauge-zero transformation and the owner's direct-water assumption; its physical accuracy is unverified. EJE converts USACE Dresden NGVD29 tailwater using NOAA CDII2's published −0.21-ft NAVD88 gauge zero; the cross-agency tie, chart edition and survey epoch remain unverified. All four selected chart references reconcile exactly. This is not an operational clearance service or a verified physical-bridge inventory. The synthetic calculator is at `/demo`; the detailed Henry pilot is at `/henry`.
 
+Each pilot estimate also has an **illustrative ±3-ft scenario** calculated from its unrounded value and rounded outward to tenths. The owner selected three feet as a useful proof-of-concept comparison width, not a measured error bound. The lower endpoint is **not a confirmed least clearance**, and neither endpoint is a navigation decision. The scenario is absent when the source calculation is unavailable. The downloaded source receipt includes its exact basis; see [range review](docs/poc-range-review.md).
+
 ![Desktop prototype showing synthetic bridge clearances](docs/screenshots/prototype-desktop.png)
 
 [Mobile preview](docs/screenshots/prototype-mobile.png)
@@ -67,7 +69,7 @@ All measured values are decimal strings. `ft` means the international foot; `us_
 ## Deliberate prototype limits
 
 - Production input in the synthetic core is disabled. Henry’s separate pilot adapter permits a labeled estimate using the owner’s direct-water-level assumption; overall accuracy remains unverified. Setting `datasetKind` to anything except `SYNTHETIC` withholds clearance.
-- The **six-inch objective is not field-validated**. Sample error allowances only exercise the gate and include elapsed-time and display-rounding contributions. No uncertainty or operating margin is deducted from the clearance.
+- The earlier **six-inch objective is not field-validated**. The owner now accepts an illustrative ±3-ft comparison for the proof of concept, with no asserted accuracy coverage. The synthetic production-style gate still exercises its historical six-inch specification; no real pilot is production eligible. No uncertainty or operating margin is deducted from the single calculated clearance.
 - Models implemented: direct, fixed offset, bracketed linear. Piecewise ratings, fallback gauge models, other movable-bridge geometries, and unlimited-clearance states are deferred.
 - The fixture's two-hour calculation stop, 24-hour forecast window, 0.1-ft forecast deadband and pilot's 18-hour forecast issue limit are demonstration defaults. Only the observation late label **strictly after 24 hours** is owner-confirmed.
 - The official-source research inventory is incomplete as a verified physical-structure catalog. Henry has live USGS stage and NOAA station-forecast feeds plus local snapshot persistence. Authentication, external monitoring and deployment are not included.

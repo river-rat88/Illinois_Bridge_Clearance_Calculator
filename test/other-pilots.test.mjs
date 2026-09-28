@@ -13,6 +13,7 @@ const morris=s=>evaluateMorris(s,MORRIS_NOW),eje=s=>evaluateEje(s,EJE_NOW);
 test('Morris uses its NAVD88 zero and exact elevations; forecast remains independent',()=>{
  const r=morris(makeMorrisSnapshot());
  assert.equal(r.stage.valueFt,'5.67');assert.equal(r.clearance.valueFt,'49.0');
+ assert.equal(r.clearance.pocRange.halfWidthFt,'3');assert.equal(r.clearance.pocRange.measuredErrorBound,false);
  assert.deepEqual(r.clearance.trace.unroundedClearanceFt,{numerator:'2453',denominator:'50',unit:'ft'});
  assert.equal(r.clearance.trace.gaugeZeroNavd88Ft,'478.17');assert.equal(r.forecast.status,'AVAILABLE');
  assert.equal(r.clearance.trace.uncertaintyDeducted,false);

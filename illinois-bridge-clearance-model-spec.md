@@ -5,7 +5,7 @@
 **Status:** Initial system design; owner requirements updated September 26, 2026. Observation lateness threshold confirmed as 24 hours.
 **Confirmed scope (revised September 26):** Illinois Waterway miles 0–279, from the Mississippi River at Grafton through the Illinois River and into the lower Des Plaines River. This supersedes the earlier 0–273 limit. The Chicago River, Chicago Sanitary and Ship Canal, Cal-Sag Channel and reaches above mile 279 remain excluded. The main page lists bridges in ascending river-mile order by default, with each mile marker visible even when clearance is unavailable.
 
-**Confirmed presentation requirements:** Lift-bridge clearances are calculated for the fully open position. Show simple calculated clearance, without subtracting an uncertainty allowance or operating margin. The initial desired total clearance error is strictly less than six inches (0.5 ft); the owner is reviewing whether this target is necessary given a separate two-foot minimum remaining-clearance operating policy. Include forecast river direction separately from observed stage and calculated clearance. Mark observations older than 24 hours as `LATE`.
+**Confirmed presentation requirements:** Lift-bridge clearances are calculated for the fully open position. Show simple calculated clearance, without subtracting an uncertainty allowance or operating margin. The initial desired total clearance error was strictly less than six inches (0.5 ft); on September 28 the owner accepted a clearly unvalidated ±3-ft illustrative range for the proof of concept. The historical six-inch gate remains in the synthetic production-style core and no real pilot is production eligible. A separate two-foot minimum remaining-clearance operating policy is not evaluated here. Include forecast river direction separately from observed stage and calculated clearance. Mark observations older than 24 hours as `LATE`.
 
 ## 1. Design position
 
@@ -208,7 +208,7 @@ Store component bounds:
 - water-level change since observation and any multi-gauge time mismatch;
 - numerical conversion and final display-rounding error.
 
-The desired total absolute clearance error is **strictly less than six inches (0.5 ft / 0.1524 m)**. This is an end-to-end target, not six inches for each component and not merely a target for mean error or RMSE. For reviewed absolute component bounds, apply a conservative internal error budget:
+The original production-style target was total absolute clearance error **strictly less than six inches (0.5 ft / 0.1524 m)**. This is an end-to-end target, not six inches for each component and not merely a target for mean error or RMSE. The owner now accepts an illustrative ±3-ft scenario for the proof of concept without claiming a validated accuracy bound. The synthetic core retains the original gate; a future production specification must set its own evidence and threshold. For reviewed absolute component bounds under the original gate, apply a conservative internal error budget:
 
 \[
 U_{total}=\sum_i u_i < 0.5\text{ ft}
@@ -232,7 +232,7 @@ For a future optional passage assessment, let \(A\) be the highest point's air d
 C_b-A-U_C-U_A\geq 2.0\text{ ft}.
 \]
 
-Unknown bounds, stale data, unknown opening position or an unverified vessel profile must yield **not assessed**, never a pass indication. The two feet cannot also be counted as a measurement-error allowance: if the estimated gap is exactly 2.0 ft and the clearance might be 0.5 ft less than estimated, the actual gap might be only 1.5 ft. The earlier six-inch accuracy objective is a *data-quality target*, separate from the two-foot *minimum physical gap*. The owner has suggested reviewing the accuracy target, but no replacement numerical target or error coverage has been approved; retain the initial target and pilot/production gates pending that decision. The page must continue showing the unadjusted simple bridge-clearance number.
+Unknown bounds, stale data, unknown opening position or an unverified vessel profile must yield **not assessed**, never a pass indication. The two feet cannot also be counted as a measurement-error allowance: if the estimated gap is exactly 2.0 ft and the clearance might be 0.5 ft less than estimated, the actual gap might be only 1.5 ft. The earlier six-inch accuracy objective was a *data-quality target*, separate from the two-foot *minimum physical gap*. The owner has accepted a ±3-ft illustrative proof-of-concept scenario, but has not claimed that three feet is a measured error bound or approved a production accuracy threshold. Retain the synthetic production-style gate and unverified pilot status. The page must continue showing the unadjusted simple bridge-clearance number.
 
 ## 6. Bridge-to-gauge association
 
@@ -507,7 +507,7 @@ Back-test bridge-water models against independent observations over low, normal,
 
 ## 14. Recommended implementation sequence
 
-1. **Apply confirmed phase-1 scope.** Illinois Waterway miles 0–279, fully open lift bridges, simple calculated clearance, forecast direction, observations older than 24 hours marked late, and an under-six-inch total error target. Finalize calculation-eligibility age rules separately; resolve whether locks/dam service bridges count as “bridges.”
+1. **Apply confirmed phase-1 scope.** Illinois Waterway miles 0–279, fully open lift bridges, simple calculated clearance, forecast direction, and observations older than 24 hours marked late. The proof of concept has an illustrative ±3-ft scenario; the original under-six-inch gate remains synthetic only. Finalize calculation-eligibility age rules separately; resolve whether locks/dam service bridges count as “bridges.”
 2. **Build and review the bridge catalog.** Extract the current Coast Pilot table, reconcile USACE IDs/names/miles, and preserve aliases and inactive spans.
 3. **Build the datum registry.** Load gauge-zero epochs, pool/high-water/LWRP reference surfaces, and documented transformations.
 4. **Inventory gauges and hydraulic reaches.** Assign candidate primary/fallback series and expected freshness policies.
@@ -522,7 +522,7 @@ Confirmed by the owner on September 25, 2026:
 
 1. Initially 0–273; revised September 26 to Illinois Waterway miles **0–279**, including the lower Des Plaines reach.
 2. Lift-bridge listed and calculated clearances use the **fully open** position.
-3. Desired total clearance error is **under six inches**, subject to demonstrated data/model capability.
+3. The initial desired total clearance error was **under six inches**. On September 28 the owner accepted an unvalidated ±3-ft scenario for the proof of concept, without establishing any actual error bound.
 4. Include **forecast river direction**, separately from observed stage.
 5. Show **simple calculated bridge clearance**, without an uncertainty or operating-margin deduction.
 6. Mark observations **older than 24 hours** as `LATE`, measured from observation time, not download time.
@@ -532,7 +532,7 @@ Pending clarification or validation:
 
 - The next-24-hours forecast window and 0.1-ft direction deadband are proposed implementation defaults, not owner-specified values.
 - The six-inch target requires reviewed uncertainty evidence and a documented coverage level/operating envelope; it cannot be promised from unvalidated source data.
-- The owner is considering relaxing the six-inch data-quality target, but has not supplied a replacement target or validated error bound. The two-foot operating minimum does not by itself determine an acceptable error bound.
+- A future production accuracy threshold and its evidence standard are still undecided. The ±3-ft scenario is a display assumption only. The two-foot operating minimum does not by itself determine an acceptable error bound.
 - Finalize calculation-stop/accuracy-age rules separately from the late label. A late label alone does not establish whether a historical number should remain visible.
 
 ## References

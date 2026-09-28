@@ -9,7 +9,7 @@ async function update() {
   // Remove a previously current-looking value while the request is unresolved.
   receipt = null; el('audit').disabled = true;
   text('stage', 'Checking…'); text('forecast', 'Checking…'); text('clearance', 'Checking…');
-  for (const id of ['clearance-time','clearance-status','stage-status','stage-time','stage-age','quality','forecast-time','forecast-window']) text(id, '');
+  for (const id of ['clearance-time','clearance-status','clearance-range','stage-status','stage-time','stage-age','quality','forecast-time','forecast-window']) text(id, '');
   el('history').hidden = true;
   try {
     const response = await fetch('/api/henry', { cache: 'no-store', signal: AbortSignal.timeout(25000) });
@@ -18,6 +18,7 @@ async function update() {
     const c = r.clearance;
     text('clearance', c.status === 'ESTIMATED' ? `${c.valueFt} ft` : 'Unavailable');
     text('clearance-status', c.status === 'ESTIMATED' ? c.late ? 'LATE — historical estimate' : c.historical ? 'DELAYED — historical estimate' : 'Calculated estimate · assumptions apply' : c.status.replaceAll('_', ' '));
+    if (c.status === 'ESTIMATED' && c.pocRange) text('clearance-range', `Illustrative ±3 ft: ${c.pocRange.lowerFt}–${c.pocRange.upperFt} ft. Not a measured minimum or accuracy guarantee.`);
     if (c.validAt) text('clearance-time', `At observation time: ${time(c.validAt)}`);
     text('stage', s.status === 'AVAILABLE' ? `${s.valueFt} ft` : 'Unavailable');
     text('stage-status', s.status === 'AVAILABLE' ? s.late ? 'LATE — older than 24 hours' : s.delayed ? 'DELAYED — last observed reading' : 'Latest reported observation' : s.status.replaceAll('_', ' '));

@@ -1,4 +1,5 @@
 import { Q, stableStringify } from '../exact.js';
+import { withPocRange } from '../poc-range.js';
 import { createHash } from 'node:crypto';
 export const hash = value => createHash('sha256').update(value).digest('hex');
 export const check = (ok, code) => { if (!ok) throw Object.assign(new Error(code), { code }); };
@@ -152,7 +153,7 @@ function evaluate(snapshot, asOf) {
   return { adapterVersion, asOf, bridgeId, stage,
     forecast: attempt(() => stationForecast(snapshot, asOf)),
     bridgeReference: { ...reference, consistency: referenceCheck.status, recordSha256: hash(stableStringify(reference)) },
-    clearance: { ...calculation, productionEligible: false } };
+    clearance: withPocRange({ ...calculation, productionEligible: false }) };
 }
 
 return {observedStage,stationForecast,evaluate};
