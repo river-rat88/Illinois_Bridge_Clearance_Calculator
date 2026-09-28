@@ -8,6 +8,22 @@ import { createLincolnService } from '../src/lincoln-service.js';
 import { hash } from '../src/feeds/usgs-pilot.js';
 import { makeServer } from '../server.mjs';
 import { Q } from '../src/exact.js';
+import { readFileSync } from 'node:fs';
+
+const ncatReview=JSON.parse(readFileSync(new URL('../data/research/lincoln-ncat-api-review.json',import.meta.url),'utf8'));
+test('NCAT research transcript preserves meter inputs, local error and the unresolved zero difference',()=>{
+  assert.equal(ncatReview.input.zeroNgvd29Meters,'131.064');
+  assert.equal(Q.parse(ncatReview.input.zeroNgvd29Ft).mul(ncatReview.input.metersPerFoot).cmp(ncatReview.input.zeroNgvd29Meters),0);
+  assert.equal(ncatReview.responseFields.srcOrthoht,ncatReview.input.zeroNgvd29Meters);
+  assert.equal(ncatReview.responseFields.heightUnits,'m');
+  assert.equal(ncatReview.responseFields.vertconVersion,'3.0');
+  assert.equal(ncatReview.responseFields.sigOrthoht,'0.053');
+  const converted=Q.parse(ncatReview.responseFields.destOrthoht).div(ncatReview.input.metersPerFoot);
+  assert.ok(converted.sub(ncatReview.derived.zeroNavd88FtApprox).cmp('-0.005')>0);
+  assert.ok(converted.sub(ncatReview.derived.zeroNavd88FtApprox).cmp('0.005')<0);
+  assert.ok(Q.parse(ncatReview.derived.ownerReportedZeroNavd88Ft).cmp(converted)>0);
+  assert.match(ncatReview.captureStatus,/RAW_BYTES_NOT_ARCHIVED/);
+});
 
 const now = '2026-09-27T18:30:00.000Z';
 const gauge = {lid:'LSLI2',usgsId:'411925089063901',name:'Illinois River near La Salle',
@@ -30,19 +46,23 @@ function snapshot() {
 function change(s,key,fn) {const doc=JSON.parse(s.sources[key].body);fn(doc);
   s.sources[key].body=JSON.stringify(doc);s.sources[key].sha256=hash(s.sources[key].body);}
 
-test('La Salle stage and gauge-only forecast never imply a bridge clearance',()=>{
+test('owner direct-water assumption cannot resolve conflicting gauge-zero conversions',()=>{
   const r=evaluateLincoln(snapshot(),now);
   assert.equal(r.stage.status,'AVAILABLE');assert.equal(r.stage.valueFt,'14.11');
   assert.equal(r.stage.gaugeZeroFt,'430');assert.equal(r.stage.verticalDatum,'NGVD29');
   assert.equal(r.stage.late,false);assert.equal(r.forecast.status,'AVAILABLE');
   assert.equal(r.forecast.direction,'FALLING');assert.equal(r.forecast.bridgeAssociationApproved,false);
-  assert.equal(r.clearance.status,'GAUGE_DATUM_TIE_UNRESOLVED');assert.equal(r.clearance.valueFt,null);
+  assert.equal(r.clearance.status,'DATUM_CONVERSION_REVIEW');assert.equal(r.clearance.valueFt,null);
   assert.equal(r.bridgeReference.lowSteelElevationFt,'505.8');
   assert.equal(r.bridgeReference.referenceSurface.elevationFt,'439.8');
   assert.equal(r.bridgeReference.publishedClearanceFt,'66.0');
   assert.equal(r.bridgeReference.consistency,'INTERNALLY_CONSISTENT');
   assert.equal(r.bridgeReference.gaugeCandidate.ownerReportedConversion.convertedZeroNavd88Ft,'429.88');
   assert.equal(r.bridgeReference.gaugeCandidate.ownerReportedConversion.verified,false);
+  assert.equal(r.bridgeReference.gaugeAssociationApproved,true);
+  assert.equal(r.bridgeReference.bridgeWaterModel.offsetFt,'0');
+  assert.equal(r.bridgeReference.bridgeWaterModel.errorBoundVerified,false);
+  assert.equal(r.bridgeReference.modelStatus,'OWNER_ASSUMPTION_RECORDED');
   assert.equal(Q.parse('429.88').add('10.20').sub(r.bridgeReference.referenceSurface.elevationFt).cmp('0.28'),0);
   assert.equal(r.clearance.productionEligible,false);assert.deepEqual(evaluateLincoln(snapshot(),now),r);
 });
@@ -52,8 +72,17 @@ test('owner-reported converter value and optimistic flags cannot enable a bridge
   s.bridgeReference.gaugeAssociationApproved=true;
   s.bridgeReference.gaugeCandidate.ownerReportedConversion.verified=true;
   const r=evaluateLincoln(s,now);
-  assert.equal(r.stage.status,'AVAILABLE');assert.equal(r.clearance.status,'GAUGE_DATUM_TIE_UNRESOLVED');
+  assert.equal(r.stage.status,'AVAILABLE');assert.equal(r.clearance.status,'DATUM_CONVERSION_REVIEW');
   assert.equal(r.clearance.valueFt,null);
+});
+test('changed bridge-water association blocks even the owner assumption',()=>{
+  for (const edit of [r=>r.bridgeWaterModel.offsetFt='0.1',r=>r.bridgeWaterModel.validated=true,
+    r=>r.bridgeWaterModel.errorBoundVerified=true,r=>r.gaugeCandidate.gaugeId='OTHER']) {
+    const s=snapshot();s.bridgeReference=structuredClone(evaluateLincoln(s,now).bridgeReference);edit(s.bridgeReference);
+    const r=evaluateLincoln(s,now);
+    assert.equal(r.bridgeReference.modelStatus,'MODEL_UNRESOLVED');
+    assert.equal(r.clearance.status,'MODEL_UNRESOLVED');assert.equal(r.clearance.valueFt,null);
+  }
 });
 test('altered chart arithmetic or datum blocks even the reference consistency label',()=>{
   for (const edit of [r=>r.lowSteelElevationFt='505.7',r=>r.verticalDatum='NGVD29',r=>r.bridgeId='OTHER']) {

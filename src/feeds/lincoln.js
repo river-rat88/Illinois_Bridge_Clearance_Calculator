@@ -2,7 +2,7 @@ import { Q, stableStringify } from '../exact.js';
 import { hash, check, parseExact, utc } from './usgs-pilot.js';
 import { readFileSync } from 'node:fs';
 
-export const ADAPTER_VERSION = 'lincoln-noaa-stage-review-3';
+export const ADAPTER_VERSION = 'lincoln-noaa-stage-review-4';
 export const URLS = Object.freeze({
   gauge: 'https://api.water.noaa.gov/nwps/v1/gauges/lsli2',
   stage: 'https://api.water.noaa.gov/nwps/v1/gauges/lsli2/stageflow/observed',
@@ -115,14 +115,29 @@ export function evaluateLincoln(snapshot, asOf) {
       'REFERENCE_ARITHMETIC_CONFLICT');
     return { status: 'INTERNALLY_CONSISTENT' };
   }).status;
-  // The NAVD88 bridge reference is selected, but the gauge conversion and water-level transfer are not validated.
+  const model = attempt(() => {
+    const m = reference.bridgeWaterModel, g = reference.gaugeCandidate;
+    check(reference.gaugeAssociationApproved === true && g?.gaugeId === 'LSLI2' &&
+      g.associationStatus === 'OWNER_APPROVED_DIRECT_WATER_ASSUMPTION_NOT_FIELD_VALIDATED' &&
+      g.bridgeMinusGaugeFt === '0' && m?.id === 'lincoln-lsli2-owner-direct-1' &&
+      m.bridgeId === 'il-abraham-lincoln' && m.gaugeId === 'LSLI2' && m.type === 'DIRECT' &&
+      m.basis === 'OWNER_ASSUMPTION' && m.offsetFt === '0' && m.validated === false &&
+      m.ownerClaimedDifferenceInchesLessThan === '1' && m.errorBoundVerified === false &&
+      m.appliesTo === 'ASSUMPTION_LABELED_PILOT_ONLY', 'MODEL_UNRESOLVED');
+    return { status: 'OWNER_ASSUMPTION_RECORDED' };
+  }).status;
+  // The direct-water assumption is owner approved. Independent NCAT and owner-reported
+  // NAVD88 zeros disagree, so neither becomes an active conversion in this pilot.
+  const status = consistency !== 'INTERNALLY_CONSISTENT' ? consistency :
+    model !== 'OWNER_ASSUMPTION_RECORDED' ? model : 'DATUM_CONVERSION_REVIEW';
   return { adapterVersion: ADAPTER_VERSION, asOf, bridgeId: reference.bridgeId,
     stage: attempt(() => observedStage(snapshot, asOf)),
     forecast: attempt(() => stationForecast(snapshot, asOf)),
-    bridgeReference: { ...reference, consistency, recordSha256: hash(stableStringify(reference)) },
-    clearance: { status: consistency === 'INTERNALLY_CONSISTENT' ? 'GAUGE_DATUM_TIE_UNRESOLVED' : consistency,
+    bridgeReference: { ...reference, consistency, modelStatus: model, recordSha256: hash(stableStringify(reference)) },
+    clearance: { status,
       valueFt: null, productionEligible: false,
-      reason: consistency === 'INTERNALLY_CONSISTENT'
-        ? 'Chart reference reconciles; the La Salle NAVD88 gauge-zero conversion and bridge-to-gauge water-level tie remain unverified.'
+      reason: status === 'DATUM_CONVERSION_REVIEW'
+        ? 'Owner assumes La Salle water equals bridge water. NCAT at published station coordinates gives about 429.78 ft NAVD88, while the owner reports 429.88 ft; conversion settings and source output need review before a numerical pilot.'
+        : status === 'MODEL_UNRESOLVED' ? 'Bridge-to-gauge owner assumption is missing or changed.'
         : 'Bridge chart reference failed identity, datum, or arithmetic validation.' } };
 }

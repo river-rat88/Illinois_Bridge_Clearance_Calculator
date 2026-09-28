@@ -1,0 +1,39 @@
+{
+  "id": "lincoln-ncat-api-review-2026-09-28",
+  "source": "NOAA NGS NCAT latitude-longitude-height API",
+  "url": "https://geodesy.noaa.gov/api/ncat/llh?lat=41.32358&lon=-89.11079&orthoHt=131.064&inDatum=nad83(2011)&outDatum=nad83(2011)&inVertDatum=NGVD29&outVertDatum=NAVD88",
+  "stationCoordinateSource": "https://rivergages.mvr.usace.army.mil/WaterControl/stationinfo2.cfm?dt=&fid=SRDI2&sid=LSLI2",
+  "retrievedDateUtc": "2026-09-28",
+  "captureStatus": "RESPONSE_FIELDS_TRANSCRIBED_FROM_HTTP_200; RAW_BYTES_NOT_ARCHIVED_AFTER_SUBSEQUENT_TIMEOUTS",
+  "input": {
+    "latitude": "41.32358",
+    "longitude": "-89.11079",
+    "horizontalFrameAssumed": "NAD83(2011)",
+    "stationCoordinateFramePublished": false,
+    "zeroNgvd29Ft": "430.00",
+    "footRealizationAssumed": "INTERNATIONAL",
+    "metersPerFoot": "0.3048",
+    "zeroNgvd29Meters": "131.064"
+  },
+  "responseFields": {
+    "id": "1790604588823",
+    "srcDatum": "NAD83(2011)",
+    "destDatum": "NAD83(2011)",
+    "srcVertDatum": "NGVD29",
+    "destVertDatum": "NAVD88",
+    "srcLat": "41.3235800000",
+    "srcLon": "-89.1107900000",
+    "heightUnits": "m",
+    "srcOrthoht": "131.064",
+    "destOrthoht": "130.997",
+    "sigOrthoht": "0.053",
+    "vertconVersion": "3.0"
+  },
+  "derived": {
+    "zeroNavd88FtApprox": "429.78",
+    "transformationErrorFtApprox": "0.174",
+    "ownerReportedZeroNavd88Ft": "429.88",
+    "differenceFtApprox": "0.10"
+  },
+  "status": "CONFLICT_REQUIRES_NCAT_SETTINGS_AND_ORIGINAL_OUTPUT_REVIEW"
+}

@@ -23,7 +23,7 @@
   "verticalDatum": "NAVD88",
   "unitRealization": null,
   "pilotEstimateEnabled": false,
-  "gaugeAssociationApproved": false,
+  "gaugeAssociationApproved": true,
   "totalErrorValidated": false,
   "productionEligible": false,
   "historicalAlternatives": [
@@ -56,7 +56,28 @@
       "localErrorEstimateFt": null,
       "verified": false
     },
-    "associationStatus": "CANDIDATE_NOT_VALIDATED",
-    "bridgeMinusGaugeFt": null
+    "ncatApiCandidate": {
+      "researchRecordId": "lincoln-ncat-api-review-2026-09-28",
+      "sourceInputZeroNgvd29Meters": "131.064",
+      "outputZeroNavd88Meters": "130.997",
+      "convertedZeroNavd88FtApprox": "429.78",
+      "localTransformationErrorMeters": "0.053",
+      "vertconVersion": "3.0",
+      "active": false
+    },
+    "associationStatus": "OWNER_APPROVED_DIRECT_WATER_ASSUMPTION_NOT_FIELD_VALIDATED",
+    "bridgeMinusGaugeFt": "0"
+  },
+  "bridgeWaterModel": {
+    "id": "lincoln-lsli2-owner-direct-1",
+    "bridgeId": "il-abraham-lincoln",
+    "gaugeId": "LSLI2",
+    "type": "DIRECT",
+    "basis": "OWNER_ASSUMPTION",
+    "offsetFt": "0",
+    "validated": false,
+    "ownerClaimedDifferenceInchesLessThan": "1",
+    "errorBoundVerified": false,
+    "appliesTo": "ASSUMPTION_LABELED_PILOT_ONLY"
   }
 }
