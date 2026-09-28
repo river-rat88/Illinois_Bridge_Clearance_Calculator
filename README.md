@@ -4,6 +4,8 @@ A **bridge-directory and calculation prototype** for Illinois Waterway miles 0â€
 
 Each pilot estimate also has an **illustrative Â±3-ft scenario** calculated from its unrounded value and rounded outward to tenths. The owner selected three feet as a useful proof-of-concept comparison width, not a measured error bound. The lower endpoint is **not a confirmed least clearance**, and neither endpoint is a navigation decision. The scenario is absent when the source calculation is unavailable. The downloaded source receipt includes its exact basis; see [range review](docs/poc-range-review.md).
 
+The [river-wide architecture](docs/river-wide-architecture.md) now tracks all 38 source crossing rows through a checked activation plan: four assumption-labeled pilots, 33 active rows pending selected bridge references, and one removed span retained for history. Every pending row shows its next evidence step. Gauge IDs and API endpoints are explicit only for connected pilots; research clearances cannot silently enable a calculation.
+
 ![Desktop prototype showing synthetic bridge clearances](docs/screenshots/prototype-desktop.png)
 
 [Mobile preview](docs/screenshots/prototype-mobile.png)

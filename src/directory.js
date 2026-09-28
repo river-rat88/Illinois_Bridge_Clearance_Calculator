@@ -1,4 +1,5 @@
 import { Q } from './exact.js';
+import { resolveCoverage } from './coverage.js';
 
 // River miles are decimal strings. Never sort them lexicographically.
 export function orderBridges(bridges, { query = '', direction = 'up', includeHistorical = false } = {}) {
@@ -8,7 +9,7 @@ export function orderBridges(bridges, { query = '', direction = 'up', includeHis
     .sort((a,b) => (Q.parse(a.riverMile).cmp(b.riverMile) || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)) * (direction === 'down' ? -1 : 1));
 }
 
-export function buildDirectory(inventory, extension, references, manifest) {
+export function buildDirectory(inventory, extension, references, manifest, coveragePlan) {
   const sources = new Map([...manifest.sources, extension.source].map(s => [s.id,s]));
   const seen = new Set();
   const selected = new Map(references.map(r => [r.bridgeId, { ...r,
@@ -33,7 +34,10 @@ export function buildDirectory(inventory, extension, references, manifest) {
       selectedReference:!historical ? reference ?? null : null,
       research:b };
   });
+  const coverage = resolveCoverage([...inventory.bridges,...extension.bridges],references,coveragePlan);
+  for (const bridge of bridges) bridge.coverage = coverage.byId.get(bridge.id);
   return { schemaVersion:1, scope:extension.scope, completeness:'UNDER_REVIEW',
+    coveragePolicyVersion:coverage.policyVersion, pilots:coverage.pilots,
     milePolicy:'Use owner-confirmed chart miles first, then directly published historical Light List river miles where available; otherwise use provisional Coast Pilot crosswalk. Preserve both and flag differences. Current chart verification remains pending.',
     bridges:orderBridges(bridges,{includeHistorical:true}),
     sources:[...sources.values()].filter(s=>bridges.some(b=>b.mileSourceId===s.id || b.research.coastPilot.sourceId===s.id)) };
