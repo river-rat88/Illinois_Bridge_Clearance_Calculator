@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "policyVersion": "coverage-2026-09-28-1",
+  "meaning": "Explicit activation plan for source crossing rows; no nearest-gauge fallback or automatic promotion from research values.",
+  "entries": [
+    {
+      "bridgeId": "il-eje",
+      "phase": "PILOT",
+      "gaugeId": "IL04",
+      "endpoint": "/api/eje",
+      "stageLabel": "Dresden tailwater"
+    },
+    {
+      "bridgeId": "il-morris",
+      "phase": "PILOT",
+      "gaugeId": "MORI2",
+      "endpoint": "/api/morris",
+      "stageLabel": "Morris"
+    },
+    {
+      "bridgeId": "il-chessie",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-seneca",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-marseilles",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-veterans-ottawa",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-burlington-ottawa",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-utica",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-abraham-lincoln",
+      "phase": "PILOT",
+      "gaugeId": "LSLI2",
+      "endpoint": "/api/lincoln",
+      "stageLabel": "La Salle"
+    },
+    {
+      "bridgeId": "il-illinois-central-lasalle",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-lasalle",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-peru",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-spring-valley",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-hennepin-i180",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-sr26-unresolved",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-henry",
+      "phase": "PILOT",
+      "gaugeId": "HNYI2",
+      "endpoint": "/api/henry",
+      "stageLabel": "Henry"
+    },
+    {
+      "bridgeId": "il-lacon",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-chillicothe-rr",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-mcclugage",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-murray-baker",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-michel",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-atsf-removed",
+      "phase": "HISTORICAL",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-cedar",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-peoria-pekin-rr",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-shade-lohmann",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-pekin-highway",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-pekin-rr",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-havana",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-beardstown-rr",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-beardstown-highway",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-meredosia",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-valley-city-rr",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-valley-city-a",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-valley-city-b",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-florence",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-pearl-rr",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-hardin",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    },
+    {
+      "bridgeId": "il-i55-desplaines",
+      "phase": "REFERENCE_PENDING",
+      "gaugeId": null,
+      "endpoint": null,
+      "stageLabel": null
+    }
+  ]
+}

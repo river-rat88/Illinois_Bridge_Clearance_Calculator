@@ -6,12 +6,7 @@ const ft = value => `<span class="value">${escape(value)} <small>ft</small></spa
 const unavailable = note => `<span class="unavailable">Unavailable</span><span class="sub">${escape(note)}</span>`;
 let directory;
 const receipts=new Map();
-const pilots={
- 'il-henry':{endpoint:'/api/henry',label:'Henry'},
- 'il-morris':{endpoint:'/api/morris',label:'Morris'},
- 'il-eje':{endpoint:'/api/eje',label:'Dresden tailwater'},
- 'il-abraham-lincoln':{endpoint:'/api/lincoln',label:'La Salle'}
-};
+let pilots=Object.create(null);
 const reason=status=>({DATUM_CONVERSION_REQUIRED:'NGVD29 → NAVD88 conversion needed',DATUM_CONVERSION_REVIEW:'Gauge-zero conversions differ',GAUGE_DATUM_TIE_UNRESOLVED:'Gauge datum and bridge water tie pending',FORECAST_STALE:'Forecast is stale',NO_VERIFIED_FORECAST:'No verified tailwater forecast',SOURCE_UNAVAILABLE:'Source unavailable'}[status]??status?.replaceAll('_',' ')??'Not available');
 const expanded = new Set();
 function detail(b) {
@@ -25,6 +20,8 @@ function detail(b) {
     ${selected?.consistency==='REFERENCE_ARITHMETIC_CONFLICT'?'<p class="unavailable">Reference mismatch: low steel minus pool does not equal listed clearance. Elevation and position confirmation are pending.</p>':''}
     <p>${b.historical?'Removed span retained for historical reference; no clearance calculation.':b.id==='il-eje'?'Pilot conversion: NOAA CDII2 publishes a −0.21-ft NAVD88 gauge zero; add that value to USACE Dresden NGVD29 tailwater. The chart supplies the bridge’s NAVD88 elevations. The cross-agency datum tie, two-inch bridge/gauge assumption and fully open position are unverified; overall accuracy is unverified.':b.id==='il-abraham-lincoln'?'Owner-supplied bridge image identifies the channel span: 505.8-ft NAVD88 low steel, 66.0-ft clearance at 439.8-ft NAVD88 normal pool, USCG No. 6605. La Salle LSLI2 is about 1.0 river mile downstream in the Peoria pool. This pilot assumes zero water-level difference between gauge and bridge; the owner expects less than an inch, which has not been field-verified. NCAT VERTCON 3.0 at the Corps gauge coordinates converts the 430.00-ft NGVD29 zero to about 429.78 ft NAVD88. The owner screenshot shows 429.790 ft at different entered coordinates, confirming a nearby modeled value; the earlier verbal 429.88 ft is superseded. The estimate uses the gauge-location result, not the other coordinates. NCAT reports 0.053 m local transformation error, and overall accuracy remains unverified. Forecast direction is at the gauge.':pilots[b.id]?'This pilot uses the recorded two-inch bridge/gauge assumption. Overall accuracy is unverified.':'Gauge association and clearance calculation are pending.'}</p>
     ${b.id==='il-henry'?'<p><a href="/henry">Henry details and downloadable calculation receipt →</a></p>':''}
+    <p>Coverage: ${escape(b.coverage.phase.replaceAll('_',' ').toLowerCase())}. Next evidence: ${escape(b.coverage.nextEvidence)}</p>
+    ${b.coverage.researchFlags.length?`<p>Open source review flags: ${escape(b.coverage.researchFlags.join(', ').replaceAll('_',' ').toLowerCase())}.</p>`:''}
     ${r?.clearance?.reason?`<p class="unavailable">${escape(r.clearance.reason)}</p>`:''}
     ${r?.stage?.status==='AVAILABLE'?`<p>${escape(pilots[b.id].label)}: ${escape(r.stage.valueFt)} ft ${r.stage.valueKind==='ABSOLUTE_ELEVATION'?'NGVD29 absolute elevation (no gauge zero added)':b.id==='il-abraham-lincoln'?'above the 430.00-ft NGVD29 gauge zero':'above the local gauge zero'}. ${escape(r.stage.approvalStatus)}. Observed ${escape(time(r.stage.observedAt))}.</p>`:''}
     ${b.id==='il-eje'?'<p>Fully open assumption—position not verified. No verified tailwater forecast is configured.</p>':''}
@@ -36,8 +33,8 @@ function render() {
   const rows = orderBridges(directory.bridges,{query:$('search').value,direction:$('order').value,includeHistorical:$('show-historical').checked});
   $('bridge-rows').innerHTML = rows.map(b=>{
     const r = receipts.get(b.id)?.result, s=r?.stage, c=r?.clearance, f=r?.forecast;
-    const stage = s?.status==='AVAILABLE' ? `${ft(s.displayValueFt??s.valueFt)}<span class="sub">${escape(pilots[b.id]?.label)}${s.valueKind==='ABSOLUTE_ELEVATION'?' · NGVD29 elevation':b.id==='il-abraham-lincoln'?' · NGVD29 gauge stage':' · gauge stage'}<br>${escape(time(s.observedAt))}${s.valueKind==='ABSOLUTE_ELEVATION'?'<br>Clearance uses full source precision in record':''}</span><span class="badge ${s.late||s.delayed?'late':''}">${s.late?'LATE >24h':s.delayed?'DELAYED':'Latest observation'}</span>` : unavailable(b.historical?'Historical crossing':pilots[b.id]?reason(s?.status):'Gauge connection pending');
-    const clearance = c?.status==='ESTIMATED' ? `${ft(c.valueFt)}<span class="sub">${c.late?'LATE — historical estimate':c.historical?'DELAYED — historical estimate':'Estimate at observation time'}<br>${escape(time(c.validAt))}${c.pocRange?`<br>Illustrative ±3 ft: ${escape(c.pocRange.lowerFt)}–${escape(c.pocRange.upperFt)} ft`:''}<br>Range is not a measured minimum or accuracy guarantee</span>` : unavailable(b.historical?'Removed span':b.selectedReference?.consistency==='REFERENCE_ARITHMETIC_CONFLICT'?'Low-steel position needs confirmation':c?reason(c.status):'Calculation pending');
+    const stage = s?.status==='AVAILABLE' ? `${ft(s.displayValueFt??s.valueFt)}<span class="sub">${escape(pilots[b.id]?.label)}${s.valueKind==='ABSOLUTE_ELEVATION'?' · NGVD29 elevation':b.id==='il-abraham-lincoln'?' · NGVD29 gauge stage':' · gauge stage'}<br>${escape(time(s.observedAt))}${s.valueKind==='ABSOLUTE_ELEVATION'?'<br>Clearance uses full source precision in record':''}</span><span class="badge ${s.late||s.delayed?'late':''}">${s.late?'LATE >24h':s.delayed?'DELAYED':'Latest observation'}</span>` : unavailable(b.historical?'Historical crossing':pilots[b.id]?reason(s?.status):'Gauge association pending');
+    const clearance = c?.status==='ESTIMATED' ? `${ft(c.valueFt)}<span class="sub">${c.late?'LATE — historical estimate':c.historical?'DELAYED — historical estimate':'Estimate at observation time'}<br>${escape(time(c.validAt))}${c.pocRange?`<br>Illustrative ±3 ft: ${escape(c.pocRange.lowerFt)}–${escape(c.pocRange.upperFt)} ft`:''}<br>Range is not a measured minimum or accuracy guarantee</span>` : unavailable(b.historical?'Removed span':b.selectedReference?.consistency==='REFERENCE_ARITHMETIC_CONFLICT'?'Low-steel position needs confirmation':c?reason(c.status):b.coverage.nextEvidence);
     const forecast = f?.status==='AVAILABLE' ? `<span class="forecast">${({RISING:'↑ Rising',FALLING:'↓ Falling',STEADY:'→ Steady',VARIABLE:'↕ Variable'})[f.direction]}</span><span class="sub">${escape(pilots[b.id]?.label)} gauge<br>24h from ${escape(time(f.windowStart))}<br>Issued ${escape(time(f.issuedAt))}</span>` : unavailable(f?reason(f.status):'Forecast not available');
     const mileNote = b.historical?'Removed span':b.mileStatus==='OWNER_CONFIRMED'?'Owner-confirmed mile':b.mileConflict?'Mile references differ':b.mileStatus==='DERIVED_UNVERIFIED'?'Approximate · derived mile':'Historical mile reference';
     return `<tr data-bridge="${escape(b.id)}"><td><span class="river-mile">Mile ${escape(b.riverMile)}</span><span class="name">${escape(b.name)}</span><span class="sub">${escape(mileNote)}${b.type==='lift'?' · Fully open scenario':''}</span></td>
@@ -83,7 +80,9 @@ $('bridge-rows').addEventListener('click',event=>{
 try {
   const response=await fetch('/api/bridges',{cache:'no-store'});
   if (!response.ok) throw new Error('Bridge directory unavailable. Reload the page to try again.');
-  directory=await response.json(); render(); await refresh();
+  directory=await response.json();
+  pilots=Object.fromEntries(directory.pilots.map(p=>[p.bridgeId,{endpoint:p.endpoint,label:p.label}]));
+  render(); await refresh();
 } catch(e) { $('error').textContent=e.message; $('error').hidden=false; }
 finally { $('loading').hidden=true; }
 setInterval(()=>{if(!document.hidden && directory)refresh();},300000);

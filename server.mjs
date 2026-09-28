@@ -8,14 +8,14 @@ import { createHenryService } from './src/henry-service.js';
 import { createLincolnService } from './src/lincoln-service.js';
 
 const readJson = async path => JSON.parse(await readFile(new URL(path, import.meta.url), 'utf8'));
-const [inventory, extension, henryReference, morrisReference, ejeReference, lincolnReference, sources] = await Promise.all(['./data/research/bridge-inventory.json','./data/research/scope-extension.json','./data/henry-bridge-reference.json','./data/morris-bridge-reference.json','./data/eje-bridge-reference.json','./data/lincoln-bridge-reference.json','./data/research/sources.json'].map(readJson));
-const directory = buildDirectory(inventory, extension, [henryReference, morrisReference, ejeReference, lincolnReference], sources);
+const [inventory, extension, henryReference, morrisReference, ejeReference, lincolnReference, sources, coveragePlan] = await Promise.all(['./data/research/bridge-inventory.json','./data/research/scope-extension.json','./data/henry-bridge-reference.json','./data/morris-bridge-reference.json','./data/eje-bridge-reference.json','./data/lincoln-bridge-reference.json','./data/research/sources.json','./data/bridge-coverage-plan.json'].map(readJson));
+const directory = buildDirectory(inventory, extension, [henryReference, morrisReference, ejeReference, lincolnReference], sources, coveragePlan);
 
 // Explicit allowlist prevents serving repository files, credentials, or traversal paths.
 const routes = new Map([
   ['/', ['index.html', 'text/html']], ['/index.html', ['index.html', 'text/html']],
   ['/demo', ['demo.html', 'text/html']], ['/demo.html', ['demo.html', 'text/html']],
-  ['/directory.css', ['directory.css', 'text/css']], ['/src/directory.js', ['src/directory.js', 'text/javascript']], ['/src/directory-page.js', ['src/directory-page.js', 'text/javascript']],
+  ['/directory.css', ['directory.css', 'text/css']], ['/src/directory.js', ['src/directory.js', 'text/javascript']], ['/src/coverage.js', ['src/coverage.js', 'text/javascript']], ['/src/directory-page.js', ['src/directory-page.js', 'text/javascript']],
   ['/styles.css', ['styles.css', 'text/css']], ['/src/app.js', ['src/app.js', 'text/javascript']],
   ['/src/exact.js', ['src/exact.js', 'text/javascript']], ['/src/calculator.js', ['src/calculator.js', 'text/javascript']],
   ['/data/demo.js', ['data/demo.js', 'text/javascript']],
@@ -24,6 +24,7 @@ const routes = new Map([
 ]);
 export function makeServer({ henryService = createHenryService({ ...(process.env.HENRY_DATA_DIR ? { directory: process.env.HENRY_DATA_DIR } : {}) }) , morrisService = createMorrisService({ ...(process.env.MORRIS_DATA_DIR ? {directory:process.env.MORRIS_DATA_DIR} : {}) }), ejeService = createEjeService({ ...(process.env.EJE_DATA_DIR ? {directory:process.env.EJE_DATA_DIR} : {}) }), lincolnService = createLincolnService({ ...(process.env.LINCOLN_DATA_DIR ? {directory:process.env.LINCOLN_DATA_DIR} : {}) }) } = {}) {
   const services = {'/api/henry':henryService,'/api/morris':morrisService,'/api/eje':ejeService,'/api/lincoln':lincolnService};
+  if (directory.pilots.length !== Object.keys(services).length || directory.pilots.some(p=>!services[p.endpoint])) throw new Error('PILOT_SERVICE_REGISTRY_MISMATCH');
   return createServer(async (req, res) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'");
