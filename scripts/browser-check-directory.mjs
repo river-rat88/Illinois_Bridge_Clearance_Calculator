@@ -35,7 +35,7 @@ try {
  assert.match(await page.locator('[data-bridge="il-eje"]').innerText(),/58.6/);
  assert.match(await page.locator('[data-bridge="il-eje"]').innerText(),/Fully open/);
  assert.match(await page.locator('[data-bridge="il-abraham-lincoln"]').innerText(),/14.11/);
- assert.match(await page.locator('[data-bridge="il-abraham-lincoln"]').innerText(),/NAVD88 bridge reference and gauge tie pending/);
+ assert.match(await page.locator('[data-bridge="il-abraham-lincoln"]').innerText(),/NAVD88 pool reference and gauge tie pending/);
  await page.locator('[data-record="il-eje"]').click();assert.match(await page.locator('#detail-il-eje').innerText(),/543.5/);
  await page.locator('#search').fill('263.5');assert.equal(await page.locator('tr[data-bridge]').count(),1);
  await page.locator('#search').fill('not a bridge');assert.equal(await page.locator('#empty').isVisible(),true);

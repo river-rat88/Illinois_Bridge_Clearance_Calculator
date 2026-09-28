@@ -36,6 +36,9 @@ test('La Salle stage and gauge-only forecast never imply a bridge clearance',()=
   assert.equal(r.stage.late,false);assert.equal(r.forecast.status,'AVAILABLE');
   assert.equal(r.forecast.direction,'FALLING');assert.equal(r.forecast.bridgeAssociationApproved,false);
   assert.equal(r.clearance.status,'NAVD88_REFERENCE_REQUIRED');assert.equal(r.clearance.valueFt,null);
+  assert.equal(r.bridgeReference.ownerReportedChart.lowSteelElevationFt,'505.8');
+  assert.equal(r.bridgeReference.gaugeCandidate.ownerReportedConversion.convertedZeroNavd88Ft,'429.88');
+  assert.equal(r.bridgeReference.gaugeCandidate.ownerReportedConversion.verified,false);
   assert.equal(r.clearance.productionEligible,false);assert.deepEqual(evaluateLincoln(snapshot(),now),r);
 });
 test('late is strictly after 24 hours, and does not turn stage into current bridge clearance',()=>{

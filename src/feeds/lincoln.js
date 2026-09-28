@@ -1,7 +1,7 @@
 import { Q, stableStringify } from '../exact.js';
 import { hash, check, parseExact, utc } from './usgs-pilot.js';
 
-export const ADAPTER_VERSION = 'lincoln-noaa-stage-review-1';
+export const ADAPTER_VERSION = 'lincoln-noaa-stage-review-2';
 export const URLS = Object.freeze({
   gauge: 'https://api.water.noaa.gov/nwps/v1/gauges/lsli2',
   stage: 'https://api.water.noaa.gov/nwps/v1/gauges/lsli2/stageflow/observed',
@@ -10,8 +10,14 @@ export const URLS = Object.freeze({
 export const LINCOLN_REFERENCE = Object.freeze({
   bridgeId: 'il-abraham-lincoln', riverMile: '225.7', openingPosition: 'FIXED',
   selectedNavd88Reference: null, pilotEstimateEnabled: false,
+  ownerReportedChart: { edition: '2013', publisher: 'USACE', lowSteelElevationFt: '505.8',
+    verticalDatum: 'NAVD88', listedClearanceFt: null, referencePoolElevationFt: null,
+    sourceStatus: 'OWNER_REPORTED_CHART_VALUE; PAGE_AND_SPAN_NOT_INDEPENDENTLY_CHECKED' },
   gaugeCandidate: { gaugeId: 'LSLI2', riverMile: '224.7', pool: 'PEORIA',
     stageKind: 'STAGE_ABOVE_GAUGE_ZERO', gaugeZeroFt: '430.00', verticalDatum: 'NGVD29',
+    ownerReportedConversion: { convertedZeroNavd88Ft: '429.88',
+      inputZeroNgvd29Ft: '430.00', method: 'NGS_CONVERTER_OWNER_REPORTED',
+      coordinates: null, modelVersion: null, localErrorEstimateFt: null, verified: false },
     associationStatus: 'CANDIDATE_NOT_VALIDATED', bridgeMinusGaugeFt: null }
 });
 const millis = value => Date.parse(utc(value));
@@ -31,7 +37,8 @@ function gauge(snapshot, asOf) {
     g.wfo?.abbreviation === 'LOT' && g.pedts?.observed === 'HGIRG' && g.pedts?.forecast === 'HGIFF', 'GAUGE_IDENTITY_CHANGED');
   const zeros = g.datums?.vertical?.value?.filter(d => d.abbrev === 'NGVD29');
   check(zeros?.length === 1 && typeof zeros[0].value === 'string' && Q.parse(zeros[0].value).cmp('430.00') === 0, 'GAUGE_ZERO_CHANGED');
-  // A NAVD88 zero is not currently published here. Do not infer one from a neighboring gauge.
+  // NOAA publishes only the NGVD29 zero here; an owner-reported NGS conversion is
+  // retained as research and is not used without location/model/error evidence.
   return { sourceHash: s.sha256, zeroNgvd29Ft: zeros[0].value };
 }
 const stageValue = value => {
@@ -118,5 +125,5 @@ export function evaluateLincoln(snapshot, asOf) {
     forecast: attempt(() => stationForecast(snapshot, asOf)),
     bridgeReference: { ...reference, recordSha256: hash(stableStringify(reference)) },
     clearance: { status: 'NAVD88_REFERENCE_REQUIRED', valueFt: null, productionEligible: false,
-      reason: 'Owner NAVD88 low steel and pool elevation, chart edition, and bridge-to-gauge tie are unverified.' } };
+      reason: 'Owner NAVD88 low steel is recorded; listed clearance, reference pool, gauge conversion details, and bridge-to-gauge tie remain unresolved.' } };
 }

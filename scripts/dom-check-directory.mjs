@@ -29,7 +29,7 @@ try{
  assert.match(document.querySelector('[data-bridge="il-eje"]').textContent,/NGVD29/);
  assert.match(document.querySelector('[data-bridge="il-eje"]').textContent,/58.6/);
  assert.match(document.querySelector('[data-bridge="il-abraham-lincoln"]').textContent,/14.11/);
- assert.match(document.querySelector('[data-bridge="il-abraham-lincoln"]').textContent,/NAVD88 bridge reference and gauge tie pending/);
+ assert.match(document.querySelector('[data-bridge="il-abraham-lincoln"]').textContent,/NAVD88 pool reference and gauge tie pending/);
  $('search').value='263.5';$('search').dispatchEvent(new window.Event('input'));assert.equal(rows().length,1);assert.match(rows()[0].textContent,/50.4/);
  $('search').value='';$('search').dispatchEvent(new window.Event('input'));
  $('order').querySelector('[value="down"]').selected=true;$('order').dispatchEvent(new window.Event('change'));assert.equal(rows()[0].dataset.bridge,'il-i55-desplaines');
