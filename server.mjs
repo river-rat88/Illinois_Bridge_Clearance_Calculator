@@ -5,10 +5,11 @@ import { buildDirectory } from './src/directory.js';
 import { createMorrisService } from './src/morris-service.js';
 import { createEjeService } from './src/eje-service.js';
 import { createHenryService } from './src/henry-service.js';
+import { createLincolnService } from './src/lincoln-service.js';
 
 const readJson = async path => JSON.parse(await readFile(new URL(path, import.meta.url), 'utf8'));
-const [inventory, extension, henryReference, morrisReference, ejeReference, sources] = await Promise.all(['./data/research/bridge-inventory.json','./data/research/scope-extension.json','./data/henry-bridge-reference.json','./data/morris-bridge-reference.json','./data/eje-bridge-reference.json','./data/research/sources.json'].map(readJson));
-const directory = buildDirectory(inventory, extension, [henryReference, morrisReference, ejeReference], sources);
+const [inventory, extension, henryReference, morrisReference, ejeReference, lincolnReference, sources] = await Promise.all(['./data/research/bridge-inventory.json','./data/research/scope-extension.json','./data/henry-bridge-reference.json','./data/morris-bridge-reference.json','./data/eje-bridge-reference.json','./data/lincoln-bridge-reference.json','./data/research/sources.json'].map(readJson));
+const directory = buildDirectory(inventory, extension, [henryReference, morrisReference, ejeReference, lincolnReference], sources);
 
 // Explicit allowlist prevents serving repository files, credentials, or traversal paths.
 const routes = new Map([
@@ -21,8 +22,8 @@ const routes = new Map([
   ['/henry', ['henry.html', 'text/html']], ['/henry.html', ['henry.html', 'text/html']],
   ['/henry.css', ['henry.css', 'text/css']], ['/src/henry-page.js', ['src/henry-page.js', 'text/javascript']]
 ]);
-export function makeServer({ henryService = createHenryService({ ...(process.env.HENRY_DATA_DIR ? { directory: process.env.HENRY_DATA_DIR } : {}) }) , morrisService = createMorrisService({ ...(process.env.MORRIS_DATA_DIR ? {directory:process.env.MORRIS_DATA_DIR} : {}) }), ejeService = createEjeService({ ...(process.env.EJE_DATA_DIR ? {directory:process.env.EJE_DATA_DIR} : {}) }) } = {}) {
-  const services = {'/api/henry':henryService,'/api/morris':morrisService,'/api/eje':ejeService};
+export function makeServer({ henryService = createHenryService({ ...(process.env.HENRY_DATA_DIR ? { directory: process.env.HENRY_DATA_DIR } : {}) }) , morrisService = createMorrisService({ ...(process.env.MORRIS_DATA_DIR ? {directory:process.env.MORRIS_DATA_DIR} : {}) }), ejeService = createEjeService({ ...(process.env.EJE_DATA_DIR ? {directory:process.env.EJE_DATA_DIR} : {}) }), lincolnService = createLincolnService({ ...(process.env.LINCOLN_DATA_DIR ? {directory:process.env.LINCOLN_DATA_DIR} : {}) }) } = {}) {
+  const services = {'/api/henry':henryService,'/api/morris':morrisService,'/api/eje':ejeService,'/api/lincoln':lincolnService};
   return createServer(async (req, res) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'");

@@ -5,8 +5,8 @@ import { createHash } from 'node:crypto';
 import { buildDirectory, orderBridges } from '../src/directory.js';
 import { Q } from '../src/exact.js';
 const read = async p => JSON.parse(await readFile(new URL(`../${p}`,import.meta.url),'utf8'));
-const [inventory,extension,henry,morris,eje,manifest] = await Promise.all(['data/research/bridge-inventory.json','data/research/scope-extension.json','data/henry-bridge-reference.json','data/morris-bridge-reference.json','data/eje-bridge-reference.json','data/research/sources.json'].map(read));
-const directory=()=>buildDirectory(inventory,extension,[henry,morris,eje],manifest);
+const [inventory,extension,henry,morris,eje,lincoln,manifest] = await Promise.all(['data/research/bridge-inventory.json','data/research/scope-extension.json','data/henry-bridge-reference.json','data/morris-bridge-reference.json','data/eje-bridge-reference.json','data/lincoln-bridge-reference.json','data/research/sources.json'].map(read));
+const directory=()=>buildDirectory(inventory,extension,[henry,morris,eje,lincoln],manifest);
 test('directory keeps pending bridges, orders numeric miles and separates removed spans',()=>{
   const d=directory(), rows=orderBridges(d.bridges);
   assert.equal(d.scope.maximumRiverMile,'279');assert.equal(rows.length,37);
@@ -29,6 +29,11 @@ test('owner locations and exact chart references preserve source differences wit
   assert.equal(e.selectedReference.publishedClearanceFt,'61');assert.equal(e.selectedReference.lowSteelElevationFt,'543.5');
   assert.equal(m.selectedReference.pilotEstimateEnabled,true);assert.equal(e.selectedReference.pilotEstimateEnabled,true);
   assert.equal(e.selectedReference.gaugeReference.navd88Transform.offsetFt,'-0.21');
+  const l=rows.find(b=>b.id==='il-abraham-lincoln');
+  assert.equal(l.riverMile,'225.7');assert.equal(l.mileStatus,'OWNER_CONFIRMED');
+  assert.equal(l.selectedReference.consistency,'INTERNALLY_CONSISTENT');
+  assert.equal(Q.parse(l.selectedReference.lowSteelElevationFt).sub(l.selectedReference.referenceSurface.elevationFt).cmp('66.0'),0);
+  assert.equal(l.selectedReference.pilotEstimateEnabled,false);
 });
 test('directory rejects duplicate IDs and miles beyond the inclusive 0–279 range',()=>{
   const copy=structuredClone(extension);copy.bridges[0].id=inventory.bridges[0].id;

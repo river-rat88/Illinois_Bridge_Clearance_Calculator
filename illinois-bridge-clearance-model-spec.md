@@ -190,6 +190,12 @@ C_b(t)=C_{b,ref}-\left(h_g(t)-h_{g,ref}\right)
 
 This shortcut is valid only when the bridge-water model explicitly establishes that equivalence. Matching two values that both say “feet” is insufficient.
 
+### 5.4.1 Selecting a conservative source when values disagree
+
+When several independently supported, **compatible NAVD88 candidates** describe the same controlling opening, gauge-zero epoch, water level, and observation time, calculate each candidate with its complete source chain and select the smallest clearance. Equivalently, select the lowest supported low-steel elevation and highest supported bridge-water elevation only when the combinations are physically and temporally compatible. Preserve every candidate, its source/version and the selection rule in the receipt; label the chosen result as a conservative estimate, not a surveyed measurement. Do not average conflicting values.
+
+This choice does not approve a datum conversion, reconcile different bridge spans or survey epochs, establish a bridge-to-gauge water-level tie, or prove an absolute error bound. Never compare a raw NGVD29 elevation directly with a NAVD88 elevation to select the smaller result. If a candidate's datum or physical meaning is unresolved, keep the calculated value unavailable and show the candidate only in audit detail. A conservative selection does not replace the separate two-foot vessel clearance policy or the six-inch accuracy review.
+
 ### 5.5 Error target and simple display value
 
 Store component bounds:

@@ -1,0 +1,62 @@
+{
+  "id": "lincoln-owner-selected-chart-reference-1",
+  "bridgeId": "il-abraham-lincoln",
+  "recordedDateUtc": "2026-09-28",
+  "selectionStatus": "OWNER_SELECTED",
+  "source": {
+    "type": "USER_SUPPLIED_ECHART_SCREENSHOT",
+    "description": "Bridge detail names Abraham Lincoln Memorial Bridge, USCG Light List No. 6605, Illinois River Mile 225.7. Channel low steel 505.8 ft, vertical clearance 66.0 ft at normal pool 439.8 ft, all elevations NAVD88. Owner identifies the underlying Corps chart as the 2013 edition; the edition is not visible in the screenshot.",
+    "chartProduct": "OWNER_ECHART_BRIDGE_DETAIL",
+    "chartEdition": "2013_OWNER_REPORTED",
+    "chartImageSha256": "278f8a6d55d526d0d1fd70ffd19f3b7f0f0ae892dc452ef3a319c3f4d6da76e1",
+    "surveyEffectiveDate": null
+  },
+  "riverMile": "225.7",
+  "routeMeasureSystem": "IL_RM_ABOVE_MOUTH",
+  "openingPosition": "FIXED",
+  "publishedClearanceFt": "66.0",
+  "lowSteelElevationFt": "505.8",
+  "referenceSurface": {
+    "label": "NORMAL_POOL",
+    "elevationFt": "439.8"
+  },
+  "verticalDatum": "NAVD88",
+  "unitRealization": null,
+  "pilotEstimateEnabled": false,
+  "gaugeAssociationApproved": false,
+  "totalErrorValidated": false,
+  "productionEligible": false,
+  "historicalAlternatives": [
+    {
+      "sourceId": "uscg-ll5-2024",
+      "clearanceFt": "66.0",
+      "note": "Historical Light List agrees with screenshot listed clearance but does not establish NAVD88 low steel."
+    },
+    {
+      "sourceId": "USACE_2013_APPENDIX_B",
+      "clearanceFt": "66.3",
+      "lowSteelNgvd29Ft": "506.6",
+      "poolNgvd29Ft": "440.3",
+      "note": "Different published elevations and datum; not substituted for the selected e-chart figures."
+    }
+  ],
+  "gaugeCandidate": {
+    "gaugeId": "LSLI2",
+    "riverMile": "224.7",
+    "pool": "PEORIA",
+    "stageKind": "STAGE_ABOVE_GAUGE_ZERO",
+    "gaugeZeroFt": "430.00",
+    "verticalDatum": "NGVD29",
+    "ownerReportedConversion": {
+      "convertedZeroNavd88Ft": "429.88",
+      "inputZeroNgvd29Ft": "430.00",
+      "method": "NGS_CONVERTER_OWNER_REPORTED",
+      "coordinates": null,
+      "modelVersion": null,
+      "localErrorEstimateFt": null,
+      "verified": false
+    },
+    "associationStatus": "CANDIDATE_NOT_VALIDATED",
+    "bridgeMinusGaugeFt": null
+  }
+}
