@@ -1,6 +1,6 @@
 # River-wide bridge coverage architecture
 
-Status: proof-of-concept architecture, September 28, 2026. Scope is Illinois Waterway river miles 0–279. The working source catalog has **38 crossing rows**: 37 displayed rows and one removed span retained for audit. Rows can describe grouped or parallel structures and are not a verified count of individual active bridges. Four rows have source-backed, assumption-labeled pilot estimates; the other 33 active rows remain visibly pending. No pilot is production eligible.
+Status: proof-of-concept architecture, September 29, 2026. Scope is Illinois Waterway river miles 0–279. The working source catalog has **38 crossing rows**: 37 displayed rows and one removed span retained for audit. Rows can describe grouped or parallel structures and are not a verified count of individual active bridges. Seven rows have source-backed, assumption-labeled pilot estimates; the other 30 active rows remain visibly pending. No pilot is production eligible.
 
 ## Current executable contract
 
@@ -45,7 +45,7 @@ Selection order is a direct bridge or same-water-surface gauge, a documented fix
 4. Implement a source-specific adapter using immutable raw snapshots and deterministic validation of station ID, units, times, revisions, quality and metadata drift. Register its server endpoint and plan entry together. Add a known arithmetic case, rejection cases, outage/historical case and receipt replay check; only then mark `PILOT`.
 5. Compare future independent bridge readings over different river conditions. Keep source evidence, receipt and measured residuals separate. Do not promote to operational use from a few visually read values or from the illustrative three-foot scenario.
 
-Good first intake candidates are the Illinois Central bridge at mile 225.5 and State Route 351 at mile 224.7 because their chart details could be compared beside the Lincoln/La Salle work. This **does not assign LSLI2 to either crossing**. The EJE and other lift rows need fully open opening evidence before their Coast Pilot research clearances can become selected NAVD88 references. The McClugage, Valley City and replacement-flagged rows need physical span reconciliation first.
+Illinois Central mile 225.5, La Salle Highway mile 224.7 and Peru Highway mile 222.8 now use owner-supplied channel-span NAVD88 chart references and an explicit owner-approved, unverified direct-water assumption from LSLI2. They share the same raw NOAA observation snapshot and gauge-location NCAT conversion with Lincoln but have separate bridge reference records and calculation receipts. The Coast Pilot research values remain in the audit detail where they differ. Next candidates should be selected from the remaining pending rows based on current chart geometry. The EJE and other lift rows need fully open opening evidence before their Coast Pilot research clearances can become selected NAVD88 references. The McClugage, Valley City and replacement-flagged rows need physical span reconciliation first.
 
 ## Implementation boundary
 

@@ -109,11 +109,12 @@ export function stationForecast(snapshot, asOf) {
     windowEnd: new Date(end).toISOString(), deltaFt: delta.toJSON(), deadbandFt: '0.1',
     bridgeAssociationApproved: false, sourceHash: s.sha256 };
 }
-export function evaluateLincoln(snapshot, asOf) {
+export function evaluateLaSalleBridge(snapshot, asOf, selectedReference = LINCOLN_REFERENCE) {
   utc(asOf);
-  const reference = structuredClone(snapshot.bridgeReference ?? LINCOLN_REFERENCE);
+  const reference = structuredClone(snapshot.bridgeReference ?? selectedReference);
   const consistency = attempt(() => {
-    check(reference.bridgeId === 'il-abraham-lincoln' && reference.openingPosition === 'FIXED' &&
+    check(['il-abraham-lincoln','il-illinois-central-lasalle','il-lasalle','il-peru'].includes(reference.bridgeId) &&
+      reference.openingPosition === 'FIXED' &&
       reference.verticalDatum === 'NAVD88' && reference.referenceSurface?.label === 'NORMAL_POOL', 'REFERENCE_ID_MISMATCH');
     check(Q.parse(reference.lowSteelElevationFt).sub(reference.referenceSurface.elevationFt).cmp(reference.publishedClearanceFt) === 0,
       'REFERENCE_ARITHMETIC_CONFLICT');
@@ -123,10 +124,10 @@ export function evaluateLincoln(snapshot, asOf) {
     const m = reference.bridgeWaterModel, g = reference.gaugeCandidate;
     check(reference.gaugeAssociationApproved === true && g?.gaugeId === 'LSLI2' &&
       g.associationStatus === 'OWNER_APPROVED_DIRECT_WATER_ASSUMPTION_NOT_FIELD_VALIDATED' &&
-      g.bridgeMinusGaugeFt === '0' && m?.id === 'lincoln-lsli2-owner-direct-1' &&
-      m.bridgeId === 'il-abraham-lincoln' && m.gaugeId === 'LSLI2' && m.type === 'DIRECT' &&
+      g.bridgeMinusGaugeFt === '0' && m?.id === (reference.bridgeId === 'il-abraham-lincoln' ? 'lincoln-lsli2-owner-direct-1' : `${reference.bridgeId}-lsli2-owner-direct-1`) &&
+      m.bridgeId === reference.bridgeId && m.gaugeId === 'LSLI2' && m.type === 'DIRECT' &&
       m.basis === 'OWNER_ASSUMPTION' && m.offsetFt === '0' && m.validated === false &&
-      m.ownerClaimedDifferenceInchesLessThan === '1' && m.errorBoundVerified === false &&
+      m.ownerClaimedDifferenceInchesLessThan === (reference.bridgeId === 'il-abraham-lincoln' ? '1' : null) && m.errorBoundVerified === false &&
       m.appliesTo === 'ASSUMPTION_LABELED_PILOT_ONLY', 'MODEL_UNRESOLVED');
     return { status: 'OWNER_ASSUMPTION_RECORDED' };
   }).status;
@@ -174,14 +175,15 @@ export function evaluateLincoln(snapshot, asOf) {
         unroundedClearanceFt: exact.toJSON(), displayRoundingFt: exact.sub(display).toJSON(),
         modelId: reference.bridgeWaterModel.id, bridgeMinusGaugeFt: reference.bridgeWaterModel.offsetFt,
         uncertaintyDeducted: false },
-      assumptions: ['La Salle water elevation equals water elevation at the bridge; owner-approved direct-water assumption, not field validated.',
+      assumptions: ['La Salle water elevation equals water elevation at the bridge; owner-approved direct-water assumption for this group, not field validated.',
         'The NCAT VERTCON 3.0 gauge-zero transformation is modeled at published Corps station coordinates; the station coordinate frame, source foot realization, and effective gauge-zero epoch are not independently verified.',
         'Owner NCAT screenshot at different coordinates reports 429.790 ft NAVD88 and is a cross-check only; the older verbal 429.88 ft is superseded.',
-        'The claimed sub-inch bridge-water difference and the overall six-inch clearance accuracy target have not been demonstrated.'] };
+        'The bridge-water difference and overall clearance accuracy have not been demonstrated. The ±3-ft range is illustrative, not a validated bound.'] };
   });
-  return { adapterVersion: ADAPTER_VERSION, asOf, bridgeId: reference.bridgeId,
+  return { adapterVersion: reference.bridgeId === 'il-abraham-lincoln' ? ADAPTER_VERSION : 'lsli2-shared-snapshot-pilot-1', asOf, bridgeId: reference.bridgeId,
     stage,
     forecast: attempt(() => stationForecast(snapshot, asOf)),
     bridgeReference: { ...reference, consistency, modelStatus: model, recordSha256: hash(stableStringify(reference)) },
     clearance: withPocRange({ ...clearance, productionEligible: false }) };
 }
+export const evaluateLincoln = (snapshot, asOf) => evaluateLaSalleBridge(snapshot, asOf, LINCOLN_REFERENCE);
