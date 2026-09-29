@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "policyVersion": "coverage-2026-09-29-1",
+  "policyVersion": "coverage-2026-09-29-2",
   "meaning": "Explicit activation plan for source crossing rows; no nearest-gauge fallback or automatic promotion from research values.",
   "entries": [
     {
@@ -89,17 +89,17 @@
     },
     {
       "bridgeId": "il-spring-valley",
-      "phase": "ASSOCIATION_PENDING",
-      "gaugeId": null,
-      "endpoint": null,
-      "stageLabel": null
+      "phase": "PILOT",
+      "gaugeId": "LSLI2",
+      "endpoint": "/api/spring-valley",
+      "stageLabel": "La Salle"
     },
     {
       "bridgeId": "il-hennepin-i180",
-      "phase": "ASSOCIATION_PENDING",
-      "gaugeId": null,
-      "endpoint": null,
-      "stageLabel": null
+      "phase": "PILOT",
+      "gaugeId": "LSLI2",
+      "endpoint": "/api/hennepin-i180",
+      "stageLabel": "La Salle"
     },
     {
       "bridgeId": "il-sr26-unresolved",

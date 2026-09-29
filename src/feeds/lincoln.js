@@ -113,7 +113,7 @@ export function evaluateLaSalleBridge(snapshot, asOf, selectedReference = LINCOL
   utc(asOf);
   const reference = structuredClone(snapshot.bridgeReference ?? selectedReference);
   const consistency = attempt(() => {
-    check(['il-abraham-lincoln','il-illinois-central-lasalle','il-lasalle','il-peru','il-utica'].includes(reference.bridgeId) &&
+    check(['il-abraham-lincoln','il-illinois-central-lasalle','il-lasalle','il-peru','il-utica','il-spring-valley','il-hennepin-i180'].includes(reference.bridgeId) &&
       reference.openingPosition === 'FIXED' &&
       reference.verticalDatum === 'NAVD88' && reference.referenceSurface?.label === 'NORMAL_POOL', 'REFERENCE_ID_MISMATCH');
     check(Q.parse(reference.lowSteelElevationFt).sub(reference.referenceSurface.elevationFt).cmp(reference.publishedClearanceFt) === 0,
@@ -123,7 +123,9 @@ export function evaluateLaSalleBridge(snapshot, asOf, selectedReference = LINCOL
   const model = attempt(() => {
     const m = reference.bridgeWaterModel, g = reference.gaugeCandidate;
     check(reference.gaugeAssociationApproved === true && g?.gaugeId === 'LSLI2' &&
-      g.associationStatus === 'OWNER_APPROVED_DIRECT_WATER_ASSUMPTION_NOT_FIELD_VALIDATED' &&
+      g.associationStatus === (['il-spring-valley','il-hennepin-i180'].includes(reference.bridgeId)
+        ? 'OWNER_REPORTED_CORPS_LASALLE_GAUGE_DIRECT_WATER_ASSUMPTION_NOT_FIELD_VALIDATED'
+        : 'OWNER_APPROVED_DIRECT_WATER_ASSUMPTION_NOT_FIELD_VALIDATED') &&
       g.bridgeMinusGaugeFt === '0' && m?.id === (reference.bridgeId === 'il-abraham-lincoln' ? 'lincoln-lsli2-owner-direct-1' : `${reference.bridgeId}-lsli2-owner-direct-1`) &&
       m.bridgeId === reference.bridgeId && m.gaugeId === 'LSLI2' && m.type === 'DIRECT' &&
       m.basis === 'OWNER_ASSUMPTION' && m.offsetFt === '0' && m.validated === false &&
@@ -178,7 +180,8 @@ export function evaluateLaSalleBridge(snapshot, asOf, selectedReference = LINCOL
       assumptions: ['La Salle water elevation equals water elevation at the bridge; owner-approved direct-water assumption for this group, not field validated.',
         'The NCAT VERTCON 3.0 gauge-zero transformation is modeled at published Corps station coordinates; the station coordinate frame, source foot realization, and effective gauge-zero epoch are not independently verified.',
         'Owner NCAT screenshot at different coordinates reports 429.790 ft NAVD88 and is a cross-check only; the older verbal 429.88 ft is superseded.',
-        'The bridge-water difference and overall clearance accuracy have not been demonstrated. The ±3-ft range is illustrative, not a validated bound.'] };
+        'The bridge-water difference and overall clearance accuracy have not been demonstrated. The ±3-ft range is illustrative, not a validated bound.',
+        ...(reference.corpsCalculatorCrosscheck ? ['The owner-supplied Corps clearance table differs from this chart-based reference. Its screenshot has no gauge ID or observation time; no correction was inferred from it.'] : [])] };
   });
   return { adapterVersion: reference.bridgeId === 'il-abraham-lincoln' ? ADAPTER_VERSION : 'lsli2-shared-snapshot-pilot-1', asOf, bridgeId: reference.bridgeId,
     stage,

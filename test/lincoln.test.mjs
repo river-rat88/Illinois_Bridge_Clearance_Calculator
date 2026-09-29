@@ -170,10 +170,10 @@ test('La Salle area chart spans share one snapshot with distinct replayable rece
     return new Response(s.body,{headers:{'content-type':'application/json'}});
   }});
   const group=createLaSalleGroupServices(base);
-  const ids=['il-illinois-central-lasalle','il-lasalle','il-peru','il-utica'];
+  const ids=['il-illinois-central-lasalle','il-lasalle','il-peru','il-utica','il-spring-valley','il-hennepin-i180'];
   const receipts=await Promise.all(ids.map(id=>group[id].get()));
   assert.equal(calls,3);assert.equal(new Set(receipts.map(r=>r.snapshotId)).size,1);
-  assert.equal(new Set(receipts.map(r=>r.receiptId)).size,4);
+  assert.equal(new Set(receipts.map(r=>r.receiptId)).size,6);
   for (const [i,r] of receipts.entries()) {
     assert.equal(r.result.bridgeId,ids[i]);
     assert.equal(r.result.clearance.status,'ESTIMATED');
@@ -182,7 +182,11 @@ test('La Salle area chart spans share one snapshot with distinct replayable rece
     assert.equal(r.result.clearance.productionEligible,false);
     assert.deepEqual(evaluateLaSalleBridge(r.input,r.result.asOf),r.result);
   }
-  assert.deepEqual(receipts.map(r=>r.result.clearance.valueFt),['58.1','59.9','60.4','61.7']);
+  assert.deepEqual(receipts.map(r=>r.result.clearance.valueFt),['58.1','59.9','60.4','61.7','58.7','55.8']);
+  for(const r of receipts.slice(-2)) {
+    assert.equal(r.result.bridgeReference.corpsCalculatorCrosscheck.status,'UNRECONCILED_SINGLE_SCREENSHOT');
+    assert.equal(r.result.clearance.accuracyStatus,'UNVERIFIED');
+  }
   const altered=structuredClone(receipts[2].input);
   altered.bridgeReference.bridgeWaterModel.offsetFt='0.1';
   assert.equal(evaluateLaSalleBridge(altered,now).clearance.status,'MODEL_UNRESOLVED');

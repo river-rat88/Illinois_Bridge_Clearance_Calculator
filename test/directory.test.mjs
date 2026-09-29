@@ -44,7 +44,7 @@ test('owner locations and exact chart references preserve source differences wit
     assert.equal(b.selectedReference.historicalAlternatives.some(a=>a.sourceId==='noaa-cp6-20260920'),false);
     assert.equal(b.coverage.researchFlags.includes('UNRECONCILED_PUBLISHED_CLEARANCE_DIFFERENCE'),false);
   }
-  for (const [id,mile,steel,pool,clearance,phase] of [['il-utica','229.6','505.6','439.8','65.8','PILOT'],['il-spring-valley','218.4','502.6','439.7','62.9','ASSOCIATION_PENDING'],['il-hennepin-i180','207.8','499.7','439.8','59.9','ASSOCIATION_PENDING']]) {
+  for (const [id,mile,steel,pool,clearance,phase] of [['il-utica','229.6','505.6','439.8','65.8','PILOT'],['il-spring-valley','218.4','502.6','439.7','62.9','PILOT'],['il-hennepin-i180','207.8','499.7','439.8','59.9','PILOT']]) {
     const b=rows.find(b=>b.id===id);
     assert.equal(b.riverMile,mile);assert.equal(b.selectedReference.lowSteelElevationFt,steel);
     assert.equal(b.selectedReference.referenceSurface.elevationFt,pool);
@@ -52,9 +52,11 @@ test('owner locations and exact chart references preserve source differences wit
     assert.equal(b.selectedReference.consistency,'INTERNALLY_CONSISTENT');
     assert.equal(b.coverage.phase,phase);
     assert.equal(b.coverage.researchFlags.includes('UNRECONCILED_PUBLISHED_CLEARANCE_DIFFERENCE'),false);
-    if (phase==='ASSOCIATION_PENDING') assert.equal(b.coverage.gaugeId,null);
+    assert.equal(b.coverage.gaugeId,'LSLI2');
   }
   assert.equal(rows.find(b=>b.id==='il-spring-valley').name,'Illinois Valley Veterans Memorial Bridge');
+  for(const id of ['il-spring-valley','il-hennepin-i180'])
+    assert.ok(rows.find(b=>b.id===id).coverage.blockers.includes('CORPS_TABLE_CROSSCHECK_UNRESOLVED'));
 });
 test('directory rejects duplicate IDs and miles beyond the inclusive 0–279 range',()=>{
   const copy=structuredClone(extension);copy.bridges[0].id=inventory.bridges[0].id;
@@ -65,8 +67,8 @@ test('directory rejects duplicate IDs and miles beyond the inclusive 0–279 ran
   for(const mile of ['-0.1','279.1']){copy.bridges[0].derivedRiverMile=mile;assert.throws(()=>buildDirectory(inventory,copy,references,manifest,c),/MILE_OUT_OF_SCOPE/);}
 });
 test('every source crossing has an explicit phase and research values cannot become clearance inputs',()=>{
-  const d=directory();assert.equal(d.bridges.length,38);assert.equal(d.pilots.length,8);
-  assert.equal(d.coveragePolicyVersion,'coverage-2026-09-29-1');
+  const d=directory();assert.equal(d.bridges.length,38);assert.equal(d.pilots.length,10);
+  assert.equal(d.coveragePolicyVersion,'coverage-2026-09-29-2');
   for(const b of d.bridges){
     assert.equal(b.coverage.productionEligible,false);
     if(b.coverage.phase==='REFERENCE_PENDING'){
@@ -79,17 +81,40 @@ test('every source crossing has an explicit phase and research values cannot bec
   assert.equal(d.bridges.find(b=>b.id==='il-atsf-removed').coverage.phase,'HISTORICAL');
   assert.ok(d.bridges.find(b=>b.id==='il-peoria-pekin-rr').coverage.blockers.includes('FULLY_OPEN_GEOMETRY_REQUIRED'));
   assert.match(d.bridges.find(b=>b.id==='il-mcclugage').coverage.nextEvidence,/physical channel span/);
-  assert.deepEqual(d.pilots.map(p=>p.bridgeId).sort(),['il-abraham-lincoln','il-eje','il-henry','il-illinois-central-lasalle','il-lasalle','il-morris','il-peru','il-utica']);
+  assert.deepEqual(d.pilots.map(p=>p.bridgeId).sort(),['il-abraham-lincoln','il-eje','il-hennepin-i180','il-henry','il-illinois-central-lasalle','il-lasalle','il-morris','il-peru','il-spring-valley','il-utica']);
 });
 test('activation plan rejects missing, duplicate and unauthorized gauge bindings',()=>{
   const run=(edit,refs=references)=>{const p=structuredClone(coverage);edit(p);return ()=>buildDirectory(inventory,extension,refs,manifest,p);};
   assert.throws(run(p=>p.entries.pop()),/COVERAGE_INCOMPLETE/);
   assert.throws(run(p=>p.entries.push(structuredClone(p.entries[0]))),/DUPLICATE_COVERAGE_BRIDGE/);
   assert.throws(run(p=>p.entries[0].bridgeId='made-up'),/UNKNOWN_COVERAGE_BRIDGE/);
-  assert.throws(run(p=>{p.entries.find(x=>x.bridgeId==='il-spring-valley').gaugeId='LSLI2';}),/UNAPPROVED_GAUGE_BINDING/);
-  assert.throws(run(p=>{const e=p.entries.find(x=>x.bridgeId==='il-spring-valley');Object.assign(e,{phase:'PILOT',gaugeId:'LSLI2',endpoint:'/api/spring-valley',stageLabel:'Spring Valley'});}),/COVERAGE_REFERENCE_CONFLICT/);
+  assert.throws(run(p=>{p.entries.find(x=>x.bridgeId==='il-sr26-unresolved').gaugeId='LSLI2';}),/UNAPPROVED_GAUGE_BINDING/);
+  assert.throws(run(p=>{const e=p.entries.find(x=>x.bridgeId==='il-sr26-unresolved');Object.assign(e,{phase:'PILOT',gaugeId:'LSLI2',endpoint:'/api/sr26',stageLabel:'Hennepin'});}),/COVERAGE_REFERENCE_CONFLICT/);
   assert.throws(run(p=>{p.entries.find(x=>x.bridgeId==='il-henry').endpoint='/api/eje';}),/COVERAGE_ENDPOINT_CONFLICT/);
   assert.throws(run(()=>{},[henry,morris,eje]),/COVERAGE_REFERENCE_CONFLICT/);
+});
+test('Corps table cross-check records chart mismatch and exact same-water proxy without calibrating an offset',async()=>{
+  const comparison=await read('data/research/lasalle-corps-clearance-table-2026-09-28.json');
+  const rows=new Map(comparison.rows.map(r=>[r.id,r]));
+  assert.equal(comparison.source.gaugeMappingVisible,false);
+  assert.equal(comparison.source.capturedTime,'UNKNOWN');
+  const proxy=Q.parse(rows.get('il-lasalle').selectedChartLowSteelNavd88).sub(rows.get('il-lasalle').corpsCurrentClearance);
+  assert.equal(proxy.cmp(comparison.comparison.laSalleProxyWaterNavd88Ft),0);
+  for(const [id,caseData] of Object.entries(comparison.comparison.predictedFromSameWater)) {
+    const predicted=Q.parse(rows.get(id).selectedChartLowSteelNavd88).sub(proxy);
+    assert.equal(predicted.cmp(caseData.valueFt),0);
+    assert.equal(predicted.sub(rows.get(id).corpsCurrentClearance).cmp(caseData.minusCorpsCurrentFt),0);
+    if (['il-spring-valley','il-hennepin-i180'].includes(id)) {
+      const crosscheck=directory().bridges.find(b=>b.id===id).selectedReference.corpsCalculatorCrosscheck;
+      assert.equal(crosscheck.recordId,comparison.id);
+      assert.equal(crosscheck.screenshotSha256,comparison.source.sha256);
+      assert.equal(crosscheck.tableListedClearanceFt,rows.get(id).corpsLowWaterClearance);
+      assert.equal(crosscheck.tableCurrentClearanceFt,rows.get(id).corpsCurrentClearance);
+      assert.equal(crosscheck.sameWaterProxyClearanceFt,caseData.valueFt);
+      assert.equal(crosscheck.proxyMinusTableCurrentFt,caseData.minusCorpsCurrentFt);
+    }
+  }
+  assert.equal(Q.parse(rows.get('il-spring-valley').selectedChartClearance).sub(rows.get('il-spring-valley').corpsLowWaterClearance).cmp('1.30'),0);
 });
 test('scope-extension evidence is intact and derives the added crossing mile exactly',async()=>{
   const body=await readFile(new URL(`../data/research/${extension.source.evidencePath}`,import.meta.url));

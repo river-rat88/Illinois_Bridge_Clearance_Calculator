@@ -3,7 +3,7 @@ import { hash } from './feeds/usgs-pilot.js';
 import { stableStringify } from './exact.js';
 import { evaluateLaSalleBridge } from './feeds/lincoln.js';
 
-const references = Object.fromEntries(['il-illinois-central-lasalle','il-lasalle','il-peru','il-utica'].map(id => [id,
+const references = Object.fromEntries(['il-illinois-central-lasalle','il-lasalle','il-peru','il-utica','il-spring-valley','il-hennepin-i180'].map(id => [id,
   JSON.parse(readFileSync(new URL(`../data/${id}-bridge-reference.json`, import.meta.url), 'utf8'))]));
 
 // Reuse one immutable La Salle source snapshot, then issue a distinct receipt

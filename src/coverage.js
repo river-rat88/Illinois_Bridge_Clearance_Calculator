@@ -52,7 +52,7 @@ export function resolveCoverage(bridges, references, plan) {
       assert(entry.gaugeId === null && entry.endpoint === null && entry.stageLabel === null, 'UNAPPROVED_GAUGE_BINDING');
       assert(entry.phase === 'HISTORICAL' || (entry.phase === 'REFERENCE_PENDING' ? !ref : !!ref), 'COVERAGE_REFERENCE_CONFLICT');
     }
-    const blockers = entry.phase === 'PILOT' ? ['OVERALL_ACCURACY_UNVERIFIED'] :
+    const blockers = entry.phase === 'PILOT' ? ['OVERALL_ACCURACY_UNVERIFIED', ...(ref?.corpsCalculatorCrosscheck ? ['CORPS_TABLE_CROSSCHECK_UNRESOLVED'] : [])] :
       entry.phase === 'HISTORICAL' ? ['REMOVED_SPAN'] :
       entry.phase === 'REFERENCE_PENDING' ? [
         'SELECTED_NAVD88_REFERENCE_REQUIRED',

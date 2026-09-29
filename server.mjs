@@ -26,7 +26,8 @@ const routes = new Map([
 export function makeServer({ henryService = createHenryService({ ...(process.env.HENRY_DATA_DIR ? { directory: process.env.HENRY_DATA_DIR } : {}) }) , morrisService = createMorrisService({ ...(process.env.MORRIS_DATA_DIR ? {directory:process.env.MORRIS_DATA_DIR} : {}) }), ejeService = createEjeService({ ...(process.env.EJE_DATA_DIR ? {directory:process.env.EJE_DATA_DIR} : {}) }), lincolnService = createLincolnService({ ...(process.env.LINCOLN_DATA_DIR ? {directory:process.env.LINCOLN_DATA_DIR} : {}) }) } = {}) {
   const group = createLaSalleGroupServices(lincolnService);
   const services = {'/api/henry':henryService,'/api/morris':morrisService,'/api/eje':ejeService,'/api/lincoln':lincolnService,
-    '/api/illinois-central-lasalle':group['il-illinois-central-lasalle'], '/api/lasalle':group['il-lasalle'], '/api/peru':group['il-peru'], '/api/utica':group['il-utica']};
+    '/api/illinois-central-lasalle':group['il-illinois-central-lasalle'], '/api/lasalle':group['il-lasalle'], '/api/peru':group['il-peru'], '/api/utica':group['il-utica'],
+    '/api/spring-valley':group['il-spring-valley'], '/api/hennepin-i180':group['il-hennepin-i180']};
   if (directory.pilots.length !== Object.keys(services).length || directory.pilots.some(p=>!services[p.endpoint])) throw new Error('PILOT_SERVICE_REGISTRY_MISMATCH');
   return createServer(async (req, res) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
