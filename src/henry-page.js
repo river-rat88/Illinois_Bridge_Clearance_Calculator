@@ -18,7 +18,7 @@ async function update() {
     const c = r.clearance;
     text('clearance', c.status === 'ESTIMATED' ? `${c.valueFt} ft` : 'Unavailable');
     text('clearance-status', c.status === 'ESTIMATED' ? c.late ? 'LATE — historical estimate' : c.historical ? 'DELAYED — historical estimate' : 'Calculated estimate · assumptions apply' : c.status.replaceAll('_', ' '));
-    if (c.status === 'ESTIMATED' && c.pocRange) text('clearance-range', `Illustrative ±3 ft: ${c.pocRange.lowerFt}–${c.pocRange.upperFt} ft. Not a measured minimum or accuracy guarantee.`);
+    if (c.status === 'ESTIMATED' && c.pocRange) text('clearance-range', `Lower illustrative scenario: ${c.pocRange.lowerFt} ft (assumed −3 ft). Full scenario: ${c.pocRange.lowerFt}–${c.pocRange.upperFt} ft. Not a measured minimum or accuracy guarantee; inspect the pier gauge before transiting.`);
     if (c.validAt) text('clearance-time', `At observation time: ${time(c.validAt)}`);
     text('stage', s.status === 'AVAILABLE' ? `${s.valueFt} ft` : 'Unavailable');
     text('stage-status', s.status === 'AVAILABLE' ? s.late ? 'LATE — older than 24 hours' : s.delayed ? 'DELAYED — last observed reading' : 'Latest reported observation' : s.status.replaceAll('_', ' '));
