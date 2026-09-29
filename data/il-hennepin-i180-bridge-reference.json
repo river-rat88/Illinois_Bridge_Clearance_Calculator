@@ -1,0 +1,33 @@
+{
+  "id": "il-hennepin-i180-owner-chart-reference-1",
+  "bridgeId": "il-hennepin-i180",
+  "recordedDateUtc": "2026-09-28",
+  "selectionStatus": "OWNER_SELECTED",
+  "source": {
+    "type": "USER_SUPPLIED_ECHART_SCREENSHOT",
+    "description": "Owner-supplied e-chart detail: I-180 Bridge; USCG Light List No. 6770; Illinois River Mile 207.8; channel low steel 499.7 ft NAVD88, vertical clearance 59.9 ft at normal pool 439.8 ft NAVD88, horizontal opening 350.0 ft. Chart edition 2013 per owner, not visible in screenshot.",
+    "chartProduct": "OWNER_ECHART_BRIDGE_DETAIL",
+    "chartEdition": "2013_OWNER_REPORTED",
+    "chartImageSha256": "c6aec5adbfb9ce998d0766110ab51162946a63618ffb6b8c58b2bcc754c3f768",
+    "surveyEffectiveDate": null
+  },
+  "riverMile": "207.8",
+  "routeMeasureSystem": "IL_RM_ABOVE_MOUTH",
+  "openingPosition": "FIXED",
+  "publishedClearanceFt": "59.9",
+  "lowSteelElevationFt": "499.7",
+  "referenceSurface": {
+    "label": "NORMAL_POOL",
+    "elevationFt": "439.8"
+  },
+  "verticalDatum": "NAVD88",
+  "unitRealization": null,
+  "pilotEstimateEnabled": false,
+  "gaugeAssociationApproved": false,
+  "totalErrorValidated": false,
+  "productionEligible": false,
+  "historicalAlternatives": [],
+  "gaugeCandidate": null,
+  "bridgeWaterModel": null,
+  "chartName": "I-180 Bridge"
+}

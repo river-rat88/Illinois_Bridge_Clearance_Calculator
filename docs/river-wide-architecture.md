@@ -1,6 +1,6 @@
 # River-wide bridge coverage architecture
 
-Status: proof-of-concept architecture, September 29, 2026. Scope is Illinois Waterway river miles 0–279. The working source catalog has **38 crossing rows**: 37 displayed rows and one removed span retained for audit. Rows can describe grouped or parallel structures and are not a verified count of individual active bridges. Seven rows have source-backed, assumption-labeled pilot estimates; the other 30 active rows remain visibly pending. No pilot is production eligible.
+Status: proof-of-concept architecture, September 29, 2026. Scope is Illinois Waterway river miles 0–279. The working source catalog has **38 crossing rows**: 37 displayed rows and one removed span retained for audit. Rows can describe grouped or parallel structures and are not a verified count of individual active bridges. Eight rows have source-backed, assumption-labeled pilot estimates, two have selected chart references awaiting gauge association, and 27 await chart references. No pilot is production eligible.
 
 ## Current executable contract
 
@@ -33,7 +33,7 @@ For stage above a local zero, normalized water at gauge \(g\) is \(W_g^{88}=h_g+
 
 ## Hydraulic reach and gauge selection
 
-Before assigning any of the 33 pending crossings, inventory the controlling works at LaGrange, Peoria, Starved Rock, Marseilles and Dresden Island, the navigation route around Marseilles, major tributary joins and Mississippi backwater. Store *validated* reach boundaries and applicable fixed-pool/open-pass regimes in a future versioned reach registry. Until then, river mile and pool name are useful for review but do not activate a gauge. A source must establish whether the selected series is headwater or tailwater at a lock. Near Peoria and LaGrange, operation and backwater can change the water relationship; no river-wide constant offset is assumed.
+Before assigning pending crossings, inventory the controlling works at LaGrange, Peoria, Starved Rock, Marseilles and Dresden Island, the navigation route around Marseilles, major tributary joins and Mississippi backwater. Store *validated* reach boundaries and applicable fixed-pool/open-pass regimes in a future versioned reach registry. Until then, river mile and pool name are useful for review but do not activate a gauge. A source must establish whether the selected series is headwater or tailwater at a lock. Near Peoria and LaGrange, operation and backwater can change the water relationship; no river-wide constant offset is assumed.
 
 Selection order is a direct bridge or same-water-surface gauge, a documented fixed offset, compatible bracketing gauges within one reach, then a calibrated hydraulic model. Each option still needs a scoped datum chain and timestamp policy. Alternative gauges are explicitly approved for the same physical water surface; they are not substituted merely because the primary feed is unavailable. Forecast direction belongs to its named station and never supplies the observed clearance.
 

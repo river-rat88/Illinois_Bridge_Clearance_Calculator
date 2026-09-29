@@ -1,0 +1,33 @@
+{
+  "id": "il-spring-valley-owner-chart-reference-1",
+  "bridgeId": "il-spring-valley",
+  "recordedDateUtc": "2026-09-28",
+  "selectionStatus": "OWNER_SELECTED",
+  "source": {
+    "type": "USER_SUPPLIED_ECHART_SCREENSHOT",
+    "description": "Owner-supplied e-chart detail: Illinois Valley Veterans Memorial Bridge; USCG Light List No. 6685; Illinois River Mile 218.4; channel low steel 502.6 ft NAVD88, vertical clearance 62.9 ft at normal pool 439.7 ft NAVD88, horizontal opening 354.8 ft. Chart edition 2013 per owner, not visible in screenshot.",
+    "chartProduct": "OWNER_ECHART_BRIDGE_DETAIL",
+    "chartEdition": "2013_OWNER_REPORTED",
+    "chartImageSha256": "54ab7fabe19dc4557eff7f9ba0341d855c8b4b157e54e381902185ae00802799",
+    "surveyEffectiveDate": null
+  },
+  "riverMile": "218.4",
+  "routeMeasureSystem": "IL_RM_ABOVE_MOUTH",
+  "openingPosition": "FIXED",
+  "publishedClearanceFt": "62.9",
+  "lowSteelElevationFt": "502.6",
+  "referenceSurface": {
+    "label": "NORMAL_POOL",
+    "elevationFt": "439.7"
+  },
+  "verticalDatum": "NAVD88",
+  "unitRealization": null,
+  "pilotEstimateEnabled": false,
+  "gaugeAssociationApproved": false,
+  "totalErrorValidated": false,
+  "productionEligible": false,
+  "historicalAlternatives": [],
+  "gaugeCandidate": null,
+  "bridgeWaterModel": null,
+  "chartName": "Illinois Valley Veterans Memorial Bridge"
+}

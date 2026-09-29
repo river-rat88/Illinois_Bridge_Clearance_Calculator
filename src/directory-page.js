@@ -8,7 +8,7 @@ let directory;
 const receipts=new Map();
 let pilots=Object.create(null);
 const reason=status=>({DATUM_CONVERSION_REQUIRED:'NGVD29 → NAVD88 conversion needed',DATUM_CONVERSION_REVIEW:'Gauge-zero conversions differ',GAUGE_DATUM_TIE_UNRESOLVED:'Gauge datum and bridge water tie pending',FORECAST_STALE:'Forecast is stale',NO_VERIFIED_FORECAST:'No verified tailwater forecast',SOURCE_UNAVAILABLE:'Source unavailable'}[status]??status?.replaceAll('_',' ')??'Not available');
-const laSalleGauge = id => ['il-abraham-lincoln','il-illinois-central-lasalle','il-lasalle','il-peru'].includes(id);
+const laSalleGauge = id => ['il-abraham-lincoln','il-illinois-central-lasalle','il-lasalle','il-peru','il-utica'].includes(id);
 const expanded = new Set();
 function detail(b) {
   const source = directory.sources.find(s=>s.id===b.mileSourceId);

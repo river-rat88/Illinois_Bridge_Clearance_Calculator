@@ -26,7 +26,7 @@ export function buildDirectory(inventory, extension, references, manifest, cover
     const sourceId = historicalMile ? b.historicalLightList.sourceId : b.coastPilot.sourceId;
     if (!sources.has(sourceId) || !sources.has(b.coastPilot.sourceId)) throw new Error('MILE_SOURCE_MISSING');
     const historical = b.lifecycle === 'REMOVED_SPAN_RETAINED_FOR_AUDIT';
-    return { id:b.id, name:b.id === 'il-henry' ? 'Henry / State Route 18 bridge' : b.nameAsPublished,
+    return { id:b.id, name:reference?.chartName ?? (b.id === 'il-henry' ? 'Henry / State Route 18 bridge' : b.nameAsPublished),
       riverMile, derivedRiverMile:b.derivedRiverMile, historical,
       mileStatus:reference?.riverMile ? 'OWNER_CONFIRMED' : historicalMile ? 'PUBLISHED_HISTORICAL' : 'DERIVED_UNVERIFIED',
       mileSourceId:sourceId, mileConflict:!!historicalMile && Q.parse(historicalMile).cmp(b.derivedRiverMile) !== 0,

@@ -113,7 +113,7 @@ export function evaluateLaSalleBridge(snapshot, asOf, selectedReference = LINCOL
   utc(asOf);
   const reference = structuredClone(snapshot.bridgeReference ?? selectedReference);
   const consistency = attempt(() => {
-    check(['il-abraham-lincoln','il-illinois-central-lasalle','il-lasalle','il-peru'].includes(reference.bridgeId) &&
+    check(['il-abraham-lincoln','il-illinois-central-lasalle','il-lasalle','il-peru','il-utica'].includes(reference.bridgeId) &&
       reference.openingPosition === 'FIXED' &&
       reference.verticalDatum === 'NAVD88' && reference.referenceSurface?.label === 'NORMAL_POOL', 'REFERENCE_ID_MISMATCH');
     check(Q.parse(reference.lowSteelElevationFt).sub(reference.referenceSurface.elevationFt).cmp(reference.publishedClearanceFt) === 0,

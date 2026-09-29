@@ -12,7 +12,7 @@ test('server serves application assets only and refuses writes', async t => {
   }
   const directory = await (await fetch(root + '/api/bridges')).json();
   assert.equal(directory.bridges.length,38);assert.equal(directory.scope.maximumRiverMile,'279');
-  assert.equal(directory.pilots.length,7);assert.equal(directory.bridges.filter(b=>b.coverage.phase==='REFERENCE_PENDING').length,30);
+  assert.equal(directory.pilots.length,8);assert.equal(directory.bridges.filter(b=>b.coverage.phase==='REFERENCE_PENDING').length,27);
   assert.equal(directory.bridges.find(b=>b.id==='il-morris').selectedReference.publishedClearanceFt,'50.4');
   assert.match(await (await fetch(root)).text(),/Every crossing/);
   assert.match(await (await fetch(root+'/demo')).text(),/DEMONSTRATION ONLY/);
