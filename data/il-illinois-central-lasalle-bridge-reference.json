@@ -1,0 +1,87 @@
+{
+  "id": "il-illinois-central-lasalle-owner-chart-reference-1",
+  "bridgeId": "il-illinois-central-lasalle",
+  "recordedDateUtc": "2026-09-28",
+  "selectionStatus": "OWNER_SELECTED",
+  "source": {
+    "type": "USER_SUPPLIED_ECHART_SCREENSHOT",
+    "description": "Owner-supplied e-chart detail: Illinois Central Railroad Bridge; USCG Light List No. 6610; Illinois River Mile 225.5; channel low steel 502.0 ft NAVD88, vertical clearance 62.2 ft at normal pool 439.8 ft NAVD88, horizontal opening 260.0 ft. Chart edition 2013 per owner, not visible in screenshot.",
+    "chartProduct": "OWNER_ECHART_BRIDGE_DETAIL",
+    "chartEdition": "2013_OWNER_REPORTED",
+    "chartImageSha256": "843267c2537968c12f600b1496058a2e3150782dc0ed011d17475b6798478c92",
+    "surveyEffectiveDate": null
+  },
+  "riverMile": "225.5",
+  "routeMeasureSystem": "IL_RM_ABOVE_MOUTH",
+  "openingPosition": "FIXED",
+  "publishedClearanceFt": "62.2",
+  "lowSteelElevationFt": "502.0",
+  "referenceSurface": {
+    "label": "NORMAL_POOL",
+    "elevationFt": "439.8"
+  },
+  "verticalDatum": "NAVD88",
+  "unitRealization": null,
+  "pilotEstimateEnabled": true,
+  "gaugeAssociationApproved": true,
+  "totalErrorValidated": false,
+  "productionEligible": false,
+  "historicalAlternatives": [
+    {
+      "sourceId": "uscg-ll5-2024",
+      "clearanceFt": "62.2",
+      "note": "Historical Light List agrees with screenshot listed clearance but does not establish NAVD88 low steel."
+    }
+  ],
+  "gaugeCandidate": {
+    "gaugeId": "LSLI2",
+    "riverMile": "224.7",
+    "pool": "PEORIA",
+    "stageKind": "STAGE_ABOVE_GAUGE_ZERO",
+    "gaugeZeroFt": "430.00",
+    "verticalDatum": "NGVD29",
+    "ownerReportedConversion": {
+      "convertedZeroNavd88Ft": "429.88",
+      "inputZeroNgvd29Ft": "430.00",
+      "method": "NGS_CONVERTER_OWNER_REPORTED",
+      "coordinates": null,
+      "modelVersion": null,
+      "localErrorEstimateFt": null,
+      "verified": false,
+      "supersededByOwnerScreenshot": true
+    },
+    "ncatApiCandidate": {
+      "researchRecordId": "lincoln-ncat-api-review-2026-09-28",
+      "sourceInputZeroNgvd29Meters": "131.064",
+      "outputZeroNavd88Meters": "130.997",
+      "convertedZeroNavd88FtApprox": "429.78",
+      "localTransformationErrorMeters": "0.053",
+      "vertconVersion": "3.0",
+      "rawResponseSha256": "971f32f6ee534477a0d08787089689f8804a5d026d908aaf143a82b156f005d6",
+      "latitude": "41.32358",
+      "longitude": "-89.11079",
+      "active": true
+    },
+    "ownerNcatCrosscheck": {
+      "imageSha256": "1349ccac93b7806f737f821015e6e0a2fb3646a83b82127f4945085ec264c10e",
+      "latitude": "41.3108238809",
+      "longitude": "-89.0826416016",
+      "zeroNavd88Ft": "429.790",
+      "note": "NCAT screenshot at different coordinates; cross-check only, not the gauge-zero calculation input."
+    },
+    "associationStatus": "OWNER_APPROVED_DIRECT_WATER_ASSUMPTION_NOT_FIELD_VALIDATED",
+    "bridgeMinusGaugeFt": "0"
+  },
+  "bridgeWaterModel": {
+    "id": "il-illinois-central-lasalle-lsli2-owner-direct-1",
+    "bridgeId": "il-illinois-central-lasalle",
+    "gaugeId": "LSLI2",
+    "type": "DIRECT",
+    "basis": "OWNER_ASSUMPTION",
+    "offsetFt": "0",
+    "validated": false,
+    "ownerClaimedDifferenceInchesLessThan": null,
+    "errorBoundVerified": false,
+    "appliesTo": "ASSUMPTION_LABELED_PILOT_ONLY"
+  }
+}

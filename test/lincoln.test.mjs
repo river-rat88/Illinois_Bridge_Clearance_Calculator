@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import { mkdtemp, readdir, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { URLS, evaluateLincoln } from '../src/feeds/lincoln.js';
+import { URLS, evaluateLincoln, evaluateLaSalleBridge } from '../src/feeds/lincoln.js';
 import { createLincolnService } from '../src/lincoln-service.js';
+import { createLaSalleGroupServices } from '../src/lasalle-group-service.js';
 import { hash } from '../src/feeds/usgs-pilot.js';
 import { makeServer } from '../server.mjs';
 import { Q } from '../src/exact.js';
@@ -160,6 +161,31 @@ test('La Salle service archives inputs and retains only historical stage after o
   assert.equal(r.result.stage.status,'SOURCE_UNAVAILABLE');
   assert.equal(r.result.historicalStage.status,'HISTORICAL_ONLY');
   assert.equal(r.result.historicalStage.late,true);assert.equal(r.result.clearance.valueFt,null);
+});
+test('three adjacent chart spans share one La Salle snapshot with distinct replayable receipts',async t=>{
+  const dir=await mkdtemp(join(tmpdir(),'lasalle-group-'));t.after(()=>rm(dir,{recursive:true,force:true}));
+  const fixture=snapshot();let calls=0;
+  const base=createLincolnService({directory:dir,clock:()=>now,fetchImpl:async url=>{
+    calls++;const s=Object.values(fixture.sources).find(s=>s.url===url);
+    return new Response(s.body,{headers:{'content-type':'application/json'}});
+  }});
+  const group=createLaSalleGroupServices(base);
+  const ids=['il-illinois-central-lasalle','il-lasalle','il-peru'];
+  const receipts=await Promise.all(ids.map(id=>group[id].get()));
+  assert.equal(calls,3);assert.equal(new Set(receipts.map(r=>r.snapshotId)).size,1);
+  assert.equal(new Set(receipts.map(r=>r.receiptId)).size,3);
+  for (const [i,r] of receipts.entries()) {
+    assert.equal(r.result.bridgeId,ids[i]);
+    assert.equal(r.result.clearance.status,'ESTIMATED');
+    assert.equal(r.result.forecast.direction,'FALLING');
+    assert.equal(r.result.stage.valueFt,'14.11');
+    assert.equal(r.result.clearance.productionEligible,false);
+    assert.deepEqual(evaluateLaSalleBridge(r.input,r.result.asOf),r.result);
+  }
+  assert.deepEqual(receipts.map(r=>r.result.clearance.valueFt),['58.1','59.9','60.4']);
+  const altered=structuredClone(receipts[2].input);
+  altered.bridgeReference.bridgeWaterModel.offsetFt='0.1';
+  assert.equal(evaluateLaSalleBridge(altered,now).clearance.status,'MODEL_UNRESOLVED');
 });
 test('HTTP exposes Lincoln audit receipt and keeps source files private',async t=>{
   const r=evaluateLincoln(snapshot(),now);
