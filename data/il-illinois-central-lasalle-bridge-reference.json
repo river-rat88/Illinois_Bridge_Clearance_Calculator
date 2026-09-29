@@ -28,11 +28,6 @@
   "productionEligible": false,
   "historicalAlternatives": [
     {
-      "sourceId": "noaa-cp6-20260920",
-      "poolClearanceFt": "61",
-      "note": "Coast Pilot research value; source surface/epoch not reconciled; chart channel-span NAVD88 value selected for this pilot."
-    },
-    {
       "sourceId": "uscg-ll5-2024",
       "clearanceFt": "62.2",
       "note": "Historical Light List agrees with screenshot listed clearance but does not establish NAVD88 low steel."

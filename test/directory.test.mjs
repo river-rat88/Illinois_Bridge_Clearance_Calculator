@@ -41,6 +41,8 @@ test('owner locations and exact chart references preserve source differences wit
     assert.equal(b.selectedReference.publishedClearanceFt,clearance);
     assert.equal(b.selectedReference.consistency,'INTERNALLY_CONSISTENT');
     assert.equal(b.coverage.gaugeId,'LSLI2');
+    assert.equal(b.selectedReference.historicalAlternatives.some(a=>a.sourceId==='noaa-cp6-20260920'),false);
+    assert.equal(b.coverage.researchFlags.includes('UNRECONCILED_PUBLISHED_CLEARANCE_DIFFERENCE'),false);
   }
 });
 test('directory rejects duplicate IDs and miles beyond the inclusive 0–279 range',()=>{

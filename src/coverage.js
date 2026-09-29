@@ -1,6 +1,8 @@
 import { Q } from './exact.js';
 
 const PHASES = new Set(['REFERENCE_PENDING','ASSOCIATION_PENDING','FEED_PENDING','PILOT','HISTORICAL']);
+const CHART_SELECTED_LASALLE_GROUP = new Set(['il-illinois-central-lasalle','il-lasalle','il-peru']);
+const SUPERSEDED_RESEARCH_FLAGS = new Set(['UNRECONCILED_PUBLISHED_CLEARANCE_DIFFERENCE','REFERENCE_SURFACE_TIE_UNVERIFIED','RIVER_MILE_DIFFERENCE']);
 const assert = (condition, code) => { if (!condition) throw new Error(code); };
 
 function nextEvidence(bridge, phase) {
@@ -57,9 +59,11 @@ export function resolveCoverage(bridges, references, plan) {
         ...(bridge.coastPilot.type === 'lift' || bridge.issues.includes('FULLY_OPEN_GEOMETRY_UNVERIFIED') ? ['FULLY_OPEN_GEOMETRY_REQUIRED'] : []),
         'GAUGE_ASSOCIATION_REQUIRED'
       ] : entry.phase === 'ASSOCIATION_PENDING' ? ['GAUGE_ASSOCIATION_REQUIRED'] : ['OBSERVATION_FEED_REQUIRED'];
+    const researchFlags = entry.phase === 'PILOT' && CHART_SELECTED_LASALLE_GROUP.has(entry.bridgeId)
+      ? bridge.issues.filter(flag => !SUPERSEDED_RESEARCH_FLAGS.has(flag)) : bridge.issues;
     byId.set(entry.bridgeId,{ phase:entry.phase, gaugeId:entry.gaugeId,
       estimateEligible:entry.phase === 'PILOT', productionEligible:false,
-      blockers, nextEvidence:nextEvidence(bridge,entry.phase), researchFlags:bridge.issues });
+      blockers, nextEvidence:nextEvidence(bridge,entry.phase), researchFlags });
   }
   assert(byId.size === bridges.length, 'COVERAGE_INCOMPLETE');
   for (const id of selected.keys()) assert(byId.has(id), 'UNKNOWN_REFERENCE_BRIDGE');
