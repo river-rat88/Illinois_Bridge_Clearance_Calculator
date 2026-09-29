@@ -1,6 +1,6 @@
 # River-wide bridge coverage architecture
 
-Status: proof-of-concept architecture, September 29, 2026. Scope is Illinois Waterway river miles 0–279. The working source catalog has **38 crossing rows**: 37 displayed rows and one removed span retained for audit. Rows can describe grouped or parallel structures and are not a verified count of individual active bridges. Seven rows have source-backed, assumption-labeled pilot estimates; the other 30 active rows remain visibly pending. No pilot is production eligible.
+Status: proof-of-concept architecture, September 29, 2026. Scope is Illinois Waterway river miles 0–279. The working source catalog has **38 crossing rows**: 37 displayed rows and one removed span retained for audit. Rows can describe grouped or parallel structures and are not a verified count of individual active bridges. Ten rows have source-backed, assumption-labeled pilot estimates and 27 await chart references. No pilot is production eligible.
 
 ## Current executable contract
 
@@ -33,7 +33,7 @@ For stage above a local zero, normalized water at gauge \(g\) is \(W_g^{88}=h_g+
 
 ## Hydraulic reach and gauge selection
 
-Before assigning any of the 33 pending crossings, inventory the controlling works at LaGrange, Peoria, Starved Rock, Marseilles and Dresden Island, the navigation route around Marseilles, major tributary joins and Mississippi backwater. Store *validated* reach boundaries and applicable fixed-pool/open-pass regimes in a future versioned reach registry. Until then, river mile and pool name are useful for review but do not activate a gauge. A source must establish whether the selected series is headwater or tailwater at a lock. Near Peoria and LaGrange, operation and backwater can change the water relationship; no river-wide constant offset is assumed.
+Before assigning pending crossings, inventory the controlling works at LaGrange, Peoria, Starved Rock, Marseilles and Dresden Island, the navigation route around Marseilles, major tributary joins and Mississippi backwater. Store *validated* reach boundaries and applicable fixed-pool/open-pass regimes in a future versioned reach registry. Until then, river mile and pool name are useful for review but do not activate a gauge. A source must establish whether the selected series is headwater or tailwater at a lock. Near Peoria and LaGrange, operation and backwater can change the water relationship; no river-wide constant offset is assumed.
 
 Selection order is a direct bridge or same-water-surface gauge, a documented fixed offset, compatible bracketing gauges within one reach, then a calibrated hydraulic model. Each option still needs a scoped datum chain and timestamp policy. Alternative gauges are explicitly approved for the same physical water surface; they are not substituted merely because the primary feed is unavailable. Forecast direction belongs to its named station and never supplies the observed clearance.
 
@@ -46,6 +46,8 @@ Selection order is a direct bridge or same-water-surface gauge, a documented fix
 5. Compare future independent bridge readings over different river conditions. Keep source evidence, receipt and measured residuals separate. Do not promote to operational use from a few visually read values or from the illustrative three-foot scenario.
 
 Illinois Central mile 225.5, La Salle Highway mile 224.7 and Peru Highway mile 222.8 now use owner-supplied channel-span NAVD88 chart references and an explicit owner-approved, unverified direct-water assumption from LSLI2. They share the same raw NOAA observation snapshot and gauge-location NCAT conversion with Lincoln but have separate bridge reference records and calculation receipts. Per the owner, the older Coast Pilot clearance figures for these three are research history only; they are not candidate calculation inputs or active review flags. Next candidates should be selected from the remaining pending rows based on current chart geometry. The EJE and other lift rows need fully open opening evidence before their Coast Pilot research clearances can become selected NAVD88 references. The McClugage, Valley City and replacement-flagged rows need physical span reconciliation first.
+
+The owner subsequently supplied Utica, Veterans Memorial at Spring Valley and I-180 chart details and reported that the Corps uses La Salle for Spring Valley and Hennepin clearances. All three now have explicit LSLI2 assumption-labeled pilot records. The cropped Corps clearance table screenshot is retained as a separate cross-check: its Spring Valley listed clearance differs from the owner's chart by 1.30 ft, and a same-water proxy from the table's La Salle current clearance differs from Spring Valley and I-180 current values by +0.85 and −0.96 ft respectively. Neither the gauge mapping nor time is visible in that screenshot. These observations do not establish a stable spatial offset; the pilot assumption remains unverified. See `data/research/lasalle-corps-clearance-table-2026-09-28.json`.
 
 ## Implementation boundary
 

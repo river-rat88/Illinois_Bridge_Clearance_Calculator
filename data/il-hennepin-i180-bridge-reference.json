@@ -1,0 +1,93 @@
+{
+  "id": "il-hennepin-i180-owner-chart-reference-1",
+  "bridgeId": "il-hennepin-i180",
+  "recordedDateUtc": "2026-09-28",
+  "selectionStatus": "OWNER_SELECTED",
+  "source": {
+    "type": "USER_SUPPLIED_ECHART_SCREENSHOT",
+    "description": "Owner-supplied e-chart detail: I-180 Bridge; USCG Light List No. 6770; Illinois River Mile 207.8; channel low steel 499.7 ft NAVD88, vertical clearance 59.9 ft at normal pool 439.8 ft NAVD88, horizontal opening 350.0 ft. Chart edition 2013 per owner, not visible in screenshot.",
+    "chartProduct": "OWNER_ECHART_BRIDGE_DETAIL",
+    "chartEdition": "2013_OWNER_REPORTED",
+    "chartImageSha256": "c6aec5adbfb9ce998d0766110ab51162946a63618ffb6b8c58b2bcc754c3f768",
+    "surveyEffectiveDate": null
+  },
+  "riverMile": "207.8",
+  "routeMeasureSystem": "IL_RM_ABOVE_MOUTH",
+  "openingPosition": "FIXED",
+  "publishedClearanceFt": "59.9",
+  "lowSteelElevationFt": "499.7",
+  "referenceSurface": {
+    "label": "NORMAL_POOL",
+    "elevationFt": "439.8"
+  },
+  "verticalDatum": "NAVD88",
+  "unitRealization": null,
+  "pilotEstimateEnabled": true,
+  "gaugeAssociationApproved": true,
+  "totalErrorValidated": false,
+  "productionEligible": false,
+  "historicalAlternatives": [],
+  "gaugeCandidate": {
+    "gaugeId": "LSLI2",
+    "riverMile": "224.7",
+    "pool": "PEORIA",
+    "stageKind": "STAGE_ABOVE_GAUGE_ZERO",
+    "gaugeZeroFt": "430.00",
+    "verticalDatum": "NGVD29",
+    "ownerReportedConversion": {
+      "convertedZeroNavd88Ft": "429.88",
+      "inputZeroNgvd29Ft": "430.00",
+      "method": "NGS_CONVERTER_OWNER_REPORTED",
+      "coordinates": null,
+      "modelVersion": null,
+      "localErrorEstimateFt": null,
+      "verified": false,
+      "supersededByOwnerScreenshot": true
+    },
+    "ncatApiCandidate": {
+      "researchRecordId": "lincoln-ncat-api-review-2026-09-28",
+      "sourceInputZeroNgvd29Meters": "131.064",
+      "outputZeroNavd88Meters": "130.997",
+      "convertedZeroNavd88FtApprox": "429.78",
+      "localTransformationErrorMeters": "0.053",
+      "vertconVersion": "3.0",
+      "rawResponseSha256": "971f32f6ee534477a0d08787089689f8804a5d026d908aaf143a82b156f005d6",
+      "latitude": "41.32358",
+      "longitude": "-89.11079",
+      "active": true
+    },
+    "ownerNcatCrosscheck": {
+      "imageSha256": "1349ccac93b7806f737f821015e6e0a2fb3646a83b82127f4945085ec264c10e",
+      "latitude": "41.3108238809",
+      "longitude": "-89.0826416016",
+      "zeroNavd88Ft": "429.790",
+      "note": "NCAT screenshot at different coordinates; cross-check only, not the gauge-zero calculation input."
+    },
+    "associationStatus": "OWNER_REPORTED_CORPS_LASALLE_GAUGE_DIRECT_WATER_ASSUMPTION_NOT_FIELD_VALIDATED",
+    "bridgeMinusGaugeFt": "0",
+    "ownerResearchNote": "Owner reports further research that the Corps calculator uses La Salle for this bridge; supplied calculator table does not identify gauge or timestamp."
+  },
+  "bridgeWaterModel": {
+    "id": "il-hennepin-i180-lsli2-owner-direct-1",
+    "bridgeId": "il-hennepin-i180",
+    "gaugeId": "LSLI2",
+    "type": "DIRECT",
+    "basis": "OWNER_ASSUMPTION",
+    "offsetFt": "0",
+    "validated": false,
+    "ownerClaimedDifferenceInchesLessThan": null,
+    "errorBoundVerified": false,
+    "appliesTo": "ASSUMPTION_LABELED_PILOT_ONLY"
+  },
+  "chartName": "I-180 Bridge",
+  "corpsCalculatorCrosscheck": {
+    "recordId": "owner-corps-clearance-table-2026-09-28-1",
+    "screenshotSha256": "f899e12f9a3f232f5a3463d58e0f836d083d95fd976fb9d623693f8a9aa7d36e",
+    "status": "UNRECONCILED_SINGLE_SCREENSHOT",
+    "tableListedClearanceFt": "59.90",
+    "tableCurrentClearanceFt": "57.69",
+    "sameWaterProxyClearanceFt": "56.73",
+    "proxyMinusTableCurrentFt": "-0.96",
+    "note": "A same-water proxy from the Corps La Salle row differs from this row; no fixed correction is inferred."
+  }
+}

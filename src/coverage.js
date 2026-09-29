@@ -1,14 +1,14 @@
 import { Q } from './exact.js';
 
 const PHASES = new Set(['REFERENCE_PENDING','ASSOCIATION_PENDING','FEED_PENDING','PILOT','HISTORICAL']);
-const CHART_SELECTED_LASALLE_GROUP = new Set(['il-illinois-central-lasalle','il-lasalle','il-peru']);
+const OWNER_CHART_SELECTED_IDS = new Set(['il-illinois-central-lasalle','il-lasalle','il-peru','il-utica','il-spring-valley','il-hennepin-i180']);
 const SUPERSEDED_RESEARCH_FLAGS = new Set(['UNRECONCILED_PUBLISHED_CLEARANCE_DIFFERENCE','REFERENCE_SURFACE_TIE_UNVERIFIED','RIVER_MILE_DIFFERENCE']);
 const assert = (condition, code) => { if (!condition) throw new Error(code); };
 
 function nextEvidence(bridge, phase) {
   if (phase === 'HISTORICAL') return 'Removed span retained for source history; no active calculation.';
   if (phase === 'PILOT') return 'Compare independent bridge readings with the observation-time estimate; overall accuracy remains unverified.';
-  if (phase === 'ASSOCIATION_PENDING') return 'Select a gauge in the same hydraulic reach and document its datum and bridge-water relationship.';
+  if (phase === 'ASSOCIATION_PENDING') return 'Identify the chart-depicted/local gauge series, its datum and the bridge-water relationship.';
   if (phase === 'FEED_PENDING') return 'Bind and validate the approved gauge observation series, datum epoch and source receipt.';
   if (bridge.coastPilot.type === 'lift' || bridge.issues.includes('FULLY_OPEN_GEOMETRY_UNVERIFIED'))
     return 'Confirm controlling fully open low steel and its reference pool as NAVD88 elevations.';
@@ -52,14 +52,14 @@ export function resolveCoverage(bridges, references, plan) {
       assert(entry.gaugeId === null && entry.endpoint === null && entry.stageLabel === null, 'UNAPPROVED_GAUGE_BINDING');
       assert(entry.phase === 'HISTORICAL' || (entry.phase === 'REFERENCE_PENDING' ? !ref : !!ref), 'COVERAGE_REFERENCE_CONFLICT');
     }
-    const blockers = entry.phase === 'PILOT' ? ['OVERALL_ACCURACY_UNVERIFIED'] :
+    const blockers = entry.phase === 'PILOT' ? ['OVERALL_ACCURACY_UNVERIFIED', ...(ref?.corpsCalculatorCrosscheck ? ['CORPS_TABLE_CROSSCHECK_UNRESOLVED'] : [])] :
       entry.phase === 'HISTORICAL' ? ['REMOVED_SPAN'] :
       entry.phase === 'REFERENCE_PENDING' ? [
         'SELECTED_NAVD88_REFERENCE_REQUIRED',
         ...(bridge.coastPilot.type === 'lift' || bridge.issues.includes('FULLY_OPEN_GEOMETRY_UNVERIFIED') ? ['FULLY_OPEN_GEOMETRY_REQUIRED'] : []),
         'GAUGE_ASSOCIATION_REQUIRED'
       ] : entry.phase === 'ASSOCIATION_PENDING' ? ['GAUGE_ASSOCIATION_REQUIRED'] : ['OBSERVATION_FEED_REQUIRED'];
-    const researchFlags = entry.phase === 'PILOT' && CHART_SELECTED_LASALLE_GROUP.has(entry.bridgeId)
+    const researchFlags = entry.phase !== 'REFERENCE_PENDING' && OWNER_CHART_SELECTED_IDS.has(entry.bridgeId)
       ? bridge.issues.filter(flag => !SUPERSEDED_RESEARCH_FLAGS.has(flag)) : bridge.issues;
     byId.set(entry.bridgeId,{ phase:entry.phase, gaugeId:entry.gaugeId,
       estimateEligible:entry.phase === 'PILOT', productionEligible:false,

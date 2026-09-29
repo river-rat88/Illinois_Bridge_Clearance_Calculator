@@ -1,0 +1,91 @@
+{
+  "id": "owner-corps-clearance-table-2026-09-28-1",
+  "source": {
+    "type": "USER_SUPPLIED_SCREENSHOT_REPORTED_AS_USACE_BRIDGE_CLEARANCE_CALCULATOR",
+    "sha256": "f899e12f9a3f232f5a3463d58e0f836d083d95fd976fb9d623693f8a9aa7d36e",
+    "capturedTime": "UNKNOWN",
+    "reportedDateLocal": "2026-09-28",
+    "urlVisible": false,
+    "gaugeMappingVisible": false,
+    "note": "Screenshot is cropped; no URL, source timestamp, gauge IDs or series are visible. Owner reports separately that La Salle gauge is used for Spring Valley and Hennepin."
+  },
+  "unit": "ft",
+  "rows": [
+    {
+      "id": "il-utica",
+      "mile": "229.60",
+      "corpsLowWaterClearance": "65.90",
+      "corpsCurrentClearance": "62.37",
+      "selectedChartLowSteelNavd88": "505.6",
+      "selectedChartClearance": "65.8"
+    },
+    {
+      "id": "il-abraham-lincoln",
+      "mile": "225.70",
+      "corpsLowWaterClearance": "66.10",
+      "corpsCurrentClearance": "62.92",
+      "selectedChartLowSteelNavd88": "505.8",
+      "selectedChartClearance": "66.0"
+    },
+    {
+      "id": "il-illinois-central-lasalle",
+      "mile": "225.50",
+      "corpsLowWaterClearance": "62.20",
+      "corpsCurrentClearance": "59.02",
+      "selectedChartLowSteelNavd88": "502.0",
+      "selectedChartClearance": "62.2"
+    },
+    {
+      "id": "il-lasalle",
+      "mile": "224.70",
+      "corpsLowWaterClearance": "64.00",
+      "corpsCurrentClearance": "60.83",
+      "selectedChartLowSteelNavd88": "503.8",
+      "selectedChartClearance": "64.0"
+    },
+    {
+      "id": "il-peru",
+      "mile": "222.80",
+      "corpsLowWaterClearance": "64.50",
+      "corpsCurrentClearance": "61.32",
+      "selectedChartLowSteelNavd88": "504.3",
+      "selectedChartClearance": "64.5"
+    },
+    {
+      "id": "il-spring-valley",
+      "mile": "218.40",
+      "corpsLowWaterClearance": "61.60",
+      "corpsCurrentClearance": "58.78",
+      "selectedChartLowSteelNavd88": "502.6",
+      "selectedChartClearance": "62.9"
+    },
+    {
+      "id": "il-hennepin-i180",
+      "mile": "207.80",
+      "corpsLowWaterClearance": "59.90",
+      "corpsCurrentClearance": "57.69",
+      "selectedChartLowSteelNavd88": "499.7",
+      "selectedChartClearance": "59.9"
+    }
+  ],
+  "comparison": {
+    "basis": "Assume the Corps La Salle current clearance and owner chart La Salle low steel describe the same opening at one table snapshot. Infer a proxy water level of 503.8 - 60.83 = 442.97 ft NAVD88, then compare other owner chart low steels against the Corps table. This is an illustrative cross-source check, not an authenticated time-paired validation.",
+    "laSalleProxyWaterNavd88Ft": "442.97",
+    "predictedFromSameWater": {
+      "il-utica": {
+        "valueFt": "62.63",
+        "minusCorpsCurrentFt": "0.26"
+      },
+      "il-spring-valley": {
+        "valueFt": "59.63",
+        "minusCorpsCurrentFt": "0.85"
+      },
+      "il-hennepin-i180": {
+        "valueFt": "56.73",
+        "minusCorpsCurrentFt": "-0.96"
+      }
+    },
+    "springValleyListedDifferenceChartMinusCorpsFt": "1.30",
+    "warning": "Differences may combine local water slope, distinct pool references, bridge geometry versions, table update times or source processing. One screenshot cannot calibrate an offset or establish a three-foot error bound."
+  }
+}
