@@ -1,7 +1,7 @@
 import { Q } from './exact.js';
 
 const PHASES = new Set(['REFERENCE_PENDING','ASSOCIATION_PENDING','FEED_PENDING','PILOT','HISTORICAL']);
-const OWNER_CHART_SELECTED_IDS = new Set(['il-illinois-central-lasalle','il-lasalle','il-peru','il-utica','il-spring-valley','il-hennepin-i180']);
+const OWNER_CHART_SELECTED_IDS = new Set(['il-illinois-central-lasalle','il-lasalle','il-peru','il-utica','il-spring-valley','il-hennepin-i180','il-lacon','il-chillicothe-rr']);
 const SUPERSEDED_RESEARCH_FLAGS = new Set(['UNRECONCILED_PUBLISHED_CLEARANCE_DIFFERENCE','REFERENCE_SURFACE_TIE_UNVERIFIED','RIVER_MILE_DIFFERENCE']);
 const assert = (condition, code) => { if (!condition) throw new Error(code); };
 

@@ -1,0 +1,33 @@
+{
+  "id": "il-chillicothe-rr-owner-chart-reference-1",
+  "bridgeId": "il-chillicothe-rr",
+  "recordedDateUtc": "2026-09-30",
+  "selectionStatus": "OWNER_SELECTED",
+  "source": {
+    "type": "USER_SUPPLIED_ECHART_SCREENSHOT",
+    "description": "Owner-supplied e-chart detail: Atchison Topeka and Santa Fe RR Bridge; USCG Light List No. 6945; Illinois River Mile 181.9; channel low steel 498.5 ft NAVD88, vertical clearance 58.8 ft at normal pool 439.7 ft NAVD88, horizontal opening 345.2 ft. Chart edition 2013 per owner, not visible in screenshot. This active fixed bridge is distinct from the removed swing bridge cataloged near mile 162.2.",
+    "chartProduct": "OWNER_ECHART_BRIDGE_DETAIL",
+    "chartEdition": "2013_OWNER_REPORTED",
+    "chartImageSha256": "28d3cf517f765cc6aba7a37cfa2a5457002b7604e346097839b280d120e134b8",
+    "surveyEffectiveDate": null
+  },
+  "riverMile": "181.9",
+  "routeMeasureSystem": "IL_RM_ABOVE_MOUTH",
+  "openingPosition": "FIXED",
+  "publishedClearanceFt": "58.8",
+  "lowSteelElevationFt": "498.5",
+  "referenceSurface": {
+    "label": "NORMAL_POOL",
+    "elevationFt": "439.7"
+  },
+  "verticalDatum": "NAVD88",
+  "unitRealization": null,
+  "pilotEstimateEnabled": false,
+  "gaugeAssociationApproved": false,
+  "totalErrorValidated": false,
+  "productionEligible": false,
+  "historicalAlternatives": [],
+  "gaugeCandidate": null,
+  "bridgeWaterModel": null,
+  "chartName": "Atchison Topeka and Santa Fe RR Bridge"
+}

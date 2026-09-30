@@ -5,8 +5,8 @@ import { createHash } from 'node:crypto';
 import { buildDirectory, orderBridges } from '../src/directory.js';
 import { Q } from '../src/exact.js';
 const read = async p => JSON.parse(await readFile(new URL(`../${p}`,import.meta.url),'utf8'));
-const [inventory,extension,henry,morris,eje,lincoln,central,lasalle,peru,utica,springValley,hennepin,manifest,coverage] = await Promise.all(['data/research/bridge-inventory.json','data/research/scope-extension.json','data/henry-bridge-reference.json','data/morris-bridge-reference.json','data/eje-bridge-reference.json','data/lincoln-bridge-reference.json','data/il-illinois-central-lasalle-bridge-reference.json','data/il-lasalle-bridge-reference.json','data/il-peru-bridge-reference.json','data/il-utica-bridge-reference.json','data/il-spring-valley-bridge-reference.json','data/il-hennepin-i180-bridge-reference.json','data/research/sources.json','data/bridge-coverage-plan.json'].map(read));
-const references=[henry,morris,eje,lincoln,central,lasalle,peru,utica,springValley,hennepin];
+const [inventory,extension,henry,morris,eje,lincoln,central,lasalle,peru,utica,springValley,hennepin,lacon,chillicothe,manifest,coverage] = await Promise.all(['data/research/bridge-inventory.json','data/research/scope-extension.json','data/henry-bridge-reference.json','data/morris-bridge-reference.json','data/eje-bridge-reference.json','data/lincoln-bridge-reference.json','data/il-illinois-central-lasalle-bridge-reference.json','data/il-lasalle-bridge-reference.json','data/il-peru-bridge-reference.json','data/il-utica-bridge-reference.json','data/il-spring-valley-bridge-reference.json','data/il-hennepin-i180-bridge-reference.json','data/il-lacon-bridge-reference.json','data/il-chillicothe-rr-bridge-reference.json','data/research/sources.json','data/bridge-coverage-plan.json'].map(read));
+const references=[henry,morris,eje,lincoln,central,lasalle,peru,utica,springValley,hennepin,lacon,chillicothe];
 const directory=()=>buildDirectory(inventory,extension,references,manifest,coverage);
 test('directory keeps pending bridges, orders numeric miles and separates removed spans',()=>{
   const d=directory(), rows=orderBridges(d.bridges);
@@ -57,6 +57,26 @@ test('owner locations and exact chart references preserve source differences wit
   assert.equal(rows.find(b=>b.id==='il-spring-valley').name,'Illinois Valley Veterans Memorial Bridge');
   for(const id of ['il-spring-valley','il-hennepin-i180'])
     assert.ok(rows.find(b=>b.id===id).coverage.blockers.includes('CORPS_TABLE_CROSSCHECK_UNRESOLVED'));
+  for(const [id,mile,steel,pool,clearance,hash] of [
+    ['il-lacon','189.1','498.9','439.8','59.1','6699c40970500ec2e36f082a89f99b55730d2350e13fc6e815f35dab83b81085'],
+    ['il-chillicothe-rr','181.9','498.5','439.7','58.8','28d3cf517f765cc6aba7a37cfa2a5457002b7604e346097839b280d120e134b8']
+  ]) {
+    const b=rows.find(b=>b.id===id), ref=b.selectedReference;
+    assert.equal(b.riverMile,mile);
+    assert.equal(ref.lowSteelElevationFt,steel);
+    assert.equal(ref.referenceSurface.elevationFt,pool);
+    assert.equal(ref.publishedClearanceFt,clearance);
+    assert.equal(Q.parse(steel).sub(pool).cmp(clearance),0);
+    assert.equal(ref.source.chartImageSha256,hash);
+    assert.equal(ref.consistency,'INTERNALLY_CONSISTENT');
+    assert.equal(b.coverage.phase,'ASSOCIATION_PENDING');
+    assert.equal(b.coverage.gaugeId,null);
+    assert.equal(b.coverage.estimateEligible,false);
+    assert.ok(b.coverage.blockers.includes('GAUGE_ASSOCIATION_REQUIRED'));
+    assert.equal(b.coverage.researchFlags.includes('UNRECONCILED_PUBLISHED_CLEARANCE_DIFFERENCE'),false);
+  }
+  assert.equal(rows.find(b=>b.id==='il-atsf-removed').selectedReference,null);
+  assert.equal(rows.find(b=>b.id==='il-atsf-removed').historical,true);
 });
 test('directory rejects duplicate IDs and miles beyond the inclusive 0–279 range',()=>{
   const copy=structuredClone(extension);copy.bridges[0].id=inventory.bridges[0].id;
@@ -68,7 +88,7 @@ test('directory rejects duplicate IDs and miles beyond the inclusive 0–279 ran
 });
 test('every source crossing has an explicit phase and research values cannot become clearance inputs',()=>{
   const d=directory();assert.equal(d.bridges.length,38);assert.equal(d.pilots.length,10);
-  assert.equal(d.coveragePolicyVersion,'coverage-2026-09-29-2');
+  assert.equal(d.coveragePolicyVersion,'coverage-2026-09-30-1');
   for(const b of d.bridges){
     assert.equal(b.coverage.productionEligible,false);
     if(b.coverage.phase==='REFERENCE_PENDING'){
@@ -77,7 +97,8 @@ test('every source crossing has an explicit phase and research values cannot bec
       assert.ok(b.coverage.blockers.includes('SELECTED_NAVD88_REFERENCE_REQUIRED'));
     }
   }
-  assert.equal(d.bridges.filter(b=>b.coverage.phase==='REFERENCE_PENDING').length,27);
+  assert.equal(d.bridges.filter(b=>b.coverage.phase==='REFERENCE_PENDING').length,25);
+  assert.equal(d.bridges.filter(b=>b.coverage.phase==='ASSOCIATION_PENDING').length,2);
   assert.equal(d.bridges.find(b=>b.id==='il-atsf-removed').coverage.phase,'HISTORICAL');
   assert.ok(d.bridges.find(b=>b.id==='il-peoria-pekin-rr').coverage.blockers.includes('FULLY_OPEN_GEOMETRY_REQUIRED'));
   assert.match(d.bridges.find(b=>b.id==='il-mcclugage').coverage.nextEvidence,/physical channel span/);

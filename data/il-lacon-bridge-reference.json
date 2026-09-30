@@ -1,0 +1,33 @@
+{
+  "id": "il-lacon-owner-chart-reference-1",
+  "bridgeId": "il-lacon",
+  "recordedDateUtc": "2026-09-30",
+  "selectionStatus": "OWNER_SELECTED",
+  "source": {
+    "type": "USER_SUPPLIED_ECHART_SCREENSHOT",
+    "description": "Owner-supplied e-chart detail: Lacon Bridge; USCG Light List No. 6890; Illinois River Mile 189.1; channel low steel 498.9 ft NAVD88, vertical clearance 59.1 ft at normal pool 439.8 ft NAVD88, horizontal opening 350.0 ft. Chart edition 2013 per owner, not visible in screenshot.",
+    "chartProduct": "OWNER_ECHART_BRIDGE_DETAIL",
+    "chartEdition": "2013_OWNER_REPORTED",
+    "chartImageSha256": "6699c40970500ec2e36f082a89f99b55730d2350e13fc6e815f35dab83b81085",
+    "surveyEffectiveDate": null
+  },
+  "riverMile": "189.1",
+  "routeMeasureSystem": "IL_RM_ABOVE_MOUTH",
+  "openingPosition": "FIXED",
+  "publishedClearanceFt": "59.1",
+  "lowSteelElevationFt": "498.9",
+  "referenceSurface": {
+    "label": "NORMAL_POOL",
+    "elevationFt": "439.8"
+  },
+  "verticalDatum": "NAVD88",
+  "unitRealization": null,
+  "pilotEstimateEnabled": false,
+  "gaugeAssociationApproved": false,
+  "totalErrorValidated": false,
+  "productionEligible": false,
+  "historicalAlternatives": [],
+  "gaugeCandidate": null,
+  "bridgeWaterModel": null,
+  "chartName": "Lacon Bridge"
+}
