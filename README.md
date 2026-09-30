@@ -6,7 +6,7 @@ Each pilot estimate also has an **illustrative ±3-ft scenario** calculated from
 
 The page highlights that lower illustrative endpoint and, for Spring Valley and I-180, the lower of the two figures in an archived Corps-table/chart-proxy comparison. The archived comparisons have unknown observation time and are **not live clearances or transferable corrections**. The pier-mounted bridge clearance gauge and current conditions must be checked before transit. Choosing the lower of uncertain sources does not guarantee that the bridge has more actual clearance.
 
-The [river-wide architecture](docs/river-wide-architecture.md) now tracks all 38 source crossing rows through a checked activation plan: ten assumption-labeled pilots, 27 active rows awaiting selected bridge references, and one removed span retained for history. Every pending row shows its next evidence step. Gauge IDs and API endpoints are explicit only for connected pilots; research clearances cannot silently enable a calculation.
+The [river-wide architecture](docs/river-wide-architecture.md) now tracks all 38 source crossing rows through a checked activation plan: ten assumption-labeled pilots, two selected chart references awaiting gauge association (Lacon and the mile-181.9 Atchison, Topeka & Santa Fe railroad bridge), 25 active rows awaiting selected bridge references, and one removed span retained for history. Every pending row shows its next evidence step. Gauge IDs and API endpoints are explicit only for connected pilots; research clearances cannot silently enable a calculation.
 
 ![Desktop prototype showing synthetic bridge clearances](docs/screenshots/prototype-desktop.png)
 
