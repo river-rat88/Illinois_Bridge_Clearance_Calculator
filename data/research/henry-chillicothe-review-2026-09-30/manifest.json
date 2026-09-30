@@ -1,0 +1,88 @@
+{
+  "id": "henry-chillicothe-gauge-review-2026-09-30",
+  "authorization": "Owner accepted proposed Henry-to-Lacon and Chillicothe-to-Santa Fe direct-water prototype associations on September 30. This is inferred from station locations, not confirmed as the Corps internal mapping.",
+  "stationAssignments": [
+    {
+      "bridgeId": "il-lacon",
+      "gaugeId": "HNYI2",
+      "bridgeMile": "189.1",
+      "gaugeMile": "196.0",
+      "distanceMiles": "6.9",
+      "side": "UPSTREAM"
+    },
+    {
+      "bridgeId": "il-chillicothe-rr",
+      "gaugeId": "CHLI2",
+      "bridgeMile": "181.9",
+      "gaugeMile": "180.5",
+      "distanceMiles": "1.4",
+      "side": "DOWNSTREAM"
+    }
+  ],
+  "henryPublishedZeros": {
+    "corpsNgvd29Ft": "425.88",
+    "noaaNavd88Ft": "425.85",
+    "differenceFt": "-0.03",
+    "note": "Different published elevations of the same gauge zero; do not apply a second offset when using the published NAVD88 zero."
+  },
+  "chillicotheStation": {
+    "coordinateSource": "https://rivergages.mvr.usace.army.mil/WaterControl/stationinfo2.cfm?sid=CHLI2&fid=HNYI2&dt=E",
+    "latitude": "40.9172",
+    "longitude": "-89.4814",
+    "gaugeZeroNgvd29Ft": "0",
+    "valueKind": "ABSOLUTE_ELEVATION",
+    "observationFeed": "https://api.water.noaa.gov/nwps/v1/gauges/chli2/stageflow/observed",
+    "datumTransformReview": "chillicothe-ncat-api-review-2026-09-30",
+    "forecastAvailable": false
+  },
+  "tableSource": {
+    "url": "https://rivergages.mvr.usace.army.mil/bridge_clearance/bridge_clearance.cfm?all=yes",
+    "requestedAt": null,
+    "receivedAt": null,
+    "httpStatus": 200,
+    "contentType": "text/html",
+    "rawFile": "data/research/henry-chillicothe-review-2026-09-30/corps-bridge-table.html.gz",
+    "sha256": "a68792111b6490f4f1240f7dcd62e26f7b0bf2b98b691bf2e4e449b57d98b1f7",
+    "rowObservationTimesPublished": false,
+    "captureDateUtc": "2026-09-30",
+    "captureStatus": "EARLIER_VALID_HTTP_200_RESPONSE_ARCHIVED_EXACT_RECEIPT_TIME_NOT_RETAINED",
+    "archiveEncoding": "gzip",
+    "archiveSha256": "42e68bf1630b55f68a90ecd8d1d68551a13d90aa1474173f3bc96a7df491cc9f",
+    "sourceBytes": 154311
+  },
+  "rows": [
+    {
+      "structureId": "6850",
+      "name": "Henry Highway Bridge",
+      "riverMile": "196.00",
+      "listedClearance": "59.80 ft.",
+      "tableCurrentClearance": "59.50 ft."
+    },
+    {
+      "structureId": "6890",
+      "name": "Lacon Highway Bridge",
+      "riverMile": "189.10",
+      "listedClearance": "59.10 ft.",
+      "tableCurrentClearance": "58.69 ft."
+    },
+    {
+      "structureId": "6945",
+      "name": "Atchison Topeka & Santa Fe RR Bridge",
+      "riverMile": "181.90",
+      "listedClearance": "58.80 ft.",
+      "tableCurrentClearance": "59.31 ft."
+    }
+  ],
+  "comparisonPolicy": "The table publishes no row observation times. Its current figures cannot be aligned to NOAA/USGS timestamps and cannot calibrate a fixed correction, verify the station mapping, or bound the clearance error. Retain independent claims and do not infer water elevation from current clearance as a substitute for observations.",
+  "latestTableRefresh": {
+    "url": "https://rivergages.mvr.usace.army.mil/bridge_clearance/bridge_clearance.cfm?all=yes",
+    "requestedAt": "2026-09-30T12:47:39.720871+00:00",
+    "receivedAt": "2026-09-30T12:47:51.000761+00:00",
+    "httpStatus": 200,
+    "contentType": "text/html",
+    "rawFile": "data/research/henry-chillicothe-review-2026-09-30/corps-table-failed-refresh.txt",
+    "sha256": "86010c018a03fa35592db655ce9c0468f66769b9ca80ffe015361767774c1de7",
+    "rowObservationTimesPublished": false,
+    "status": "HTTP_200_ERROR_BODY_NO_BRIDGE_ROWS"
+  }
+}

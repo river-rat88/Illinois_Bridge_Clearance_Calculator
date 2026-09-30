@@ -8,7 +8,7 @@ async function immutable(path, body) {
   try { await writeFile(path, body, { flag: 'wx', mode: 0o600 }); }
   catch(e) { if (e.code !== 'EEXIST') throw e; check(await readFile(path, 'utf8') === body, 'STORAGE_HASH_MISMATCH'); }
 }
-export function createSnapshotService({ urls: sourceUrls, evaluate, reference, directory, fetchImpl = fetch,
+export function createSnapshotService({ urls: sourceUrls, evaluate, reference, inputContext = {}, directory, fetchImpl = fetch,
   clock = () => new Date().toISOString(), refreshMs = 300000, timeoutMs = 15000, accept = 'application/json' } = {}) {
   let state, initialized = false, inFlight;
   async function initialize() {
@@ -68,7 +68,7 @@ export function createSnapshotService({ urls: sourceUrls, evaluate, reference, d
       if (force || !state || now - Date.parse(state.completedAt) >= refreshMs || now < Date.parse(state.completedAt)) await refresh();
     })().finally(() => { inFlight = null; });
     await inFlight;
-    const input = { ...state.snapshot, bridgeReference: structuredClone(reference) };
+    const input = { ...state.snapshot, ...structuredClone(inputContext), bridgeReference: structuredClone(reference) };
     const asOf = clock(), result = evaluate(input, asOf);
     const previous = result.stage.status !== 'AVAILABLE' ? state.lastAcceptedStage : null;
     if (previous) {

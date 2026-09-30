@@ -1,0 +1,38 @@
+{
+  "id": "chillicothe-ncat-api-review-2026-09-30",
+  "url": "https://geodesy.noaa.gov/api/ncat/llh?lat=40.9172&lon=-89.4814&orthoHt=0&inDatum=nad83(2011)&outDatum=nad83(2011)&inVertDatum=NGVD29&outVertDatum=NAVD88",
+  "stationCoordinateSource": "https://rivergages.mvr.usace.army.mil/WaterControl/stationinfo2.cfm?sid=CHLI2&fid=HNYI2&dt=E",
+  "retrievedDateUtc": "2026-09-30",
+  "captureStatus": "RAW_HTTP_200_ARCHIVED",
+  "rawResponseFile": "data/research/chillicothe-ncat-raw-response.json",
+  "rawResponseSha256": "3194b1a85d2e59411400a904c445dee33f05583158e0327fac15e28de6a61f5d",
+  "scope": {
+    "gaugeId": "CHLI2",
+    "bridgeId": "il-chillicothe-rr"
+  },
+  "input": {
+    "latitude": "40.9172",
+    "longitude": "-89.4814",
+    "horizontalFrameAssumed": "NAD83(2011)",
+    "stationCoordinateFramePublished": false,
+    "zeroNgvd29Ft": "0",
+    "footRealizationAssumed": "INTERNATIONAL",
+    "metersPerFoot": "0.3048",
+    "zeroNgvd29Meters": "0.000"
+  },
+  "responseFields": {
+    "srcDatum": "NAD83(2011)",
+    "destDatum": "NAD83(2011)",
+    "srcVertDatum": "NGVD29",
+    "destVertDatum": "NAVD88",
+    "srcLat": "40.9172000000",
+    "srcLon": "-89.4814000000",
+    "heightUnits": "m",
+    "srcOrthoht": "0.000",
+    "destOrthoht": "-0.075",
+    "sigOrthoht": "0.023",
+    "vertconVersion": "3.0"
+  },
+  "status": "OWNER_AUTHORIZED_UNVALIDATED_PILOT",
+  "note": "Convert the zero at the gauge coordinates, then add the resulting local offset to reported NGVD29 water elevation. Reported sigOrthoht is a transformation statistic, not a maximum error bound."
+}

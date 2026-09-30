@@ -1,5 +1,5 @@
 {
-  "id": "il-lacon-owner-chart-reference-1",
+  "id": "il-lacon-owner-chart-reference-2",
   "bridgeId": "il-lacon",
   "recordedDateUtc": "2026-09-30",
   "selectionStatus": "OWNER_SELECTED",
@@ -22,12 +22,39 @@
   },
   "verticalDatum": "NAVD88",
   "unitRealization": null,
-  "pilotEstimateEnabled": false,
+  "pilotEstimateEnabled": true,
   "gaugeAssociationApproved": false,
   "totalErrorValidated": false,
   "productionEligible": false,
   "historicalAlternatives": [],
-  "gaugeCandidate": null,
-  "bridgeWaterModel": null,
-  "chartName": "Lacon Bridge"
+  "gaugeCandidate": {
+    "gaugeId": "HNYI2",
+    "selectionBasis": "NEAREST_IDENTIFIED_LIVE_STATION_IN_SAME_POOL",
+    "riverDistanceMiles": "6.9",
+    "corpsCalculatorMappingConfirmed": false,
+    "ownerAuthorizedDateUtc": "2026-09-30"
+  },
+  "bridgeWaterModel": {
+    "id": "il-lacon-owner-assumed-direct-1",
+    "type": "DIRECT",
+    "bridgeId": "il-lacon",
+    "gaugeId": "HNYI2",
+    "offsetFt": "0",
+    "assumedMaxDifferenceInches": "2",
+    "basis": "OWNER_ASSUMPTION",
+    "recordedDateUtc": "2026-09-30",
+    "validated": false,
+    "errorBoundVerified": false
+  },
+  "chartName": "Lacon Bridge",
+  "supersedes": "il-lacon-owner-chart-reference-1",
+  "gaugeReference": {
+    "gaugeId": "HNYI2",
+    "usgsId": "05558300",
+    "zeroElevationFt": "425.85",
+    "verticalDatum": "NAVD88",
+    "unit": "ft",
+    "basis": "PUBLISHED_NOAA_NWPS_METADATA",
+    "effectiveEpochVerified": false
+  }
 }

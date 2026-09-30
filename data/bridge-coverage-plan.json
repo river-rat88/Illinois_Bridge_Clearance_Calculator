@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "policyVersion": "coverage-2026-09-30-1",
+  "policyVersion": "coverage-2026-09-30-2",
   "meaning": "Explicit activation plan for source crossing rows; no nearest-gauge fallback or automatic promotion from research values.",
   "entries": [
     {
@@ -117,17 +117,17 @@
     },
     {
       "bridgeId": "il-lacon",
-      "phase": "ASSOCIATION_PENDING",
-      "gaugeId": null,
-      "endpoint": null,
-      "stageLabel": null
+      "phase": "PILOT",
+      "gaugeId": "HNYI2",
+      "endpoint": "/api/lacon",
+      "stageLabel": "Henry / HNYI2"
     },
     {
       "bridgeId": "il-chillicothe-rr",
-      "phase": "ASSOCIATION_PENDING",
-      "gaugeId": null,
-      "endpoint": null,
-      "stageLabel": null
+      "phase": "PILOT",
+      "gaugeId": "CHLI2",
+      "endpoint": "/api/chillicothe-rr",
+      "stageLabel": "Chillicothe / CHLI2"
     },
     {
       "bridgeId": "il-mcclugage",

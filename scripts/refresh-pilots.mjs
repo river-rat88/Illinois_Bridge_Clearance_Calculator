@@ -2,7 +2,8 @@ import { createHenryService } from '../src/henry-service.js';
 import { createMorrisService } from '../src/morris-service.js';
 import { createEjeService } from '../src/eje-service.js';
 import { createLincolnService } from '../src/lincoln-service.js';
-const definitions=[['Henry',createHenryService,'HENRY_DATA_DIR'],['Morris',createMorrisService,'MORRIS_DATA_DIR'],['EJE / Dresden tailwater',createEjeService,'EJE_DATA_DIR'],['Abraham Lincoln / La Salle stage',createLincolnService,'LINCOLN_DATA_DIR']];
+import { createChillicotheService } from '../src/chillicothe-service.js';
+const definitions=[['Henry',createHenryService,'HENRY_DATA_DIR'],['Morris',createMorrisService,'MORRIS_DATA_DIR'],['EJE / Dresden tailwater',createEjeService,'EJE_DATA_DIR'],['Abraham Lincoln / La Salle stage',createLincolnService,'LINCOLN_DATA_DIR'],['Santa Fe / Chillicothe',createChillicotheService,'CHILLICOTHE_DATA_DIR']];
 const results=await Promise.allSettled(definitions.map(async([name,create,variable])=>{
  const service=create(process.env[variable]?{directory:process.env[variable]}:{});
  const receipt=await service.get({force:true});const r=receipt.result;
