@@ -1,5 +1,5 @@
 {
-  "id": "il-chillicothe-rr-owner-chart-reference-1",
+  "id": "il-chillicothe-rr-owner-chart-reference-2",
   "bridgeId": "il-chillicothe-rr",
   "recordedDateUtc": "2026-09-30",
   "selectionStatus": "OWNER_SELECTED",
@@ -22,12 +22,55 @@
   },
   "verticalDatum": "NAVD88",
   "unitRealization": null,
-  "pilotEstimateEnabled": false,
+  "pilotEstimateEnabled": true,
   "gaugeAssociationApproved": false,
   "totalErrorValidated": false,
   "productionEligible": false,
   "historicalAlternatives": [],
-  "gaugeCandidate": null,
-  "bridgeWaterModel": null,
-  "chartName": "Atchison Topeka and Santa Fe RR Bridge"
+  "gaugeCandidate": {
+    "gaugeId": "CHLI2",
+    "selectionBasis": "NEAREST_IDENTIFIED_LIVE_STATION_IN_SAME_POOL",
+    "riverDistanceMiles": "1.4",
+    "corpsCalculatorMappingConfirmed": false,
+    "ownerAuthorizedDateUtc": "2026-09-30"
+  },
+  "bridgeWaterModel": {
+    "id": "il-chillicothe-rr-owner-assumed-direct-1",
+    "type": "DIRECT",
+    "bridgeId": "il-chillicothe-rr",
+    "gaugeId": "CHLI2",
+    "offsetFt": "0",
+    "assumedMaxDifferenceInches": "2",
+    "basis": "OWNER_ASSUMPTION",
+    "recordedDateUtc": "2026-09-30",
+    "validated": false,
+    "errorBoundVerified": false
+  },
+  "chartName": "Atchison Topeka and Santa Fe RR Bridge",
+  "supersedes": "il-chillicothe-rr-owner-chart-reference-1",
+  "gaugeReference": {
+    "gaugeId": "CHLI2",
+    "zeroElevationFt": "0",
+    "valueKind": "ABSOLUTE_ELEVATION",
+    "verticalDatum": "NGVD29",
+    "unit": "ft",
+    "basis": "PUBLISHED_NOAA_AND_USACE_METADATA",
+    "effectiveEpochVerified": false,
+    "navd88Transform": {
+      "id": "chillicothe-ncat-ngvd29-to-navd88-1",
+      "scope": {
+        "gaugeId": "CHLI2",
+        "bridgeId": "il-chillicothe-rr"
+      },
+      "researchRecordId": "chillicothe-ncat-api-review-2026-09-30",
+      "rawResponseSha256": "3194b1a85d2e59411400a904c445dee33f05583158e0327fac15e28de6a61f5d",
+      "fromDatum": "NGVD29",
+      "toDatum": "NAVD88",
+      "operation": "ADD_CONVERTED_ZERO_TO_ABSOLUTE_ELEVATION",
+      "offsetMeters": "-0.075",
+      "metersPerFoot": "0.3048",
+      "reportedTransformationStatisticMeters": "0.023",
+      "vertconVersion": "3.0"
+    }
+  }
 }

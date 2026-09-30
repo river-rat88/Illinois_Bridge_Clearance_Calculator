@@ -69,10 +69,11 @@ test('owner locations and exact chart references preserve source differences wit
     assert.equal(Q.parse(steel).sub(pool).cmp(clearance),0);
     assert.equal(ref.source.chartImageSha256,hash);
     assert.equal(ref.consistency,'INTERNALLY_CONSISTENT');
-    assert.equal(b.coverage.phase,'ASSOCIATION_PENDING');
-    assert.equal(b.coverage.gaugeId,null);
-    assert.equal(b.coverage.estimateEligible,false);
-    assert.ok(b.coverage.blockers.includes('GAUGE_ASSOCIATION_REQUIRED'));
+    assert.equal(b.coverage.phase,'PILOT');
+    assert.equal(b.coverage.gaugeId,id==='il-lacon'?'HNYI2':'CHLI2');
+    assert.equal(b.coverage.estimateEligible,true);
+    assert.ok(b.coverage.blockers.includes('OVERALL_ACCURACY_UNVERIFIED'));
+    assert.equal(ref.gaugeCandidate.corpsCalculatorMappingConfirmed,false);
     assert.equal(b.coverage.researchFlags.includes('UNRECONCILED_PUBLISHED_CLEARANCE_DIFFERENCE'),false);
   }
   assert.equal(rows.find(b=>b.id==='il-atsf-removed').selectedReference,null);
@@ -87,8 +88,8 @@ test('directory rejects duplicate IDs and miles beyond the inclusive 0–279 ran
   for(const mile of ['-0.1','279.1']){copy.bridges[0].derivedRiverMile=mile;assert.throws(()=>buildDirectory(inventory,copy,references,manifest,c),/MILE_OUT_OF_SCOPE/);}
 });
 test('every source crossing has an explicit phase and research values cannot become clearance inputs',()=>{
-  const d=directory();assert.equal(d.bridges.length,38);assert.equal(d.pilots.length,10);
-  assert.equal(d.coveragePolicyVersion,'coverage-2026-09-30-1');
+  const d=directory();assert.equal(d.bridges.length,38);assert.equal(d.pilots.length,12);
+  assert.equal(d.coveragePolicyVersion,'coverage-2026-09-30-2');
   for(const b of d.bridges){
     assert.equal(b.coverage.productionEligible,false);
     if(b.coverage.phase==='REFERENCE_PENDING'){
@@ -98,11 +99,11 @@ test('every source crossing has an explicit phase and research values cannot bec
     }
   }
   assert.equal(d.bridges.filter(b=>b.coverage.phase==='REFERENCE_PENDING').length,25);
-  assert.equal(d.bridges.filter(b=>b.coverage.phase==='ASSOCIATION_PENDING').length,2);
+  assert.equal(d.bridges.filter(b=>b.coverage.phase==='ASSOCIATION_PENDING').length,0);
   assert.equal(d.bridges.find(b=>b.id==='il-atsf-removed').coverage.phase,'HISTORICAL');
   assert.ok(d.bridges.find(b=>b.id==='il-peoria-pekin-rr').coverage.blockers.includes('FULLY_OPEN_GEOMETRY_REQUIRED'));
   assert.match(d.bridges.find(b=>b.id==='il-mcclugage').coverage.nextEvidence,/physical channel span/);
-  assert.deepEqual(d.pilots.map(p=>p.bridgeId).sort(),['il-abraham-lincoln','il-eje','il-hennepin-i180','il-henry','il-illinois-central-lasalle','il-lasalle','il-morris','il-peru','il-spring-valley','il-utica']);
+  assert.deepEqual(d.pilots.map(p=>p.bridgeId).sort(),['il-abraham-lincoln','il-chillicothe-rr','il-eje','il-hennepin-i180','il-henry','il-illinois-central-lasalle','il-lacon','il-lasalle','il-morris','il-peru','il-spring-valley','il-utica']);
 });
 test('activation plan rejects missing, duplicate and unauthorized gauge bindings',()=>{
   const run=(edit,refs=references)=>{const p=structuredClone(coverage);edit(p);return ()=>buildDirectory(inventory,extension,refs,manifest,p);};
