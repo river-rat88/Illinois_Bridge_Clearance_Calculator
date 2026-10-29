@@ -15,3 +15,6 @@ export const URLS = Object.freeze({
 const contract = parseExact(readFileSync(new URL('../../data/henry-feed-contract.json', import.meta.url), 'utf8'));
 const adapter=createUsgsPilot({adapterVersion:ADAPTER_VERSION,bridgeReference:HENRY_REFERENCE,bridgeId:'il-henry',gaugeId:'HNYI2',siteId:'USGS-05558300',usgsId:'05558300',wfo:'ILX',seriesId:SERIES,urls:URLS,contract,minFt:'-1',maxFt:'40'});
 export const {observedStage,stationForecast,evaluate:evaluateHenry}=adapter;
+
+export const LACON_REFERENCE = JSON.parse(readFileSync(new URL('../../data/il-lacon-bridge-reference.json', import.meta.url), 'utf8'));
+export const { evaluate: evaluateLacon } = createUsgsPilot({adapterVersion:'lacon-henry-shared-pilot-1',bridgeReference:LACON_REFERENCE,bridgeId:'il-lacon',gaugeId:'HNYI2',siteId:'USGS-05558300',usgsId:'05558300',wfo:'ILX',seriesId:SERIES,urls:URLS,contract,minFt:'-1',maxFt:'40'});

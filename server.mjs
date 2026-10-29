@@ -6,6 +6,8 @@ import { createMorrisService } from './src/morris-service.js';
 import { createEjeService } from './src/eje-service.js';
 import { createHenryService } from './src/henry-service.js';
 import { createLincolnService } from './src/lincoln-service.js';
+import { createLaconService } from './src/lacon-service.js';
+import { createChillicotheService } from './src/chillicothe-service.js';
 import { createLaSalleGroupServices } from './src/lasalle-group-service.js';
 
 const readJson = async path => JSON.parse(await readFile(new URL(path, import.meta.url), 'utf8'));
@@ -23,11 +25,11 @@ const routes = new Map([
   ['/henry', ['henry.html', 'text/html']], ['/henry.html', ['henry.html', 'text/html']],
   ['/henry.css', ['henry.css', 'text/css']], ['/src/henry-page.js', ['src/henry-page.js', 'text/javascript']]
 ]);
-export function makeServer({ henryService = createHenryService({ ...(process.env.HENRY_DATA_DIR ? { directory: process.env.HENRY_DATA_DIR } : {}) }) , morrisService = createMorrisService({ ...(process.env.MORRIS_DATA_DIR ? {directory:process.env.MORRIS_DATA_DIR} : {}) }), ejeService = createEjeService({ ...(process.env.EJE_DATA_DIR ? {directory:process.env.EJE_DATA_DIR} : {}) }), lincolnService = createLincolnService({ ...(process.env.LINCOLN_DATA_DIR ? {directory:process.env.LINCOLN_DATA_DIR} : {}) }) } = {}) {
+export function makeServer({ henryService = createHenryService({ ...(process.env.HENRY_DATA_DIR ? { directory: process.env.HENRY_DATA_DIR } : {}) }) , morrisService = createMorrisService({ ...(process.env.MORRIS_DATA_DIR ? {directory:process.env.MORRIS_DATA_DIR} : {}) }), ejeService = createEjeService({ ...(process.env.EJE_DATA_DIR ? {directory:process.env.EJE_DATA_DIR} : {}) }), lincolnService = createLincolnService({ ...(process.env.LINCOLN_DATA_DIR ? {directory:process.env.LINCOLN_DATA_DIR} : {}) }), chillicotheService = createChillicotheService({ ...(process.env.CHILLICOTHE_DATA_DIR ? {directory:process.env.CHILLICOTHE_DATA_DIR} : {}) }) } = {}) {
   const group = createLaSalleGroupServices(lincolnService);
   const services = {'/api/henry':henryService,'/api/morris':morrisService,'/api/eje':ejeService,'/api/lincoln':lincolnService,
     '/api/illinois-central-lasalle':group['il-illinois-central-lasalle'], '/api/lasalle':group['il-lasalle'], '/api/peru':group['il-peru'], '/api/utica':group['il-utica'],
-    '/api/spring-valley':group['il-spring-valley'], '/api/hennepin-i180':group['il-hennepin-i180']};
+    '/api/spring-valley':group['il-spring-valley'], '/api/hennepin-i180':group['il-hennepin-i180'], '/api/lacon':createLaconService(henryService), '/api/chillicothe-rr':chillicotheService};
   if (directory.pilots.length !== Object.keys(services).length || directory.pilots.some(p=>!services[p.endpoint])) throw new Error('PILOT_SERVICE_REGISTRY_MISMATCH');
   return createServer(async (req, res) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
